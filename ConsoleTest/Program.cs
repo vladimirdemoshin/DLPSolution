@@ -56,10 +56,10 @@ namespace ConsoleTest
             //Q.E = curve;
             //Console.WriteLine(P + Q);
 
-            EllipticCurve curve = new EllipticCurve(1, 1, 0, 13);
-            AffinePoint P = new AffinePoint(4, 2);
+            EllipticCurve curve = new EllipticCurve(1, 6, 0, 11);
+            AffinePoint P = new AffinePoint(8, 3);
             P.E = curve;
-            AffinePoint Q = new AffinePoint(10, 6);
+            AffinePoint Q = new AffinePoint(3, 5);
             Q.E = curve;
             Console.WriteLine(P + Q);
         }

@@ -11,9 +11,10 @@ namespace ECDLPAlgorithm
 {
     public class BabyStepGiantStep
     {
-        //public BigInteger SolveDLP(Point Q, Point P)
-        //{
+        public BigInteger SolveDLP(Point P, Point Q)
+        {
 
-        //}
+            BigInteger m = 
+        }
     }
 }

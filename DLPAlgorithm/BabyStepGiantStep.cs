@@ -9,7 +9,7 @@ using System.Collections;
 
 namespace DLPAlgorithm
 {
-    class BigStepGiantStep
+    class BabyStepGiantStep
     {
         public static int GiantStepBabyStep(int generator, int value, int order)
         {

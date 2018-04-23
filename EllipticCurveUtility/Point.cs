@@ -37,72 +37,74 @@ namespace EllipticCurveUtility
         //    BigInteger MOD = P1.E.P;
         //    if (Z1 == 0) return P2;
         //    if (Z2 == 0) return P1;
-        //    BigInteger U1 = X2 * Z1 * Z1 % MOD; if(U1<0) U1 += MOD;
-        //    BigInteger U2 = X1 * Z2 * Z2 % MOD; if(U2<0) U2 += MOD;
-        //    BigInteger S1 = Y2 * Z1 * Z1 * Z1 % MOD; if (S1 < 0) S1 += MOD;
-        //    BigInteger S2 = Y1 * Z2 * Z2 * Z2 % MOD; if (S2 < 0) S2 += MOD;
-        //    BigInteger W = (U1 - U2) % MOD; if (W < 0) W += MOD;
-        //    BigInteger R = (S1 - S2) % MOD; if (R < 0) R += MOD;
-        //    if(W == 0)
+        //    BigInteger U1 = X2 * Z1 * Z1;
+        //    BigInteger U2 = X1 * Z2 * Z2;
+        //    BigInteger S1 = Y2 * Z1 * Z1 * Z1;
+        //    BigInteger S2 = Y1 * Z2 * Z2 * Z2;
+        //    BigInteger W = (U1 - U2);
+        //    BigInteger R = (S1 - S2);
+        //    if (W == 0)
         //    {
-        //        if (R == 0) return DoublePoint(P1);
-        //        return new Point(0,1,0);
+        //        Console.WriteLine("W zero");
+        //        return null;
+        //        //if (R == 0) return DoublePoint(P1);
+        //        //return new Point(0, 1, 0);
         //    }
-        //    BigInteger T = (U1 + U2) % MOD; if (T < 0) T += MOD;
-        //    BigInteger M = (S1 + S2) % MOD; if (M < 0) M += MOD;
-        //    BigInteger X3 = R * R - T * W * W; if (X3 < 0) X3 += MOD;
-        //    BigInteger Y3 = ((T * W * W - 2 * X3) * R - M * W * W * W); 
-        //    Console.WriteLine(Y3);
-        //    Y3 = (Y3 / 2) % MOD;
-        //    //BigInteger temp = (MOD + 1)/2;  //обратный к двум по модулю MOD
-        //    //Y3 = Y3 * temp % MOD;
-        //    if (Y3 < 0) Y3 += MOD;
+        //    BigInteger T = (U1 + U2);
+        //    BigInteger M = (S1 + S2);
+        //    BigInteger X3 = R * R - T * W * W;
+        //    BigInteger Y3 = ((T * W * W - 2 * X3) * R - M * W * W * W);
+        //    // Console.WriteLine(Y3);
+        //    Y3 = (Y3 / 2);// % MOD;
+        //    BigInteger temp = (MOD + 1) / 2;  //обратный к двум по модулю MOD
+        //   // Y3 = Y3 * temp;// % MOD;
+        //    // if (Y3 < 0) Y3 += MOD;
         //    BigInteger Z3 = Z1 * Z2 * W;
-        //    return new Point(X3,Y3,Z3);
+        //    return new Point(X3.ModPositive(MOD), Y3.ModPositive(MOD), Z3.ModPositive(MOD));
         //}
 
 
-        public static BigInteger MyMod(BigInteger number, BigInteger modul)
-        {
-            number %= modul;
-            while (number < 0)
-                number += modul;
-            return number;
-        }
+        //public static BigInteger MyMod(BigInteger number, BigInteger modul)
+        //{
+        //    number %= modul;
+        //    while (number < 0)
+        //        number += modul;
+        //    return number;
+        //}
 
 
-        public static Point operator +(Point P, Point Q)
-        {
-            //if (P.IsInfinite())
-            //    return Q;
-            //if (Q.IsInfinite())
-            //    return P;
-            //if (P == Q)
-            //{
-            //    return Double(P);
-            //}
-            var X1 = P.X;
-            var Y1 = P.Y;
-            var Z1 = P.Z;
-            var X2 = Q.X;
-            var Y2 = Q.Y;
-            var Z2 = Q.Z;
-            var p = P.E.P;
-            var Y1Z2 = Y1 * Z2;
-            var X1Z2 = X1 * Z2;
-            var Z1Z2 = Z1 * Z2;
-            var u = Y2 * Z1 - Y1Z2;
-            var uu = u * u;
-            var v = X2 * Z1 - X1Z2;
-            var vv = v * v;
-            var vvv = v * vv;
-            var R = vv * X1Z2;
-            var A = uu * Z1Z2 - vvv - 2 * R;
-            var X3 = v * A;
-            var Y3 = u * (R - A) - vvv * Y1Z2;
-            var Z3 = vvv * Z1Z2;
-            return new Point(MyMod(X3, p), MyMod(Y3, p), MyMod(Z3, p));
-        }
+        //public static Point operator +(Point P, Point Q)
+        //{
+        //    //if (P.IsInfinite())
+        //    //    return Q;
+        //    //if (Q.IsInfinite())
+        //    //    return P;
+        //    //if (P == Q)
+        //    //{
+        //    //    return Double(P);
+        //    //}
+        //    var X1 = P.X;
+        //    var Y1 = P.Y;
+        //    var Z1 = P.Z;
+        //    var X2 = Q.X;
+        //    var Y2 = Q.Y;
+        //    var Z2 = Q.Z;
+        //    var p = P.E.P;
+        //    var Y1Z2 = Y1 * Z2;
+        //    var X1Z2 = X1 * Z2;
+        //    var Z1Z2 = Z1 * Z2;
+        //    var u = Y2 * Z1 - Y1Z2;
+        //    var uu = u * u;
+        //    var v = X2 * Z1 - X1Z2;
+        //    var vv = v * v;
+        //    var vvv = v * vv;
+        //    var R = vv * X1Z2;
+        //    var A = uu * Z1Z2 - vvv - 2 * R;
+        //    var X3 = v * A;
+        //    var Y3 = u * (R - A) - vvv * Y1Z2;
+        //    var Z3 = vvv * Z1Z2;
+        //    return new Point(MyMod(X3, p), MyMod(Y3, p), MyMod(Z3, p));
+        //}
 
 
 
@@ -139,7 +141,7 @@ namespace EllipticCurveUtility
         #region Convert
         public override string ToString()
         {
-            return String.Format("({0}, {1}, {2}) {3}", X, Y, Z);
+            return String.Format("({0}, {1}, {2})", X, Y, Z);
         }
         #endregion 
     }
