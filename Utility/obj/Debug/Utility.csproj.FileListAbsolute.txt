@@ -1,0 +1,5 @@
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\Utility\bin\Debug\Utility.dll
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\Utility\bin\Debug\Utility.pdb
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\Utility\obj\Debug\Utility.csprojResolveAssemblyReference.cache
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\Utility\obj\Debug\Utility.dll
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\Utility\obj\Debug\Utility.pdb

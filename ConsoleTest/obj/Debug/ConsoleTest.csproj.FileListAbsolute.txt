@@ -1,0 +1,10 @@
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\ConsoleTest.exe.config
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\ConsoleTest.exe
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\ConsoleTest.pdb
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\Utility.dll
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\Utility.pdb
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\obj\Debug\ConsoleTest.csprojResolveAssemblyReference.cache
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\obj\Debug\ConsoleTest.exe
+c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\obj\Debug\ConsoleTest.pdb
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\EllipticCurveUtility.dll
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\EllipticCurveUtility.pdb
