@@ -34,13 +34,13 @@ namespace EllipticCurveUtility
             this.B = B;
             C = 0;
         }
-        public EllipticCurve(BigInteger A, BigInteger B, BigInteger C) : this(A,B)
+        public EllipticCurve(BigInteger A, BigInteger B, BigInteger P) : this(A,B)
         {
-            this.C = C; 
+            this.P = P; 
         }
-        public EllipticCurve(BigInteger A, BigInteger B, BigInteger C, BigInteger P) : this(A,B,C)
+        public EllipticCurve(BigInteger A, BigInteger B, BigInteger C, BigInteger P) : this(A,B,P)
         {
-            this.P = P;
+            this.C = C;
         }
        
         #endregion

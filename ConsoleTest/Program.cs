@@ -56,12 +56,21 @@ namespace ConsoleTest
             //Q.E = curve;
             //Console.WriteLine(P + Q);
 
-            EllipticCurve curve = new EllipticCurve(1, 6, 0, 11);
-            AffinePoint P = new AffinePoint(8, 3);
+            //BigInteger P = 14;
+            //var array = P.GetBitArray();
+            //for (int i = 0; i < array.Length; i++)
+            //    Console.Write(array[i]?1:0);
+                //foreach (var bit in array) Console.Write(bit);
+
+            EllipticCurve curve = new EllipticCurve(2, 1, 41);
+            AffinePoint P = new AffinePoint(0, 1);
             P.E = curve;
-            AffinePoint Q = new AffinePoint(3, 5);
-            Q.E = curve;
-            Console.WriteLine(P + Q);
+            //AffinePoint Q = new AffinePoint(3, 5);
+            //Q.E = curve;
+            for(int n = 1; n <=7 ;n++)
+                Console.WriteLine(n * P);
+            //BigInteger n = 3;
+            //Console.WriteLine(n * P);
         }
     }
 }

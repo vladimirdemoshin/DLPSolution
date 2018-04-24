@@ -26,12 +26,24 @@ namespace EllipticCurveUtility
         public AffinePoint() : base() { }
         public AffinePoint(BigInteger X, BigInteger Y) : base(X, Y) { }
         public AffinePoint(BigInteger X, BigInteger Y, BigInteger Z) : base(X, Y, Z) { }
+        public AffinePoint(BigInteger X, BigInteger Y, EllipticCurve E) : this(X,Y)
+        {
+            this.E = E;
+        }
+        public AffinePoint(BigInteger X, BigInteger Y, BigInteger Z, EllipticCurve E) : this(X,Y,E)
+        {
+            this.Z = Z;
+        }
         #endregion
 
         #region Operators
         public static AffinePoint operator -(AffinePoint p1)
         {
             return new AffinePoint(p1.X, -p1.Y, p1.Z);
+        }
+        public static AffinePoint operator -(AffinePoint p1, AffinePoint p2)
+        {
+            return p1 + (-p2);
         }
         public static AffinePoint operator +(AffinePoint P, AffinePoint Q)
         {
@@ -55,13 +67,72 @@ namespace EllipticCurveUtility
             }
             BigInteger X3 = m * m - X1 - X2;
             BigInteger Y3 = m * (X1 - X3) - Y1;
-            return new AffinePoint(X3.ModPositive(MOD), Y3.ModPositive(MOD), 1);
+            return new AffinePoint(X3.ModPositive(MOD), Y3.ModPositive(MOD), P.E);
         }
-        public static AffinePoint operator -(AffinePoint p1, AffinePoint p2)
+      
+      
+ 
+        public static AffinePoint operator *(BigInteger n, AffinePoint P)
         {
-            return p1 + (-p2);
+            //bool negative = false;
+            //if (k < 0)
+            //{
+            //    negative = true;
+            //    k = BigInteger.Abs(k);
+            //}
+
+            if (n == 0) return O;
+            BigInteger MOD = P.E.P;
+            var m = 3 * n;
+            var Q = new AffinePoint(P.X, P.Y, P.Z, P.E);
+
+            var mBits = m.GetBitArray();
+            var nBits = n.GetBitArray();
+
+            for (int i = mBits.Length-2 ; i >=1; i--)
+            {
+                Q = Double(Q);
+                var mBit = mBits[i];
+                var nBit = i >= nBits.Length ? false : nBits[i];
+                if (mBit == true && nBit == false)
+                    Q += P;
+                else if (mBit == false && nBit == true)
+                    Q -= P;
+            }
+            return new AffinePoint(Q.X.ModPositive(MOD), Q.Y.ModPositive(MOD), Q.Z.ModPositive(MOD), Q.E);
+
+            //BigInteger d = 1;
+            //Point R = new Point(0, 1, 0, P.E);
+            //if (P.IsInfinite())
+            //{
+            //    return R;
+            //}
+            //while (k > 0)
+            //{
+            //    if (P.Z > 1)
+            //        return P;
+            //    if (k % 2 == 1)
+            //        R = P + R;
+            //    k /= 2;
+            //    P = P + P;
+            //}
+            //if (negative)
+            //    return new Point(FieldsOperations.Mod(R.X, R.E.P), FieldsOperations.Mod(-R.Y, R.E.P), R.Z, R.E);
+            //else
+            //    return new Point(FieldsOperations.Mod(R.X, R.E.P), FieldsOperations.Mod(R.Y, R.E.P), R.Z, R.E);
         }
+
         #endregion
+
+        #region Public Methods
+        public static AffinePoint Double(AffinePoint P)
+        {
+            return P + P;
+        }
+
+        #endregion
+
+        #region Converters
 
         public override string ToString()
         {
@@ -84,5 +155,6 @@ namespace EllipticCurveUtility
         //    AffinePoint p2 = p1;
 
         //}
+        #endregion
     }
 }

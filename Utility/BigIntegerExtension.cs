@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Numerics;
+using System.Threading;
+using System.Collections;
 
 namespace Utility
 {
@@ -39,6 +41,20 @@ namespace Utility
             num = num % mod;
             while (num < 0) num += mod;
             return num;
+        }
+
+        //i - ая степень двойки - i индекс бита в массиве
+        public static BitArray GetBitArray(this BigInteger num)
+        {
+            if (num == 0) return new BitArray(new bool[]{false});
+            if (num < 0) num = -num;
+            var bits = new List<bool>();
+            while(num!=0)
+            {
+                bits.Add(num%2!=0);
+                num /= 2;
+            }
+            return new BitArray(bits.ToArray<bool>());
         }
 
         //понять что делать в случаях, когда нод(num, mod) != 1
