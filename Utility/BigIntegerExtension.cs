@@ -13,7 +13,7 @@ namespace Utility
     public static class BigIntegerExtension
     {
         /// <summary>
-        /// Find inverse element for num modulus mod. condition to work properly: gcd(num, mod) == 1 
+        /// Find inverse element for num modulus mod. Condition to work properly: gcd(num, mod) == 1 
         /// </summary>
         /// <param name="num"></param>
         /// <param name="mod"></param>
@@ -26,7 +26,15 @@ namespace Utility
             return x;
         }
 
-        public static BigInteger ExtendedGcd(this BigInteger num, BigInteger mod, out BigInteger x, out BigInteger y) // a*x+b*y=НОД(a,b)
+        /// <summary>
+        /// num*x+mod*y=НОД(num,mod)
+        /// </summary>
+        /// <param name="num"></param>
+        /// <param name="mod"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
+        public static BigInteger ExtendedGcd(this BigInteger num, BigInteger mod, out BigInteger x, out BigInteger y) // 
         {
             if (num == 0) { x = 0; y = 1; return mod; }
             BigInteger x1, y1;
@@ -56,6 +64,34 @@ namespace Utility
             }
             return new BitArray(bits.ToArray<bool>());
         }
+
+        //разобраться в этой функции
+        public static BigInteger Sqrt(BigInteger N)
+        {
+            if (N <= (BigInteger)double.MaxValue) return (BigInteger)Math.Sqrt((double)N);
+            /*++
+             *  Using Newton Raphson method we calculate the
+             *  square root (N/g + g)/2
+             */
+            BigInteger rootN = N;
+            int bitLength = 1; // There is a bug in finding bit length hence we start with 1 not 0
+            while (rootN / 2 != 0)
+            {
+                rootN /= 2;
+                bitLength++;
+            }
+            bitLength = (bitLength + 1) / 2;
+            rootN = N >> bitLength;
+
+            BigInteger lastRoot = BigInteger.Zero;
+            do
+            {
+                lastRoot = rootN;
+                rootN = (BigInteger.Divide(N, rootN) + rootN) >> 1;
+            }
+            while (!((rootN ^ lastRoot).ToString() == "0"));
+            return rootN;
+        } // SqRtN
 
         //понять что делать в случаях, когда нод(num, mod) != 1
         //public static BigInteger ModInverse(this BigInteger num, BigInteger mod)

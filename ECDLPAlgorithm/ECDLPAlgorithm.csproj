@@ -42,11 +42,16 @@
   <ItemGroup>
     <Compile Include="BabyStepGiantStep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RhoPollard.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\EllipticCurveUtility\EllipticCurveUtility.csproj">
       <Project>{1f61eec6-90bb-439f-b692-4315bbc27147}</Project>
       <Name>EllipticCurveUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{6716752a-e7de-4348-b26b-695d8d6956c5}</Project>
+      <Name>Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

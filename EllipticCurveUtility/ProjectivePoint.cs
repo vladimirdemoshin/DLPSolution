@@ -9,7 +9,7 @@ using Utility;
 
 namespace EllipticCurveUtility
 {
-    public class Point : BasePoint
+    public class ProjectivePoint : BasePoint
     {
         #region Properties
         /// <summary>
@@ -20,15 +20,15 @@ namespace EllipticCurveUtility
         #endregion
 
         #region Constructors
-        public Point() : base() { }
-        public Point(BigInteger X, BigInteger Y) : base(X, Y) { }
-        public Point(BigInteger X, BigInteger Y, BigInteger Z) : base(X, Y, Z) { }
+        public ProjectivePoint() : base() { }
+        public ProjectivePoint(BigInteger X, BigInteger Y) : base(X, Y) { }
+        public ProjectivePoint(BigInteger X, BigInteger Y, BigInteger Z) : base(X, Y, Z) { }
         #endregion
 
         #region Operators
-        public static Point operator -(Point P)
+        public static ProjectivePoint operator -(ProjectivePoint P)
         {
-            return new Point(P.X, -P.Y, P.Z);
+            return new ProjectivePoint(P.X, -P.Y, P.Z);
         }
         //public static Point operator +(Point P1, Point P2)
         //{

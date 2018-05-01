@@ -9,17 +9,14 @@ using Utility;
 
 namespace EllipticCurveUtility
 {
-    public class AffinePoint : BasePoint
+    public class AffinePoint : BasePoint, ICloneable
     {
         #region Properties
+
         /// <summary>
-        /// Elliptic curve which contains this Point
+        /// Elliptic curve which contains this AffinePoint
         /// </summary>
         public EllipticCurve E { get; set; }
-        /// <summary>
-        /// Infinite Point
-        /// </summary>
-        public static AffinePoint O = new AffinePoint(0, 1, 0);
         #endregion
 
         #region Constructors
@@ -37,13 +34,21 @@ namespace EllipticCurveUtility
         #endregion
 
         #region Operators
-        public static AffinePoint operator -(AffinePoint p1)
+        public static bool operator ==(AffinePoint P, AffinePoint Q)
         {
-            return new AffinePoint(p1.X, -p1.Y, p1.Z);
+            return (P.X == Q.X && P.Y == Q.Y && P.Z == Q.Z && P.E == Q.E);
         }
-        public static AffinePoint operator -(AffinePoint p1, AffinePoint p2)
+        public static bool operator !=(AffinePoint P, AffinePoint Q)
         {
-            return p1 + (-p2);
+            return !(P == Q);
+        }
+        public static AffinePoint operator -(AffinePoint P)
+        {
+            return new AffinePoint(P.X, -P.Y, P.Z, P.E);
+        }
+        public static AffinePoint operator -(AffinePoint P, AffinePoint Q)
+        {
+            return P + (-Q);
         }
         public static AffinePoint operator +(AffinePoint P, AffinePoint Q)
         {
@@ -58,7 +63,7 @@ namespace EllipticCurveUtility
             if (X1 == X2)
             {
                 if (Y1 + Y2 == 0)
-                    return O;
+                    return GetInfinitePointForCurve(P.E);
                 m = (3 * X1 * X1 + A) * BigIntegerExtension.ModInverse(2 * Y1, MOD);
             }
             else
@@ -69,19 +74,14 @@ namespace EllipticCurveUtility
             BigInteger Y3 = m * (X1 - X3) - Y1;
             return new AffinePoint(X3.ModPositive(MOD), Y3.ModPositive(MOD), P.E);
         }
-      
-      
- 
         public static AffinePoint operator *(BigInteger n, AffinePoint P)
         {
-            //bool negative = false;
-            //if (k < 0)
-            //{
-            //    negative = true;
-            //    k = BigInteger.Abs(k);
-            //}
-
-            if (n == 0) return O;
+            int sign = 1;
+            if (n == 0) return GetInfinitePointForCurve(P.E);
+            if (n == 1) return P;
+            if (n == -1) return -P;
+            if (n < 0) sign = -1;
+            n = sign * n;
             BigInteger MOD = P.E.P;
             var m = 3 * n;
             var Q = new AffinePoint(P.X, P.Y, P.Z, P.E);
@@ -99,29 +99,8 @@ namespace EllipticCurveUtility
                 else if (mBit == false && nBit == true)
                     Q -= P;
             }
-            return new AffinePoint(Q.X.ModPositive(MOD), Q.Y.ModPositive(MOD), Q.Z.ModPositive(MOD), Q.E);
-
-            //BigInteger d = 1;
-            //Point R = new Point(0, 1, 0, P.E);
-            //if (P.IsInfinite())
-            //{
-            //    return R;
-            //}
-            //while (k > 0)
-            //{
-            //    if (P.Z > 1)
-            //        return P;
-            //    if (k % 2 == 1)
-            //        R = P + R;
-            //    k /= 2;
-            //    P = P + P;
-            //}
-            //if (negative)
-            //    return new Point(FieldsOperations.Mod(R.X, R.E.P), FieldsOperations.Mod(-R.Y, R.E.P), R.Z, R.E);
-            //else
-            //    return new Point(FieldsOperations.Mod(R.X, R.E.P), FieldsOperations.Mod(R.Y, R.E.P), R.Z, R.E);
+            return new AffinePoint(Q.X.ModPositive(MOD), sign * Q.Y.ModPositive(MOD), Q.E);
         }
-
         #endregion
 
         #region Public Methods
@@ -129,32 +108,33 @@ namespace EllipticCurveUtility
         {
             return P + P;
         }
+        public static AffinePoint GetInfinitePointForCurve(EllipticCurve E)
+        {
+            return new AffinePoint(0,1,0,E);
+        }
+        #endregion
 
+        #region Interface and Override Methods
+        public object Clone()
+        {
+            var E = (EllipticCurve)this.E.Clone();
+            return new AffinePoint(X,Y,Z,E);
+        }
+        public override bool Equals(object P)
+        {
+            return this == (AffinePoint)P;
+        }
+        public override int GetHashCode()
+        {
+            return (X + Y + Z + E.A + E.B + E.C + E.P + "").GetHashCode();
+        }
         #endregion
 
         #region Converters
-
         public override string ToString()
         {
             return String.Format("({0}, {1}, {2})", X, Y, Z);
         }
-
-        //разобраться учитывается ли в битовом представлении знак
-        //public AffinePoint operator *(BigInteger n, AffinePoint p1)
-        //{
-        //    BigInteger m = 3 * n;
-        //    BigInteger mTemp = m;
-        //    bool[] mBits = new bool[m.ToByteArray().Length * 8];
-        //    for (int i = 0; i < mBits.Length; i++, mTemp >>= 1)
-        //        if ((mTemp & 1) == 1) mBits[i] = true;
-        //    BigInteger nTemp = n;
-        //    bool[] nBits = new bool[m.ToByteArray().Length * 8];
-        //    for (int i = 0; i < mBits.Length; i++, mTemp >>= 1)
-        //        if ((mTemp & 1) == 1) mBits[i] = true;
-        //    if (n == 0) return O; //return O
-        //    AffinePoint p2 = p1;
-
-        //}
         #endregion
     }
 }

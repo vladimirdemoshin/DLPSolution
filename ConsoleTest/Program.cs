@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Numerics;
 using Utility;
 using EllipticCurveUtility;
+using DLPAlgorithm;
+using ECDLPAlgorithm;
 
 namespace ConsoleTest
 {
@@ -62,15 +64,21 @@ namespace ConsoleTest
             //    Console.Write(array[i]?1:0);
                 //foreach (var bit in array) Console.Write(bit);
 
-            EllipticCurve curve = new EllipticCurve(2, 1, 41);
-            AffinePoint P = new AffinePoint(0, 1);
-            P.E = curve;
-            //AffinePoint Q = new AffinePoint(3, 5);
-            //Q.E = curve;
-            for(int n = 1; n <=7 ;n++)
-                Console.WriteLine(n * P);
-            //BigInteger n = 3;
-            //Console.WriteLine(n * P);
+            //var a = BigIntegerExtension.Sqrt(49);
+            //Console.WriteLine(a);
+
+
+            BigInteger answer = DLPAlgorithm.RhoPollard.SolveDLP(3,13,17);
+            Console.WriteLine(answer);
+
+            //EllipticCurve curve = new EllipticCurve(2, 2, 23);
+            //AffinePoint P = new AffinePoint(2, 1,curve);
+            //AffinePoint Q = new AffinePoint(11, 13, curve);
+            ////BigInteger n = 3;
+            //BigInteger answer = RhoPollard.SolveDLP(P,Q);//BabyStepGiantStep.SolveDLP(P, Q);
+            //Console.WriteLine(answer);
+
+            
         }
     }
 }

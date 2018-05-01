@@ -8,3 +8,5 @@ c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\
 c:\users\vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\obj\Debug\ConsoleTest.pdb
 C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\EllipticCurveUtility.dll
 C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\EllipticCurveUtility.pdb
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\ECDLPAlgorithm.dll
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\ECDLPAlgorithm.pdb

@@ -43,7 +43,7 @@
     <Compile Include="BasePoint.cs" />
     <Compile Include="EllipticCurve.cs" />
     <Compile Include="AffinePoint.cs" />
-    <Compile Include="Point.cs" />
+    <Compile Include="ProjectivePoint.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

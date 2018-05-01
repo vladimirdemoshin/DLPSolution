@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BigIntegerExtension.cs" />
+    <Compile Include="BigIntegerPrimeTest.cs" />
     <Compile Include="BigIntegerRandom.cs" />
     <Compile Include="CommonAlgorithms.cs" />
     <Compile Include="GaussianElimination.cs" />
