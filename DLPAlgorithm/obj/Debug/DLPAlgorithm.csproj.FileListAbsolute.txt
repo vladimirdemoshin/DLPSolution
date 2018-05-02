@@ -1,1 +1,7 @@
 C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\DLPAlgorithm\obj\Debug\DLPAlgorithm.csprojResolveAssemblyReference.cache
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\DLPAlgorithm\bin\Debug\DLPAlgorithm.dll
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\DLPAlgorithm\bin\Debug\DLPAlgorithm.pdb
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\DLPAlgorithm\bin\Debug\Utility.dll
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\DLPAlgorithm\bin\Debug\Utility.pdb
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\DLPAlgorithm\obj\Debug\DLPAlgorithm.dll
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\DLPAlgorithm\obj\Debug\DLPAlgorithm.pdb

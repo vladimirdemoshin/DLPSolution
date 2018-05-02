@@ -6,29 +6,38 @@ using System.Threading.Tasks;
 
 using System.Numerics;
 using System.Collections;
+using Utility;
 
 namespace DLPAlgorithm
 {
-    class BabyStepGiantStep
+    public static class BabyStepGiantStep
     {
-        public static int GiantStepBabyStep(int generator, int value, int order)
+        public static BigInteger SolveDLP(BigInteger g, BigInteger h, BigInteger p)
         {
-            int m = (int)Math.Sqrt((double)order) + 1;
-            int temp = (int)BigInteger.ModPow(generator, m, order);
-            int gamma = temp;
-            Hashtable hashtable = new Hashtable();
+            var order = p - 1;
+            var babySteps = new Dictionary<BigInteger, BigInteger>();
+            var m = BigIntegerExtension.Sqrt(order) + 1;
+            var temp = BigInteger.ModPow(g, m, p);
+            var y = temp;
             for (int i = 1; i <= m; i++)
             {
-                hashtable.Add(gamma, i);
-                gamma = (gamma * temp) % order;
+                babySteps.Add(y, i);
+                y = (y * temp) % p;
             }
-            temp = value * generator % order;
+            temp = h * g % p;
             for (int j = 1; j <= m; j++)
             {
-                if (hashtable.ContainsKey(temp)) return (int)hashtable[temp] * m - j;
-                temp = temp * generator % order;
+                BigInteger i = -1;
+                try
+                {
+                    i = babySteps[temp];
+                }
+                catch (KeyNotFoundException e) { }
+                if (i != -1)
+                    return (m * i - j).ModPositive(order);  
+                temp = temp * g % p;
             }
-            return 0;
+            return -1;
         }
     }
 }

@@ -29,8 +29,8 @@ namespace DLPAlgorithm
             if (dB <= 0) dB += p - 1;
             dA = dA / gcd;
             dB = dB / gcd;
-            BigInteger u, v;
-            extendedGcd(dA, (p - 1) / gcd, out u, out v);
+            BigInteger u=1, v;
+            //extendedGcd(dA, (p - 1) / gcd, out u, out v);
             // Console.WriteLine(gcd);
 
             if (gcd == 1)
