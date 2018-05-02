@@ -74,32 +74,60 @@ namespace EllipticCurveUtility
             BigInteger Y3 = m * (X1 - X3) - Y1;
             return new AffinePoint(X3.ModPositive(MOD), Y3.ModPositive(MOD), P.E);
         }
-        public static AffinePoint operator *(BigInteger n, AffinePoint P)
+        //public static AffinePoint operator *(BigInteger n, AffinePoint P)
+        //{
+        //    int sign = 1;
+        //    if (n == 0) return GetInfinitePointForCurve(P.E);
+        //    if (n == 1) return P;
+        //    if (n == -1) return -P;
+        //    if (n < 0) sign = -1;
+        //    n = sign * n;
+        //    BigInteger MOD = P.E.P;
+        //    var m = 3 * n;
+        //    var Q = new AffinePoint(P.X, P.Y, P.Z, P.E);
+
+        //    var mBits = m.GetBitArray();
+        //    var nBits = n.GetBitArray();
+
+        //    for (int i = mBits.Length-2 ; i >=1; i--)
+        //    {
+        //        Q = Double(Q);
+        //        var mBit = mBits[i];
+        //        var nBit = i >= nBits.Length ? false : nBits[i];
+        //        if (mBit == true && nBit == false)
+        //            Q += P;
+        //        else if (mBit == false && nBit == true)
+        //            Q -= P;
+        //    }
+        //    return new AffinePoint(Q.X.ModPositive(MOD), sign * Q.Y.ModPositive(MOD), Q.E);
+        //}
+        public static AffinePoint operator *(BigInteger k, AffinePoint P)
         {
-            int sign = 1;
-            if (n == 0) return GetInfinitePointForCurve(P.E);
-            if (n == 1) return P;
-            if (n == -1) return -P;
-            if (n < 0) sign = -1;
-            n = sign * n;
-            BigInteger MOD = P.E.P;
-            var m = 3 * n;
-            var Q = new AffinePoint(P.X, P.Y, P.Z, P.E);
-
-            var mBits = m.GetBitArray();
-            var nBits = n.GetBitArray();
-
-            for (int i = mBits.Length-2 ; i >=1; i--)
+            bool negative = false;
+            if (k < 0)
             {
-                Q = Double(Q);
-                var mBit = mBits[i];
-                var nBit = i >= nBits.Length ? false : nBits[i];
-                if (mBit == true && nBit == false)
-                    Q += P;
-                else if (mBit == false && nBit == true)
-                    Q -= P;
+                negative = true;
+                k = BigInteger.Abs(k);
             }
-            return new AffinePoint(Q.X.ModPositive(MOD), sign * Q.Y.ModPositive(MOD), Q.E);
+            BigInteger d = 1;
+            AffinePoint R = new AffinePoint(0, 1, 0, P.E);
+            //if (P.IsInfinite())
+            //{
+            //    return R;
+            //}
+            while (k > 0)
+            {
+                if (P.Z > 1)
+                    return P;
+                if (k % 2 == 1)
+                    R = P + R;
+                k /= 2;
+                P = P + P;
+            }
+            if (negative)
+                return new AffinePoint(BigIntegerExtension.ModPositive(R.X, R.E.P), BigIntegerExtension.ModPositive(-R.Y, R.E.P), R.Z, R.E);
+            else
+                return new AffinePoint(BigIntegerExtension.ModPositive(R.X, R.E.P), BigIntegerExtension.ModPositive(R.Y, R.E.P), R.Z, R.E);
         }
         #endregion
 

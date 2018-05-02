@@ -14,21 +14,24 @@ namespace ECDLPAlgorithm
     {
         public static BigInteger SolveDLP(AffinePoint P, AffinePoint Q)
         {
-            BigInteger m = BigIntegerExtension.Sqrt(P.E.HasseTheorem())+1;
+            var order = 699;//P.E.HasseTheorem();
+            Console.WriteLine(order);
             var babySteps = new Dictionary<AffinePoint, BigInteger>();
+            var m = BigIntegerExtension.Sqrt(order)+1;
             AffinePoint babyStep;
-            for (BigInteger i = 1; i < m; i++)
+
+            for (BigInteger i = 0; i < m; i++)
             {
                 babyStep = i * P;
                 babySteps.Add(babyStep, i);
                 Console.WriteLine(babyStep);
             }
-            AffinePoint giantStep = -(m * P);
+            AffinePoint giantStep = (m * P);
             Console.WriteLine();
             AffinePoint temp;
             for (BigInteger j = 0; j < m; j++)
             {
-                temp = Q + j * giantStep;
+                temp = Q - j * giantStep;
                 Console.WriteLine(temp);
                 BigInteger i = -1;
                 try
@@ -37,8 +40,12 @@ namespace ECDLPAlgorithm
                 }
                 catch (KeyNotFoundException e) { }
                 if (i != -1)
-                    return i + j * m;  //тут еще по модулю порядка эл кривой надо брать
+                    return BigIntegerExtension.ModPositive(i + j * m, order);  //тут еще по модулю порядка эл кривой надо брать (хз как правильно сделать)
             }
+
+            //make modification with m/2 and +-iP
+
+            
             return -1;
         }
     }

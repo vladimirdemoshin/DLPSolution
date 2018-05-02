@@ -16,17 +16,17 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            var list = new SortedDictionary<BigInteger, BigInteger>();
-            for (int i = 1; i < 16; i++)
-            {
-                BigInteger answer = DLPAlgorithm.BabyStepGiantStep.SolveDLP(3, i, 17);
+            //var list = new SortedDictionary<BigInteger, BigInteger>();
+            //for (int i = 1; i < 16; i++)
+            //{
+            //    BigInteger answer = DLPAlgorithm.BabyStepGiantStep.SolveDLP(3, i, 17);
                
-                list.Add(answer, i);
-                //Console.WriteLine("h= {0} , x = {1}", i, answer);
-                //Console.WriteLine();
-            }
-            foreach (var item in list)
-                Console.WriteLine(item.Key + " " + item.Value);
+            //    list.Add(answer, i);
+            //    //Console.WriteLine("h= {0} , x = {1}", i, answer);
+            //    //Console.WriteLine();
+            //}
+            //foreach (var item in list)
+            //    Console.WriteLine(item.Key + " " + item.Value);
 
             //for(int k=-5;k<=5;k++)
             //{
@@ -98,12 +98,11 @@ namespace ConsoleTest
             //Console.WriteLine(answer);
             //Console.WriteLine();
 
-            //EllipticCurve curve = new EllipticCurve(2, 2, 23);
-            //AffinePoint P = new AffinePoint(2, 1,curve);
-            //AffinePoint Q = new AffinePoint(11, 13, curve);
-            ////BigInteger n = 3;
-            //BigInteger answer = RhoPollard.SolveDLP(P,Q);//BabyStepGiantStep.SolveDLP(P, Q);
-            //Console.WriteLine(answer);
+            EllipticCurve curve = new EllipticCurve(130, 565, 719);
+            AffinePoint P = new AffinePoint(107, 443, curve);
+            AffinePoint Q = new AffinePoint(608, 427, curve);
+            BigInteger answer = ECDLPAlgorithm.BabyStepGiantStep.SolveDLP(P, Q);
+            Console.WriteLine(answer);
 
             
         }
