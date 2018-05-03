@@ -38,3 +38,13 @@ namespace EllipticCurveUtility
         #endregion
     }
 }
+
+
+
+//#region Operators
+//public abstract BasePoint operator -(BasePoint P, BasePoint Q);
+//public abstract BasePoint operator +(BasePoint P, BasePoint Q);
+
+//public abstract BasePoint operator *(BigInteger k, BasePoint P);
+
+//#endregion

@@ -50,6 +50,23 @@ namespace EllipticCurveUtility
         {
             return P + (-Q);
         }
+
+        //мое с сайта
+        //public static AffinePoint operator +(AffinePoint P, AffinePoint Q)
+        //{
+        //    BigInteger X1 = P.X, Y1 = P.Y, Z1 = P.Z;
+        //    BigInteger X2 = Q.X, Y2 = Q.Y, Z2 = Q.Z;
+        //    BigInteger MOD = P.E.P, A = P.E.A;
+        //    if (Z1 == 0)
+        //        return Q;
+        //    if (Z2 == 0)
+        //        return P;
+        //    var X3 = (Y2 - Y1) * (Y2 - Y1) * (X2 - X1).ModInverse(MOD) * (X2 - X1).ModInverse(MOD) - X1 - X2;
+        //    var Y3 = (2 * X1 + X2) * (Y2 - Y1) * (X2 - X1).ModInverse(MOD) - (Y2 - Y1) * (Y2 - Y1) * (Y2 - Y1) * (X2 - X1).ModInverse(MOD) * (X2 - X1).ModInverse(MOD) * (X2 - X1).ModInverse(MOD) - Y1;
+        //    return new AffinePoint(X3.ModPositive(MOD), Y3.ModPositive(MOD), P.E);
+        //}
+
+        //мое из крендэла померанца
         public static AffinePoint operator +(AffinePoint P, AffinePoint Q)
         {
             BigInteger X1 = P.X, Y1 = P.Y, Z1 = P.Z;
@@ -68,12 +85,14 @@ namespace EllipticCurveUtility
             }
             else
             {
-                m = (Y2 - Y1) * BigIntegerExtension.ModInverse((X2-X1), MOD);
+                m = (Y2 - Y1) * BigIntegerExtension.ModInverse((X2 - X1), MOD);
             }
             BigInteger X3 = m * m - X1 - X2;
             BigInteger Y3 = m * (X1 - X3) - Y1;
             return new AffinePoint(X3.ModPositive(MOD), Y3.ModPositive(MOD), P.E);
         }
+
+        //мое из крэнделла померанца
         //public static AffinePoint operator *(BigInteger n, AffinePoint P)
         //{
         //    int sign = 1;
@@ -89,46 +108,65 @@ namespace EllipticCurveUtility
         //    var mBits = m.GetBitArray();
         //    var nBits = n.GetBitArray();
 
-        //    for (int i = mBits.Length-2 ; i >=1; i--)
+        //    //Console.WriteLine(m);
+        //    //Console.WriteLine();
+        //    //for (int i = mBits.Length - 1; i >= 0;i-- )
+        //    //{
+        //    //    Console.Write(mBits[i] ? 1 : 0);
+        //    //}
+        //    //Console.WriteLine();
+        //    //Console.WriteLine(n);
+        //    //for (int i = nBits.Length - 1; i >= 0; i--)
+        //    //{
+        //    //    Console.Write(nBits[i] ? 1 : 0);
+        //    //}
+        //    //Console.WriteLine();
+
+        //    for (int i = mBits.Length - 2; i >= 1; i--)
         //    {
         //        Q = Double(Q);
         //        var mBit = mBits[i];
         //        var nBit = i >= nBits.Length ? false : nBits[i];
         //        if (mBit == true && nBit == false)
-        //            Q += P;
+        //            Q = Q + P;
         //        else if (mBit == false && nBit == true)
-        //            Q -= P;
-        //    }
+        //            Q = Q - P;
+        //    }    
         //    return new AffinePoint(Q.X.ModPositive(MOD), sign * Q.Y.ModPositive(MOD), Q.E);
         //}
-        public static AffinePoint operator *(BigInteger k, AffinePoint P)
-        {
-            bool negative = false;
-            if (k < 0)
-            {
-                negative = true;
-                k = BigInteger.Abs(k);
-            }
-            BigInteger d = 1;
-            AffinePoint R = new AffinePoint(0, 1, 0, P.E);
-            //if (P.IsInfinite())
-            //{
-            //    return R;
-            //}
-            while (k > 0)
-            {
-                if (P.Z > 1)
-                    return P;
-                if (k % 2 == 1)
-                    R = P + R;
-                k /= 2;
-                P = P + P;
-            }
-            if (negative)
-                return new AffinePoint(BigIntegerExtension.ModPositive(R.X, R.E.P), BigIntegerExtension.ModPositive(-R.Y, R.E.P), R.Z, R.E);
-            else
-                return new AffinePoint(BigIntegerExtension.ModPositive(R.X, R.E.P), BigIntegerExtension.ModPositive(R.Y, R.E.P), R.Z, R.E);
-        }
+
+
+        //азата
+        //public static AffinePoint operator *(BigInteger k, AffinePoint P)
+        //{
+        //    bool negative = false;
+        //    if (k < 0)
+        //    {
+        //        negative = true;
+        //        k = BigInteger.Abs(k);
+        //    }
+        //    BigInteger d = 1;
+        //    AffinePoint R = new AffinePoint(0, 1, 0, P.E);
+        //    //if (P.IsInfinite())
+        //    //{
+        //    //    return R;
+        //    //}
+        //    while (k > 0)
+        //    {
+        //        if (P.Z > 1)
+        //            return P;
+        //        if (k % 2 == 1)
+        //            R = P + R;
+        //        k /= 2;
+        //        P = P + P;
+        //    }
+        //    if (negative)
+        //        return new AffinePoint(BigIntegerExtension.ModPositive(R.X, R.E.P), BigIntegerExtension.ModPositive(-R.Y, R.E.P), R.Z, R.E);
+        //    else
+        //        return new AffinePoint(BigIntegerExtension.ModPositive(R.X, R.E.P), BigIntegerExtension.ModPositive(R.Y, R.E.P), R.Z, R.E);
+        //}
+
+
         #endregion
 
         #region Public Methods
@@ -166,3 +204,59 @@ namespace EllipticCurveUtility
         #endregion
     }
 }
+
+
+
+
+
+//чувака
+//public static AffinePoint operator *(BigInteger k, AffinePoint point)
+//{
+//    if (k == 0) return GetInfinitePointForCurve(point.E);
+//    var temp = point;
+//    k--;
+//    while (k > 0)
+//    {
+//        if (BigInteger.Remainder(k, 2) != 0)
+//        {
+//            if ((temp.X == point.X) && (temp.Y == point.Y))
+//                temp = X2(temp);
+//            else
+//                temp = temp + point;
+//            k--;
+//        }
+//        k = k / 2;
+//        // Console.WriteLine(k);
+//        point = X2(point);
+//    }
+//    return temp;
+//}
+
+
+//private static AffinePoint X2(AffinePoint point)
+//{
+//    BigInteger A = 3 * point.X * point.X + point.E.A * point.Z * point.Z;
+//    A = BigInteger.Remainder(A, point.E.P);
+//    if (A < 0) { while (A < 0) { A += point.E.P; } }
+
+
+//    BigInteger B = 2 * point.Y * point.Z;
+//    B = BigInteger.Remainder(B, point.E.P);
+//    if (B < 0) { while (B < 0) { B += point.E.P; } }
+
+
+//    BigInteger X = B * (A * A - 4 * point.X * point.Y * B);
+//    X = BigInteger.Remainder(X, point.E.P);
+//    if (X < 0) { while (X < 0) { X += point.E.P; } }
+
+
+//    BigInteger Y = A * (6 * point.Y * point.X * B - A * A) - 2 * point.Y * point.Y * B * B;
+//    Y = BigInteger.Remainder(Y, point.E.P);
+//    if (Y < 0) { while (Y < 0) { Y += point.E.P; } }
+
+
+//    BigInteger Z = B * B * B;
+//    Z = BigInteger.Remainder(Z, point.E.P);
+//    if (Z < 0) { while (Z < 0) { Z += point.E.P; } }
+//    return new AffinePoint(X, Y, Z, point.E);
+//}

@@ -16,6 +16,13 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
+            EllipticCurve curve = new EllipticCurve(130, 565, 719);
+            ProjectivePoint P = new ProjectivePoint(107, 443, 1, curve);
+            ProjectivePoint Q = new ProjectivePoint(608, 427, 1, curve);
+            BigInteger answer = ECDLPAlgorithm.BabyStepGiantStep.SolveDLP(P,Q);
+            Console.WriteLine(answer);
+
+
             //var list = new SortedDictionary<BigInteger, BigInteger>();
             //for (int i = 1; i < 16; i++)
             //{
@@ -98,12 +105,17 @@ namespace ConsoleTest
             //Console.WriteLine(answer);
             //Console.WriteLine();
 
-            EllipticCurve curve = new EllipticCurve(130, 565, 719);
-            AffinePoint P = new AffinePoint(107, 443, curve);
-            AffinePoint Q = new AffinePoint(608, 427, curve);
-            BigInteger answer = ECDLPAlgorithm.BabyStepGiantStep.SolveDLP(P, Q);
-            Console.WriteLine(answer);
+            //EllipticCurve curve = new EllipticCurve(130, 565, 719);
+            //AffinePoint P = new AffinePoint(107, 443, curve);
+            //AffinePoint Q = new AffinePoint(608, 427, curve);
+            //BigInteger answer = ECDLPAlgorithm.BabyStepGiantStep.SolveDLP(P, Q);
+            //Console.WriteLine(answer);
 
+            //EllipticCurve curve = new EllipticCurve(130, 565, 719);
+            //AffinePoint P = new AffinePoint(107, 443, curve);
+            //AffinePoint Q = new AffinePoint(608, 427, curve);
+            //var res = 27 * P;
+            //Console.WriteLine(P + Q);
             
         }
     }
