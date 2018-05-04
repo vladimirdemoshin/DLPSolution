@@ -93,6 +93,29 @@ namespace Utility
             return rootN;
         } // SqRtN
 
+        public static int JacobiSymbol(BigInteger a, BigInteger m)
+        {
+            a = a % m;
+            var t = 1;
+            while(a!=0)
+            {
+                while(a%2 == 0)
+                {
+                    a = a / 2;
+                    var tmp = m % 8;
+                    if (tmp >= 3 && tmp <= 5)
+                        t = -t;
+                }
+                BigInteger swap = a;
+                a = m;
+                m = swap;
+                if (a % 4 == 3 && m % 4 == 3) t = -t;
+                a = a % m;
+            }
+            if (m == 1) return t;
+            return 0;
+        }
+
         //понять что делать в случаях, когда нод(num, mod) != 1
         //public static BigInteger ModInverse(this BigInteger num, BigInteger mod)
         //{

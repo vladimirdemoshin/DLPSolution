@@ -8,7 +8,7 @@ using System.Numerics;
 using Utility;
 using EllipticCurveUtility;
 using DLPAlgorithm;
-using ECDLPAlgorithm;
+//using ECDLPAlgorithm;
 
 namespace ConsoleTest
 {
@@ -16,21 +16,24 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
-            EllipticCurve curve = new EllipticCurve(130, 565, 719);
-            ProjectivePoint P = new ProjectivePoint(107, 443, 1, curve);
-            ProjectivePoint Q = new ProjectivePoint(608, 427, 1, curve);
-            BigInteger answer = ECDLPAlgorithm.BabyStepGiantStep.SolveDLP(P,Q);
-            Console.WriteLine(answer);
+            //EllipticCurve curve = new EllipticCurve(130, 565, 719);
+            //ProjectivePoint P = new ProjectivePoint(107, 443, 1, curve);
+            //ProjectivePoint Q = curve.GetRandomAffinePoint();//new ProjectivePoint(608, 427, 1, curve);
+            //BigInteger answer = ECDLPAlgorithm.BabyStepGiantStep.SolveDLP(P,Q);
+            //Console.WriteLine(answer);
 
+            //BigInteger answer = DLPAlgorithm.RhoPollard.SolveDLP(10, 64, 107);
+            ////BigInteger answer = DLPAlgorithm.RhoPollard.SolveDLP(2, 5, 29);
+            //Console.WriteLine(answer);
 
             //var list = new SortedDictionary<BigInteger, BigInteger>();
             //for (int i = 1; i < 16; i++)
             //{
-            //    BigInteger answer = DLPAlgorithm.BabyStepGiantStep.SolveDLP(3, i, 17);
-               
-            //    list.Add(answer, i);
-            //    //Console.WriteLine("h= {0} , x = {1}", i, answer);
-            //    //Console.WriteLine();
+            //    BigInteger answer = DLPAlgorithm.RhoPollard.SolveDLP(3, i, 17);
+
+            //  //  list.Add(answer, i);
+            //    Console.WriteLine("h= {0} , x = {1}", i, answer);
+            //    Console.WriteLine();
             //}
             //foreach (var item in list)
             //    Console.WriteLine(item.Key + " " + item.Value);
@@ -86,13 +89,13 @@ namespace ConsoleTest
             //var a = BigIntegerExtension.Sqrt(49);
             //Console.WriteLine(a);
 
-            //for (int i = 1; i < 16; i++)
-            //{
-            //    //Console.WriteLine("h={0}", i);
-            //    BigInteger answer = DLPAlgorithm.RhoPollard.SolveDLP(3, i, 17);
-            //    Console.WriteLine("h= {0} , x = {1}", i, answer);
-            //    Console.WriteLine();
-            //}
+            for (int i = 1; i < 16; i++)
+            {
+                //Console.WriteLine("h={0}", i);
+                BigInteger answer = DLPAlgorithm.RhoPollard.SolveDLP(3, i, 17);
+                Console.WriteLine("h= {0} , x = {1}", i, answer);
+                Console.WriteLine();
+            }
 
             //BigInteger u, v;
             //BigInteger a = 4;

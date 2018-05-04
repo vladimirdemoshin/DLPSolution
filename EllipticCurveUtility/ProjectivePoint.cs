@@ -19,7 +19,8 @@ namespace EllipticCurveUtility
         public ProjectivePoint() : base() { }
         public ProjectivePoint(BigInteger X, BigInteger Y) : base(X, Y) { }
         public ProjectivePoint(BigInteger X, BigInteger Y, BigInteger Z) : base(X, Y, Z) { }
-        public ProjectivePoint(BigInteger X, BigInteger Y, BigInteger Z, EllipticCurve E) : base(X,Y,Z)
+        public ProjectivePoint(BigInteger X, BigInteger Y, BigInteger Z, EllipticCurve E)
+            : base(X, Y, Z)
         {
             this.E = E;
         }
@@ -44,16 +45,16 @@ namespace EllipticCurveUtility
         }
         public static ProjectivePoint operator +(ProjectivePoint P1, ProjectivePoint P2)
         {
-            //BigInteger X1 = P1.X, Y1 = P1.Y, Z1 = P1.Z;
-            //BigInteger X2 = P2.X, Y2 = P2.Y, Z2 = P2.Z;
+            BigInteger X1 = P1.X, Y1 = P1.Y, Z1 = P1.Z;
+            BigInteger X2 = P2.X, Y2 = P2.Y, Z2 = P2.Z;
             BigInteger MOD = P1.E.P;
             if ((P1.X == P1.Z) && (P1.X == 0))
-            { 
-                return P2; 
+            {
+                return P2;
             }
             if ((P2.X == P2.Z) && (P2.X == 0))
             {
-                return P1; 
+                return P1;
             }
             BigInteger A = P2.Y * P1.Z - P1.Y * P2.Z;
             A = A.ModPositive(MOD);
@@ -79,7 +80,7 @@ namespace EllipticCurveUtility
         }
         public static ProjectivePoint operator *(BigInteger n, ProjectivePoint P)
         {
-            if(n == 0) return GetInfinitePointForCurve(P.E);
+            if (n == 0) return GetInfinitePointForCurve(P.E);
             var temp = P;
             n--;
             while (n != 0)
@@ -136,13 +137,13 @@ namespace EllipticCurveUtility
             X = (X * Z.ModInverse(MOD)).ModPositive(MOD);
             Y = (Y * Z.ModInverse(MOD)).ModPositive(MOD);
             Z = 1;
-            return new AffinePoint(X,Y,E);
+            return new AffinePoint(X, Y, E);
         }
         public override string ToString()
         {
             return String.Format("({0}, {1}, {2})", X, Y, Z);
         }
-        #endregion 
+        #endregion
     }
 }
 
@@ -246,151 +247,151 @@ namespace EllipticCurveUtility
 
 
 
- //public Point(BigInteger x, BigInteger y, BigInteger z, EllipticCurve E)
- //       {
- //           X = x;
- //           Y = y;
- //           Z = z;
- //           this.E = E;
- //       }
+//public Point(BigInteger x, BigInteger y, BigInteger z, EllipticCurve E)
+//       {
+//           X = x;
+//           Y = y;
+//           Z = z;
+//           this.E = E;
+//       }
 
 
- //       public static BigInteger MyMod(BigInteger number, BigInteger modul)
- //       {
- //           number %= modul;
- //           while (number < 0)
- //               number += modul;
- //           return number;
- //       }
-
-
-
-
-
- //       static private void ExtendedEuclid(BigInteger a, BigInteger b, out BigInteger inv, out BigInteger d)
- //       {
- //           BigInteger q, r, x1, x2, y1, y2, x, y;
- //           if (b == 0)
- //           {
- //               x = 1;
- //               y = 0;
- //               d = a;
- //               inv = x;
- //               return;
- //           }
- //           x1 = 0;
- //           x2 = 1;
- //           y1 = 1;
- //           y2 = 0;
- //           while (b > 0)
- //           {
- //               q = a / b;
- //               r = a - q * b;
- //               x = x2 - q * x1;
- //               y = y2 - q * y1;
- //               a = b;
- //               b = r;
- //               x2 = x1;
- //               x1 = x;
- //               y2 = y1;
- //               y1 = y;
- //           }
- //           x = x2;
- //           y = y2;
- //           d = a;
- //           inv = x;
- //           return;
- //       }
-
- //       public static Point operator +(Point P, Point Q)
- //       {
- //           BigInteger d = 1;
- //           Point R = new Point(0, 1, 0, P.E);
- //           BigInteger temp;
- //           BigInteger lambda;
- //           BigInteger x;
- //           BigInteger y;
- //           BigInteger inv;
- //           if (P.X == 0 && P.Y == 1 && P.Z == 0)
- //           {
- //               return Q;
- //           }
- //           else if (Q.X == 0 && Q.Y == 1 && Q.Z == 0)
- //           {
- //               return P;
- //           }
- //           else if (P == -Q || (P == Q && P.Y == 0))
- //           {
- //               return R;
- //           }
- //           else if (P == Q)
- //           {
- //               return Double(P);
- //           }
- //           else if (P.X == Q.X)
- //           {
- //               temp = (P.Y + Q.Y) % P.E.P;
- //               if (temp == 0)
- //               {
- //                   return R;
- //               }
- //               if (temp < 0)
- //               {
- //                   temp += P.E.P;
- //               }
- //               ExtendedEuclid(temp, P.E.P, out inv, out d);
- //               if (d > 1 && d < P.E.P)
- //               {
- //                   R = new Point(0, 0, temp, P.E);
- //                   return R;
- //               }
- //               lambda = ((3 * P.X * P.X + P.E.A) * inv) % P.E.P;
- //           }
- //           else
- //           {
- //               temp = Q.X - P.X;
- //               if (temp < 0)
- //               {
- //                   temp += P.E.P;
- //               }
- //               ExtendedEuclid(temp, P.E.P, out inv, out d);
- //               if (d > 1 && d < P.E.P)
- //               {
- //                   R = new Point(0, 0, temp, P.E);
- //                   return R;
- //               }
- //               lambda = (Q.Y - P.Y) * inv;
- //           }
- //           x = (lambda * lambda - P.X - Q.X) % P.E.P;
- //           y = (lambda * (P.X - x) - P.Y) % P.E.P;
- //           R = new Point(x, y, 1, P.E);
- //           return new Point(MyMod(R.X, R.E.P), MyMod(R.Y, R.E.P), R.Z, R.E);
- //       }
+//       public static BigInteger MyMod(BigInteger number, BigInteger modul)
+//       {
+//           number %= modul;
+//           while (number < 0)
+//               number += modul;
+//           return number;
+//       }
 
 
 
 
- //       public static Point Double(Point P)
- //       {
- //           BigInteger d = 1;
- //           Point R = new Point(0, 1, 0, P.E);
- //           if (P.Y == 0)
- //               return R;
- //           BigInteger temp = (2 * P.Y) % P.E.P;
- //           if (temp < 0)
- //           {
- //               temp += P.E.P;
- //           }
- //           BigInteger inv;
- //           ExtendedEuclid(temp, P.E.P, out inv, out d);
- //           if (d > 1 && d < P.E.P)
- //           {
- //               R = new Point(0, 0, temp, P.E);
- //               return R;
- //           }
- //           BigInteger lambda = (3 * P.X * P.X + P.E.A) * inv;
- //           BigInteger x = (lambda * lambda - 2 * P.X) % P.E.P;
- //           BigInteger y = (lambda * (P.X - x) - P.Y) % P.E.P;
- //           R = new Point(x, y, 1, P.E);
- //           return new Point(MyMod(R.X, R.E.P), MyMod(R.Y, R.E.P), R.Z, R.E);
- //       }
+
+//       static private void ExtendedEuclid(BigInteger a, BigInteger b, out BigInteger inv, out BigInteger d)
+//       {
+//           BigInteger q, r, x1, x2, y1, y2, x, y;
+//           if (b == 0)
+//           {
+//               x = 1;
+//               y = 0;
+//               d = a;
+//               inv = x;
+//               return;
+//           }
+//           x1 = 0;
+//           x2 = 1;
+//           y1 = 1;
+//           y2 = 0;
+//           while (b > 0)
+//           {
+//               q = a / b;
+//               r = a - q * b;
+//               x = x2 - q * x1;
+//               y = y2 - q * y1;
+//               a = b;
+//               b = r;
+//               x2 = x1;
+//               x1 = x;
+//               y2 = y1;
+//               y1 = y;
+//           }
+//           x = x2;
+//           y = y2;
+//           d = a;
+//           inv = x;
+//           return;
+//       }
+
+//       public static Point operator +(Point P, Point Q)
+//       {
+//           BigInteger d = 1;
+//           Point R = new Point(0, 1, 0, P.E);
+//           BigInteger temp;
+//           BigInteger lambda;
+//           BigInteger x;
+//           BigInteger y;
+//           BigInteger inv;
+//           if (P.X == 0 && P.Y == 1 && P.Z == 0)
+//           {
+//               return Q;
+//           }
+//           else if (Q.X == 0 && Q.Y == 1 && Q.Z == 0)
+//           {
+//               return P;
+//           }
+//           else if (P == -Q || (P == Q && P.Y == 0))
+//           {
+//               return R;
+//           }
+//           else if (P == Q)
+//           {
+//               return Double(P);
+//           }
+//           else if (P.X == Q.X)
+//           {
+//               temp = (P.Y + Q.Y) % P.E.P;
+//               if (temp == 0)
+//               {
+//                   return R;
+//               }
+//               if (temp < 0)
+//               {
+//                   temp += P.E.P;
+//               }
+//               ExtendedEuclid(temp, P.E.P, out inv, out d);
+//               if (d > 1 && d < P.E.P)
+//               {
+//                   R = new Point(0, 0, temp, P.E);
+//                   return R;
+//               }
+//               lambda = ((3 * P.X * P.X + P.E.A) * inv) % P.E.P;
+//           }
+//           else
+//           {
+//               temp = Q.X - P.X;
+//               if (temp < 0)
+//               {
+//                   temp += P.E.P;
+//               }
+//               ExtendedEuclid(temp, P.E.P, out inv, out d);
+//               if (d > 1 && d < P.E.P)
+//               {
+//                   R = new Point(0, 0, temp, P.E);
+//                   return R;
+//               }
+//               lambda = (Q.Y - P.Y) * inv;
+//           }
+//           x = (lambda * lambda - P.X - Q.X) % P.E.P;
+//           y = (lambda * (P.X - x) - P.Y) % P.E.P;
+//           R = new Point(x, y, 1, P.E);
+//           return new Point(MyMod(R.X, R.E.P), MyMod(R.Y, R.E.P), R.Z, R.E);
+//       }
+
+
+
+
+//       public static Point Double(Point P)
+//       {
+//           BigInteger d = 1;
+//           Point R = new Point(0, 1, 0, P.E);
+//           if (P.Y == 0)
+//               return R;
+//           BigInteger temp = (2 * P.Y) % P.E.P;
+//           if (temp < 0)
+//           {
+//               temp += P.E.P;
+//           }
+//           BigInteger inv;
+//           ExtendedEuclid(temp, P.E.P, out inv, out d);
+//           if (d > 1 && d < P.E.P)
+//           {
+//               R = new Point(0, 0, temp, P.E);
+//               return R;
+//           }
+//           BigInteger lambda = (3 * P.X * P.X + P.E.A) * inv;
+//           BigInteger x = (lambda * lambda - 2 * P.X) % P.E.P;
+//           BigInteger y = (lambda * (P.X - x) - P.Y) % P.E.P;
+//           R = new Point(x, y, 1, P.E);
+//           return new Point(MyMod(R.X, R.E.P), MyMod(R.Y, R.E.P), R.Z, R.E);
+//       }

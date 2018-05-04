@@ -25,15 +25,17 @@ namespace DLPAlgorithm
             var order = p - 1; // order = EulerFunc(p) == p - 1 if p - prime
             BigInteger a1, b1, a2, b2;
             FloydCycleFindingAlgorithm(out a1, out b1, out a2, out b2, g, h, p);
-            Console.WriteLine();
-            Console.WriteLine(BigInteger.ModPow(g, a1, p) * BigInteger.ModPow(h, b1, p) % p);
-            Console.WriteLine(BigInteger.ModPow(g, a2, p) * BigInteger.ModPow(h, b2, p) % p);
-            Console.WriteLine();
-            var dA = a1 - a2;
-            var dB = b2 - b1;
-            //if (dB % (p - 1) == 0) return -1;
+
+            //Console.WriteLine();
+            //Console.WriteLine(BigInteger.ModPow(g, a1, p) * BigInteger.ModPow(h, b1, p) % p);
+            //Console.WriteLine(BigInteger.ModPow(g, a2, p) * BigInteger.ModPow(h, b2, p) % p);
+            //Console.WriteLine();
+
+            var dA = a2 - a1;
+            var dB = b1 - b2;
             dA = dA.ModPositive(order);
             dB = dB.ModPositive(order);
+            if (dB == 0) return -1; // в этом случае метод ничем не лучше полного перебора
             var gcd = BigInteger.GreatestCommonDivisor(dB, order);
             if(gcd == 1)
             {
@@ -42,39 +44,18 @@ namespace DLPAlgorithm
             }
             else
             {
-                BigInteger u, v;
-                dB.ExtendedGcd(order, out u, out v);
-                var x = (u * dA).ModPositive(order);
-                x = x / gcd;
-                return x.ModPositive(order);
-                
-
-
-                //BigInteger x0 = dA * dB.ModInverse(order / gcd);
-                //x0 = x0.ModPositive(order / gcd);
-                //for(BigInteger m = 0; m < gcd; m++)
-                //{
-                //    var x = x0 + m * ((p - 1)/gcd);
-                //    Console.WriteLine(x);
-                //    if (BigInteger.ModPow(g, x, p - 1) == h) return x;
-                //}
-
-
-                //var reducedMod = (p - 1) / gcd;
-                //var temp = dB * dA.ModInverse(reducedMod);
-                //temp = temp.ModPositive(reducedMod);
-                //Console.WriteLine("gcd = {0}", gcd);
-                ////
-                //for(BigInteger m = 0; m <= gcd - 1; m++)
-                //{
-
-                //    //temp += m * reducedMod;
-                //    temp = dA * dB.ModInverse(p - 1) * gcd.ModInverse(p - 1);
-                //    temp = temp.ModPositive(p - 1);
-                //    if (BigInteger.ModPow(g, temp, p - 1) == h) return temp;
-                //}
+                var reducedOrder = order / gcd;
+                var x0 = (dB / gcd).ModInverse(reducedOrder);
+                x0 = x0 * (dA / gcd);
+                x0 = x0.ModPositive(reducedOrder);
+                for(BigInteger m = 0; m < gcd; m++)
+                {
+                    var x = x0 + m * reducedOrder;
+                    if (BigInteger.ModPow(g, x, p) == h)
+                        return x;
+                }
             }
-            //return -1;
+            return -1;
         }
 
         private static void FloydCycleFindingAlgorithm(out BigInteger a1, out BigInteger b1, out BigInteger a2, out BigInteger b2, BigInteger g, BigInteger h, BigInteger p)
@@ -94,16 +75,15 @@ namespace DLPAlgorithm
             }
         }
 
-        //p - is a modulo of cyclic group G
         private static void PollardIterationFunction(ref BigInteger x, ref BigInteger a, ref BigInteger b, BigInteger g, BigInteger h, BigInteger p)
         {
             BigInteger order = p - 1;
-            if (x < p / 3)
+            if (x <= p / 3)
             {
                 b++;
                 x *= h;
             }
-            else if (x >= p / 3 && x < 2 * p / 3)
+            else if (x > p / 3 && x <= 2 * p / 3)
             {
                 a *= 2;
                 b *= 2;
@@ -118,9 +98,6 @@ namespace DLPAlgorithm
             b = b.ModPositive(order);
             x = x.ModPositive(p);
         }
-
-
-       
 
     }
 }
@@ -152,3 +129,43 @@ namespace DLPAlgorithm
 //    a = a.ModPositive(p);
 //    b = b.ModPositive(p);
 //}
+
+
+
+
+
+
+//BigInteger x0 = dA * dB.ModInverse(order / gcd);
+//x0 = x0.ModPositive(order / gcd);
+//for (BigInteger m = 0; m < gcd; m++)
+//{
+//    var x = x0 + m * ((p - 1) / gcd);
+//    //Console.WriteLine(x);
+//    if (BigInteger.ModPow(g, x, p - 1) == h) return x;
+//}
+
+
+//var reducedMod = (p - 1) / gcd;
+//var temp = dB * dA.ModInverse(reducedMod);
+//temp = temp.ModPositive(reducedMod);
+//Console.WriteLine("gcd = {0}", gcd);
+////
+//for(BigInteger m = 0; m <= gcd - 1; m++)
+//{
+
+//    //temp += m * reducedMod;
+//    temp = dA * dB.ModInverse(p - 1) * gcd.ModInverse(p - 1);
+//    temp = temp.ModPositive(p - 1);
+//    if (BigInteger.ModPow(g, temp, p - 1) == h) return temp;
+//}
+
+
+
+
+
+
+//BigInteger u, v;
+//dB.ExtendedGcd(order, out u, out v);
+//var x = (u * dA).ModPositive(order);
+//x = x / gcd;
+//return x.ModPositive(order);
