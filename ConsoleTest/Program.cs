@@ -16,6 +16,47 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
+            //var p = 37;
+            //var order = p - 1;
+            //var dB = 3;
+            //var dA = 6;
+            //var g = 2;
+            //var gcd = BigInteger.GreatestCommonDivisor(3, 36);
+            //var reducedOrder = order / gcd;
+            //var x0 = (dB / gcd).ModInverse(reducedOrder);
+            //x0 = x0 * (dA / gcd);
+            //x0 = x0.ModPositive(reducedOrder);
+            //for (BigInteger m = 0; m < gcd; m++)
+            //{
+            //    var x = x0 + m * reducedOrder;
+            //    if (BigInteger.ModPow(g, x, p) == 3)
+            //        Console.WriteLine(x);
+            //}
+
+
+
+
+            var answer = IndexCalculus.SolveDLP(2, 13, 37);
+            Console.WriteLine(answer);
+            //var list = new List<BigInteger>();
+            //for (int i = 1; i < 36; i++)
+            //    list.Add(BigInteger.ModPow(2, i, 37));
+            //list.Sort();
+            //foreach (var a in list) Console.Write(a+" ");
+
+            
+            //Console.WriteLine(BigInteger.ModPow(2, answer, 37));
+
+            //var coefficients = new List<BigInteger[]>();
+            //var a = new BigInteger[4]{1,2,3,4};
+            //coefficients.Add(a);
+            //a = new BigInteger[4]{2,4,6,8};
+            //coefficients.Add(a);
+            ////a = new BigInteger[3] { 5, 5, 6 };
+            ////coefficients.Add(a);
+            //var c = GaussianElimination.IsLinearIndependent(coefficients.ToArray());
+            //Console.WriteLine(c);
+            
             //EllipticCurve curve = new EllipticCurve(130, 565, 719);
             //ProjectivePoint P = new ProjectivePoint(107, 443, 1, curve);
             //ProjectivePoint Q = curve.GetRandomAffinePoint();//new ProjectivePoint(608, 427, 1, curve);
@@ -26,6 +67,7 @@ namespace ConsoleTest
             ////BigInteger answer = DLPAlgorithm.RhoPollard.SolveDLP(2, 5, 29);
             //Console.WriteLine(answer);
 
+           
             //var list = new SortedDictionary<BigInteger, BigInteger>();
             //for (int i = 1; i < 16; i++)
             //{
@@ -89,13 +131,13 @@ namespace ConsoleTest
             //var a = BigIntegerExtension.Sqrt(49);
             //Console.WriteLine(a);
 
-            for (int i = 1; i < 16; i++)
-            {
-                //Console.WriteLine("h={0}", i);
-                BigInteger answer = DLPAlgorithm.RhoPollard.SolveDLP(3, i, 17);
-                Console.WriteLine("h= {0} , x = {1}", i, answer);
-                Console.WriteLine();
-            }
+            //for (int i = 1; i < 16; i++)
+            //{
+            //    //Console.WriteLine("h={0}", i);
+            //    BigInteger answer = DLPAlgorithm.RhoPollard.SolveDLP(3, i, 17);
+            //    Console.WriteLine("h= {0} , x = {1}", i, answer);
+            //    Console.WriteLine();
+            //}
 
             //BigInteger u, v;
             //BigInteger a = 4;

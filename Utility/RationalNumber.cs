@@ -128,11 +128,14 @@ namespace Utility
         }
         #endregion
 
-        #region Public Methods
+        #region Methods
         public static RationalNumber Abs(RationalNumber a)
         {
             return new RationalNumber(BigInteger.Abs(a.Numerator), BigInteger.Abs(a.Denominator));
         }
+        #endregion
+
+        #region Converters
         public BigInteger ToModBigInteger(BigInteger mod)
         {
             return Numerator * Denominator.ModInverse(mod) % mod;

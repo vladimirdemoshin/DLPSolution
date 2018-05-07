@@ -44,6 +44,8 @@
     <Compile Include="BigIntegerPrimeTest.cs" />
     <Compile Include="BigIntegerRandom.cs" />
     <Compile Include="CommonAlgorithms.cs" />
+    <Compile Include="Factorization.cs" />
+    <Compile Include="FileUtility.cs" />
     <Compile Include="GaussianElimination.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RationalNumber.cs" />

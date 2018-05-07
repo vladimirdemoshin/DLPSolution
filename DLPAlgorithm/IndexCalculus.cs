@@ -9,74 +9,80 @@ using Utility;
 
 namespace DLPAlgorithm
 {
-    public class IndexCalculus
+    public static class IndexCalculus
     {
         #region Properties
-        public BigInteger Accuracy { get; set; }
-        public ulong FactorBaseCount { get; set; }
-
-        public BigIntegerRandom randomBI { get; set; }
+        public static BigInteger Accuracy { get; set; }
+        public static int FactorBaseSize { get; set; }
+        //public BigIntegerRandom rand { get; set; }
         #endregion
 
         #region Constructors
-        public IndexCalculus()
+        static IndexCalculus()
         {
             Accuracy = 10;
-            FactorBaseCount = 3;
-            randomBI = new BigIntegerRandom();
+            FactorBaseSize = 3;
+            //rand = new BigIntegerRandom();
         }
         #endregion
 
-        #region Public Methods
-        /// <summary>
-        /// Index Calculus alg
-        /// </summary>
-        /// <param name="generator">Primitive root of cyclic group Zprime*</param>
-        public BigInteger CountDiscreteLogarithm(BigInteger generator, BigInteger value, BigInteger prime)
+        #region Methods
+        public static BigInteger SolveDLP(BigInteger g, BigInteger h, BigInteger p)
         {
-            //случай когда G = Zp* 
-            var factorBase = new BigInteger[] { 2, 3, 5 }; //заменить на общий случай поиска факторной базы// CommonAlgorithms.SieveOfEratosthenes(FactorBaseCount);
-            BigInteger cyclicGroupOrder = prime - 1; //случай, когда степени [0,prime-2] генератора создают всю группу
-            var relations = new List<List<BigInteger>>();
-            BigInteger cyclicGroupElement;
-            BigInteger cyclicGroupElementIndex = 1;
-            for (; cyclicGroupElementIndex <= cyclicGroupOrder; cyclicGroupElementIndex++)
+            BigInteger order = p - 1; 
+            var factorBase = BigIntegerExtension.GetFactorBase(FactorBaseSize);
+            var coefficients = new List<BigInteger[]>();
+            var constantTerms = new BigInteger[FactorBaseSize];
+            int i = 0;
+            BigInteger k;
+            for (k = 1; k < order; k++)
             {
-                cyclicGroupElement = BigInteger.ModPow(generator, cyclicGroupElementIndex, prime); // попробовать заменить на быстрое возведение в степень, если есть в этом смысл (узнать как работает этот метод в классе)
-                var factorBaseDecompositionIndexesVector = CommonAlgorithms.Factorization(cyclicGroupElement, factorBase);
-                if (factorBaseDecompositionIndexesVector != null)
+                var temp = BigInteger.ModPow(g, k, p);
+                var factorBaseFactorizationExponents = Factorization.GetFactorBaseFactorizationExponents(temp, factorBase);
+                if (factorBaseFactorizationExponents != null)
                 {
-                    factorBaseDecompositionIndexesVector.Add(cyclicGroupElementIndex);
-                    relations.Add(factorBaseDecompositionIndexesVector);
-                    var matrixRelations = toTwoDimensionalArrayOfRationalNumbers(relations);
-                    if (!GaussianElimination.IsLinearIndependent(matrixRelations))
-                        relations.RemoveAt(relations.Count - 1);
+                    coefficients.Add(factorBaseFactorizationExponents);
+                    bool isLinearIndependent = GaussianElimination.IsLinearIndependent(coefficients.ToArray());
+                    if (!isLinearIndependent)
+                        coefficients.RemoveAt(coefficients.Count - 1);
+                    else
+                        constantTerms[i++] = k;
                 }
-                if (relations.Count == factorBase.Length) break;
+                if (coefficients.Count == factorBase.Length) break;
             }
-            var factorBaseLogsInGeneratorBase = GaussianElimination.SolveSystemOfLinearEquatations(toTwoDimensionalArrayOfRationalNumbers(relations));
-            var factorBaseLogsInGeneratorBaseBigInteger = toListBigInteger(factorBaseLogsInGeneratorBase, cyclicGroupOrder);
-            cyclicGroupElementIndex = 1;
-            for (; cyclicGroupElementIndex <= cyclicGroupOrder; cyclicGroupElementIndex++)
+
+            int j = 0;
+            foreach (var a in coefficients)
             {
-                cyclicGroupElement = value * BigInteger.ModPow(generator, cyclicGroupElementIndex, prime) % prime;
-                var factorBaseDecompositionIndexesVector = CommonAlgorithms.Factorization(cyclicGroupElement, factorBase);
-                if (factorBaseDecompositionIndexesVector != null)
+                foreach (var b in a)
+                {
+                    Console.Write(b + " ");
+                }
+                Console.Write(constantTerms[j++]);
+                Console.WriteLine();
+            }
+
+            var factorBaseLogs = GaussianElimination.SolveSystemOfLinearEquatations(coefficients.ToArray(), constantTerms, order, g, factorBase, p);
+            for (k = 1 ; k < order; k++)
+            {
+                var temp = h * BigInteger.ModPow(g, k, p) % p;
+                var factorBaseFactorizationExponents = Factorization.GetFactorBaseFactorizationExponents(temp, factorBase);
+                if (factorBaseFactorizationExponents != null)
                 {
                     BigInteger x = 0;
-                    int i = 0;
-                    foreach (var index in factorBaseDecompositionIndexesVector)
-                        x += factorBaseLogsInGeneratorBaseBigInteger[i] * index;
-                    x -= cyclicGroupElementIndex;
-                    return x % cyclicGroupOrder;
+                    i = 0;
+                    foreach (var log in factorBaseLogs)
+                        x += log * factorBaseFactorizationExponents[i];
+                    x -= k;
+                    return x.ModPositive(order);
                 }
             }
-            return 0;
+            return -1;
         }
         #endregion
 
         #region Private Methods
-        private RationalNumber[][] toTwoDimensionalArrayOfRationalNumbers(List<List<BigInteger>> relations)
+        private static RationalNumber[][] toTwoDimensionalArrayOfRationalNumbers(List<List<BigInteger>> relations)
         {
             var matrix = new RationalNumber[relations.Count][];
             int i = 0, j = 0;
@@ -91,7 +97,7 @@ namespace DLPAlgorithm
             return matrix;
         }
 
-        private List<BigInteger> toListBigInteger(List<RationalNumber> factorBaseLogsInGeneratorBase, BigInteger cyclicGroupOrder)
+        private static List<BigInteger> toListBigInteger(List<RationalNumber> factorBaseLogsInGeneratorBase, BigInteger cyclicGroupOrder)
         {
             var factorBaseLogsInGeneratorBaseBigInteger = new List<BigInteger>();
             foreach (var log in factorBaseLogsInGeneratorBase)

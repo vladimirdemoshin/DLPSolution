@@ -7,11 +7,54 @@ using System.Threading.Tasks;
 using System.Numerics;
 using System.Threading;
 using System.Collections;
+using System.IO;
+using System.Linq;
 
 namespace Utility
 {
     public static class BigIntegerExtension
     {
+        public static RationalNumber[] ToRationalNumberArray(BigInteger[] arr)
+        {
+            RationalNumber[] array = new RationalNumber[arr.Length];
+            for (int i = 0; i < arr.Length; i++)
+                array[i] = new RationalNumber(arr[i]);
+            return array;
+        }
+
+        public static RationalNumber[][] ToTwoDimensionalRationalNumberArray(BigInteger[][] arr)
+        {
+            RationalNumber[][] array = new RationalNumber[arr.Length][];
+            for (int i = 0; i < arr.Length; i++)
+                array[i] = BigIntegerExtension.ToRationalNumberArray(arr[i]);
+            return array;
+        }
+
+        public static BigInteger[] ToBigIntegerArray(RationalNumber[] arr, BigInteger MOD)
+        {
+            BigInteger[] array = new BigInteger[arr.Length];
+            for (int i = 0; i < arr.Length; i++)
+                array[i] = arr[i].ToModBigInteger(MOD);
+            return array;
+        }
+       
+        //a * x = b (mod MOD) , returns x
+        public static BigInteger SolveModLinearEquatation(BigInteger a, BigInteger b, BigInteger order, BigInteger g, BigInteger h, BigInteger p)
+        {
+            var gcd = BigInteger.GreatestCommonDivisor(a, order);
+            var reducedOrder = order / gcd;
+            var x0 = (a / gcd).ModInverse(reducedOrder);
+            x0 = x0 * (b / gcd);
+            x0 = x0.ModPositive(reducedOrder);
+            for (BigInteger m = 0; m < gcd; m++)
+            {
+                var x = x0 + m * reducedOrder;
+                if (BigInteger.ModPow(g, x, p) == h)
+                    return x;
+            }
+            return -1;
+        }
+
         /// <summary>
         /// Find inverse element for num modulus mod. Condition to work properly: gcd(num, mod) == 1 
         /// </summary>
@@ -64,6 +107,26 @@ namespace Utility
             }
             return new BitArray(bits.ToArray<bool>());
         }
+
+        public static BigInteger[] GetFactorBase(int factorBaseSize)
+        {
+            return FileUtility.GetFactorBaseFromFile(factorBaseSize).ToArray();
+        }
+
+        //private static IEnumerable<BigInteger> SieveOfEratosthenes(int n)
+        //{
+        //    bool[] prime = new bool[n + 1];
+        //    int i = 0, j = 0;
+        //    for (i = 0; i < n + 1; i++) prime[i] = true;
+        //    prime[0] = prime[1] = false;
+        //    for (i = 2; i * i <= n; ++i)
+        //        if (prime[i])
+        //            for (j = i * i; j <= n; j += i)
+        //                prime[j] = false;
+        //    var result = new List<BigInteger>();
+        //    for (i = 2; i < n + 1; i++) if (prime[i]) result.Add(i);
+        //    return result;
+        //}
 
         //разобраться в этой функции
         public static BigInteger Sqrt(BigInteger N)

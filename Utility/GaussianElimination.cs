@@ -4,66 +4,89 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Numerics;
+
 namespace Utility
 {
     public static class GaussianElimination
     {
-        #region Public Methods
-        /// <summary>
-        /// Return true, if vectors in matrix are linear independent, false otherwise
-        /// </summary>
-        /// <param name="mtrx"></param>
-        /// <returns></returns>
-        public static bool IsLinearIndependent(RationalNumber[][] mtrx)
+        #region Methods
+        public static bool IsLinearIndependent(BigInteger[][] mtrx)
         {
-            var triangularMatrix = ToTriangularForm(mtrx);
-            RationalNumber[] lastRow = new RationalNumber[triangularMatrix[0].Length - 1];
-            for (int i = 0; i < lastRow.Length; i++) lastRow[i] = triangularMatrix[triangularMatrix.Length - 1][i];
-            RationalNumber[] nullVector = new RationalNumber[lastRow.Length];
-            for (int i = 0; i < nullVector.Length; i++) nullVector[i] = 0;
-            for (int i = 0; i < lastRow.Length; i++)
-            {
-                if (lastRow[i] != nullVector[i])
+            var matrix = BigIntegerExtension.ToTwoDimensionalRationalNumberArray(mtrx);
+            var triangularMatrix = ToTriangularForm(matrix);
+            int lastRowIndex = triangularMatrix.Length - 1;
+            for (int i = 0; i < triangularMatrix[0].Length; i++)
+                if (triangularMatrix[lastRowIndex][i] != 0)
                     return true;
-            }
             return false;
         }
 
-        //mtrx is in rectangular form n x n+1
-        //mtrx is not linear dependent, i.e. solution exists (single)
-        public static List<RationalNumber> SolveSystemOfLinearEquatations(RationalNumber[][] mtrx)
+        //matrix of coefficients is not linear dependent, i.e. solution exists (single)
+        public static BigInteger[] SolveSystemOfLinearEquatations(BigInteger[][] coefficients, BigInteger[] constantTerms, BigInteger order, BigInteger g, BigInteger[] factorBase, BigInteger p)
         {
-            var matrix = ToTriangularForm(mtrx);
-            //solve equation for an upper triangular matrix
+            var temp = new BigInteger[coefficients.Length][];
+            for (int i = 0; i < temp.Length; i++)
+                temp[i] = coefficients[i].Concat(new BigInteger[]{constantTerms[i]}).ToArray();
+            var matrix = ToTriangularForm(BigIntegerExtension.ToTwoDimensionalRationalNumberArray(temp));
+
             var X = new List<RationalNumber>();
             int n = matrix.Length;
             int m = matrix[0].Length;
+
             for (int i = n - 1; i >= 0; i--)
             {
+                var constantTerm = matrix[i][m - 1].ToModBigInteger(order);
+                var Ci = matrix[i][i].ToModBigInteger(order);
+                var gcd = BigInteger.GreatestCommonDivisor(Ci, constantTerm);
+                if (gcd == 1)
+                    X.Add(BigIntegerExtension.ModPositive(constantTerm * Ci.ModInverse(order), order));
+                else
+                {
+                    var reducedMOD = order / gcd;
+                    var x0 = (Ci / gcd).ModInverse(reducedMOD);
+                    x0 = x0 * (constantTerm / gcd);
+                    x0 = x0.ModPositive(reducedMOD);
+                    for (BigInteger j = 0; j < gcd; j++)
+                    {
+                        var x = x0 + j * reducedMOD;
+                        if (BigInteger.ModPow(g, x, p) == factorBase[i])
+                        {
+                            X.Add(x.ModPositive(order));
+                            break;
+                        }
+                    }
+                }
+                
                 X.Add(matrix[i][m - 1] / matrix[i][i]);
                 for (int k = i - 1; k >= 0; k--)
                 {
                     matrix[k][m - 1] = matrix[k][m - 1] - matrix[k][i] * X[n - 1 - i];
-                }
+                }   
             }
             X.Reverse();
-            return X;
+            return BigIntegerExtension.ToBigIntegerArray(X.ToArray(), order);
         }
+
+
+
+        
+
 
 
         public static RationalNumber[][] ToTriangularForm(RationalNumber[][] matrix)
         {
 
-            Console.WriteLine("Before");
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                for (int j = 0; j < matrix[i].Length; j++)
-                {
-                    Console.Write(matrix[i][j] + "  ");
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine(); Console.WriteLine();
+            //Console.WriteLine("Before");
+            //for (int i = 0; i < matrix.Length; i++)
+            //{
+            //    for (int j = 0; j < matrix[i].Length; j++)
+            //    {
+            //        Console.Write(matrix[i][j] + "  ");
+            //    }
+            //    Console.WriteLine();
+            //}
+            //Console.WriteLine(); Console.WriteLine();
 
 
 
@@ -117,16 +140,19 @@ namespace Utility
                 currentColumn++;
             }
 
-            Console.WriteLine("After");
-            for (int i = 0; i < matrix.Length; i++)
-            {
-                for (int j = 0; j < matrix[i].Length; j++)
-                {
-                    Console.Write(matrix[i][j] + "  ");
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine(); Console.WriteLine();
+
+            //Console.WriteLine("After");
+            //for (int i = 0; i < matrix.Length; i++)
+            //{
+            //    for (int j = 0; j < matrix[i].Length; j++)
+            //    {
+            //        Console.Write(matrix[i][j] + "  ");
+            //    }
+            //    Console.WriteLine();
+            //}
+            //Console.WriteLine(); Console.WriteLine();
+
+
             return matrix;
         }
         #endregion
@@ -172,3 +198,31 @@ namespace Utility
     //    return matrix;
     //}
 }
+
+
+
+
+
+
+
+
+//foreach (var a in triangularMatrix)
+//{
+//    foreach (var b in a)
+//        Console.Write(b + " ");
+//    Console.WriteLine();
+//}
+
+
+
+
+//RationalNumber[] lastRow = new RationalNumber[triangularMatrix[0].Length];
+//for (int i = 0; i < lastRow.Length; i++) lastRow[i] = triangularMatrix[triangularMatrix.Length - 1][i];
+//RationalNumber[] nullVector = new RationalNumber[lastRow.Length];
+//for (int i = 0; i < nullVector.Length; i++) nullVector[i] = 0;
+//for (int i = 0; i < lastRow.Length; i++)
+//{
+//    if (lastRow[i] != nullVector[i])
+//        return true;
+//}
+//return false;
