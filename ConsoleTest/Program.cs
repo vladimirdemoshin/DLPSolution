@@ -16,6 +16,13 @@ namespace ConsoleTest
     {
         static void Main(string[] args)
         {
+            //var P = 7;
+            //for (BigInteger i = 1; i <= P - 1; i++)
+            //    Console.WriteLine("{0}/{1} = {2}", i, P, BigIntegerExtension.JacobiSymbol(i,P));
+
+            
+
+
             //var p = 37;
             //var order = p - 1;
             //var dB = 3;
@@ -36,8 +43,9 @@ namespace ConsoleTest
 
 
 
-            var answer = IndexCalculus.SolveDLP(2, 13, 37);
+            var answer = IndexCalculus.SolveDLP(2, 11, 37);
             Console.WriteLine(answer);
+
             //var list = new List<BigInteger>();
             //for (int i = 1; i < 36; i++)
             //    list.Add(BigInteger.ModPow(2, i, 37));

@@ -54,7 +54,24 @@ namespace EllipticCurveUtility
 
         #endregion
 
+        #region Static Methods
+        
+
+        #endregion
+
+
         #region Methods
+        public bool IsOnCurve(AffinePoint P)
+        {
+            var x = P.X;
+            var t = (x * (x * x + A) + B).ModPositive(this.P);
+            if(BigIntegerExtension.JacobiSymbol(t,this.P) == -1) return false;
+            return true;
+        }
+        public AffinePoint GetInfiniteAffinePoint()
+        {
+            return new AffinePoint(0, 1, 0, this);
+        }
         //неособая кривая если характеристика отлична от 2 и 3 и выполняется условие для a и b
         public bool IsNotSpecial()
         {
@@ -67,16 +84,20 @@ namespace EllipticCurveUtility
         }
         public AffinePoint GetRandomAffinePoint()
         {
-            var rand = new BigIntegerRandom();
+            BigIntegerRandom rand = new BigIntegerRandom();
+            var start = rand.Next(0, P);
+            var x = start;
             BigInteger t;
-            while (true)
+            do
             {
-                var x = rand.Next(0, P - 1);
                 t = (x * (x * x + A) + B).ModPositive(P);
-                if (BigIntegerExtension.JacobiSymbol(t, P) == -1)
-                    continue;
-                return new AffinePoint(x, BigIntegerExtension.Sqrt(t).ModPositive(P), this);
+                if (BigIntegerExtension.JacobiSymbol(t, P) != -1)
+                    return new AffinePoint(x, BigIntegerExtension.Sqrt(t).ModPositive(P), this);
+                if (x > P - 1) x = -1;
+                x++;
             }
+            while (x != start);
+            return GetInfiniteAffinePoint();
         }
         public object Clone()
         {

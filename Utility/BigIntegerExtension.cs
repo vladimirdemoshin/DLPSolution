@@ -8,7 +8,7 @@ using System.Numerics;
 using System.Threading;
 using System.Collections;
 using System.IO;
-using System.Linq;
+
 
 namespace Utility
 {
@@ -113,21 +113,6 @@ namespace Utility
             return FileUtility.GetFactorBaseFromFile(factorBaseSize).ToArray();
         }
 
-        //private static IEnumerable<BigInteger> SieveOfEratosthenes(int n)
-        //{
-        //    bool[] prime = new bool[n + 1];
-        //    int i = 0, j = 0;
-        //    for (i = 0; i < n + 1; i++) prime[i] = true;
-        //    prime[0] = prime[1] = false;
-        //    for (i = 2; i * i <= n; ++i)
-        //        if (prime[i])
-        //            for (j = i * i; j <= n; j += i)
-        //                prime[j] = false;
-        //    var result = new List<BigInteger>();
-        //    for (i = 2; i < n + 1; i++) if (prime[i]) result.Add(i);
-        //    return result;
-        //}
-
         //разобраться в этой функции
         public static BigInteger Sqrt(BigInteger N)
         {
@@ -160,9 +145,9 @@ namespace Utility
         {
             a = a % m;
             var t = 1;
-            while(a!=0)
+            while (a != 0)
             {
-                while(a%2 == 0)
+                while (a % 2 == 0)
                 {
                     a = a / 2;
                     var tmp = m % 8;
@@ -178,16 +163,32 @@ namespace Utility
             if (m == 1) return t;
             return 0;
         }
-
-        //понять что делать в случаях, когда нод(num, mod) != 1
-        //public static BigInteger ModInverse(this BigInteger num, BigInteger mod)
-        //{
-        //    BigInteger gcd = BigInteger.GreatestCommonDivisor(num, mod);
-        //    BigInteger x, y;
-        //    BigInteger d = ExtendedGcd(num / gcd, mod / gcd, out x, out y);
-        //    x = x / gcd;
-        //    if (x < 0) return x + mod;   //вот тут не помню, надо уточнить
-        //    return x;
-        //}
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+ //public static void Shuffle(ref BigInteger[] array)
+ //       {
+ //           FisherYatesShuffle(ref array);
+ //       }
+ //       private static void FisherYatesShuffle(ref BigInteger[] array)
+ //       {
+ //           Random rand = new Random();
+ //           for(int i = array.Length - 1; i >= 1; i--)
+ //           {
+ //               int j = rand.Next(i + 1);
+ //               var temp = array[j];
+ //               array[j] = array[i];
+ //               array[i] = temp;
+ //           }
+ //       }
