@@ -25,9 +25,12 @@ namespace Utility
         public static BigInteger[] SolveSystemOfLinearEquatations(BigInteger order, BigInteger[][] coefficients, BigInteger[] constantTerms)
         {
             var augmentedMatrix = ToAugmentedMatrix(coefficients, constantTerms);
-            var convertedAugmentedMatrix = Converter.ToTwoDimensionalModRationalNumberArray(augmentedMatrix);
+            var convertedAugmentedMatrix = Converter.ToTwoDimensionalModRationalNumberArray(augmentedMatrix, order);
             convertedAugmentedMatrix = ToTriangularForm(convertedAugmentedMatrix);
-            return null;
+            convertedAugmentedMatrix = DeleteNullLines(convertedAugmentedMatrix);
+            //if (convertedAugmentedMatrix.Length != factorBase.Length) return null;
+            var solution = SolveTriangularSystemOfLinearEquatations(convertedAugmentedMatrix);
+            return solution;
 
             //var X = new List<RationalNumber>();
             //int n = matrix.Length;
@@ -67,6 +70,48 @@ namespace Utility
             //return BigIntegerExtension.ToBigIntegerArray(X.ToArray(), order);
         }
 
+        public static BigInteger[] SolveTriangularSystemOfLinearEquatations(ModRationalNumber[][] matrix)
+        {
+            var solution = new List<BigInteger>();
+            int n = matrix.Length;
+            int m = matrix[0].Length;
+            for (int i = n - 1; i >= 0; i--)
+            {
+                var constantTerm = matrix[i][m - 1];
+                var coefficient = matrix[i][i];
+                var a = coefficient.Numerator * constantTerm.Denominator;
+                var b = coefficient.Denominator * constantTerm.Numerator;
+                var mod = coefficient.Mod;
+                var x = SolveLinearEquatation(a.ModPositive(mod), b.ModPositive(mod), mod);
+                solution.Add(x);
+                for (int k = i - 1; k >= 0; k--)
+                    matrix[k][m - 1] = matrix[k][m - 1] - matrix[k][i] * solution[n - 1 - i];
+            }
+            solution.Reverse();
+            return solution.ToArray();
+        }
+
+        //a*x = b (mod mod)
+        public static BigInteger SolveLinearEquatation(BigInteger a, BigInteger b, BigInteger mod)
+        {
+            var gcd = BigInteger.GreatestCommonDivisor(a, mod);
+            if (gcd == 1)
+                return (b * a.ModInverse(mod)).ModPositive(mod);
+            else
+            {
+                BigInteger u,v;
+                BigIntegerExtension.ExtendedGcd(a, mod, out u, out v);
+                var reducedMOD = mod / gcd;
+                var x0 = (b / gcd).ModInverse(reducedMOD);
+                for (BigInteger j = 0; j < gcd; j++)
+                {
+                    var x = x0 + j * reducedMOD;
+                    if ((a * x).ModPositive(mod) == b.ModPositive(mod))
+                        return x;
+                }
+            }
+            return -1;
+        }
 
         public static BigInteger[][] ToAugmentedMatrix(BigInteger[][] coefficients, BigInteger[] constantTerms)
         {
@@ -78,12 +123,35 @@ namespace Utility
 
         public static ModRationalNumber[][] ToTriangularForm(ModRationalNumber[][] matrix)
         {
+            Console.WriteLine("Before");
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    Console.Write(matrix[i][j] + "  ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(); Console.WriteLine();
+
             int n = matrix.Length; //count of linear equatations
             int m = matrix[0].Length; // count of variables
             int currentColumn = 0;
             int currentRow = 0;
             while (currentColumn < m && currentRow < n)
             {
+
+                Console.WriteLine("Step");
+                for (int i = 0; i < matrix.Length; i++)
+                {
+                    for (int j = 0; j < matrix[i].Length; j++)
+                    {
+                        Console.Write(matrix[i][j] + "  ");
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine(); Console.WriteLine();
+
                 //step 1
                 int leadingRow = -1;
                 ModRationalNumber leadingElement = 1;
@@ -144,7 +212,29 @@ namespace Utility
             return matrix;
         }
 
-       
+        
+       public static ModRationalNumber[][] DeleteNullLines(ModRationalNumber[][] convertedAugmentedMatrix)
+       {
+           var listNotNullLineIndexes = new List<int>();
+           int lineIndex = 0;
+           foreach(var line in convertedAugmentedMatrix)
+           {
+               bool isNullLine = true;
+               foreach(var column in line)
+                   if(column != 0)
+                   {
+                       isNullLine = false;
+                       break;
+                   }
+               if(!isNullLine) listNotNullLineIndexes.Add(lineIndex);
+               lineIndex++;
+           }
+           var array = new ModRationalNumber[listNotNullLineIndexes.Count][];
+           int i = 0;
+           foreach(var index in listNotNullLineIndexes)
+               array[i++] = convertedAugmentedMatrix[index];
+           return array;
+       }
 
 
         //public static BigInteger[][] ToTriangularForm(BigInteger[][] matrix, BigInteger order)

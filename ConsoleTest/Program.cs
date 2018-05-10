@@ -43,7 +43,10 @@ namespace ConsoleTest
 
 
 
-            var answer = IndexCalculus.SolveDLP(2, 11, 37);
+            //var answer = IndexCalculus.SolveDLP(5, 5872, 14087);
+
+            var answer = IndexCalculus.SolveDLP(2, 13, 37);
+
             Console.WriteLine(answer);
 
             //var list = new List<BigInteger>();

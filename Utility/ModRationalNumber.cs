@@ -29,7 +29,10 @@ namespace Utility
             get { return numerator; }
             set 
             {
-                numerator = value.ModPositive(Mod);
+                var temp = value.ModPositive(mod);
+                if (temp == 0)
+                    Denominator = 1;
+                numerator = temp;
             }
         }
         public BigInteger Denominator
@@ -37,8 +40,9 @@ namespace Utility
             get { return denominator; }
             set
             {
-                if (value == 0) denominator = 1;
-                else denominator = value.ModPositive(Mod);
+                var temp = value.ModPositive(mod);
+                if (temp == 0) denominator = 1;
+                else denominator = temp;
             }
         }
         #endregion
@@ -46,25 +50,27 @@ namespace Utility
         #region Constructors
         public ModRationalNumber()
         {
-            Numerator = 1;
-            Denominator = 1;
             Mod = 2;
+            Denominator = 1;
+            Numerator = 1;
         }
         public ModRationalNumber(BigInteger numerator)
         {
-            Numerator = numerator;
-            Denominator = 1;
             Mod = 2;
+            Denominator = 1;
+            Numerator = numerator;
         }
         public ModRationalNumber(BigInteger numerator, BigInteger denominator)
         {
-            Numerator = numerator;
-            Denominator = denominator;
             Mod = 2;
+            Denominator = denominator;
+            Numerator = numerator;
         }
-        public ModRationalNumber(BigInteger numerator, BigInteger denominator, BigInteger mod) : this(numerator, denominator)
+        public ModRationalNumber(BigInteger numerator, BigInteger denominator, BigInteger mod)
         {
             Mod = mod;
+            Denominator = denominator;
+            Numerator = numerator;
         }
         #endregion
 
@@ -108,7 +114,7 @@ namespace Utility
         }
         public static bool operator !=(ModRationalNumber a, ModRationalNumber b)
         {
-            return !(a==b);
+            return !(a == b);
         }
         //public static bool operator >(RationalNumber a, RationalNumber b)
         //{

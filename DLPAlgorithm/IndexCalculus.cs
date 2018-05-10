@@ -20,7 +20,7 @@ namespace DLPAlgorithm
         static IndexCalculus()
         {
             Accuracy = 10;
-            FactorBaseSize = 3;
+            FactorBaseSize = 4;
         }
         #endregion
 
@@ -32,10 +32,10 @@ namespace DLPAlgorithm
             var coefficients = new List<List<BigInteger>>();
             var constantTerms = new List<BigInteger>();
             FirstStep(g, h, p, order, factorBase, ref coefficients, ref constantTerms);
-            var temp = new 
-            foreach(var )
-            SecondStep(order, coefficients, constantTerms);
-            
+            var factorBaseLogs = SecondStep(order, Converter.ToTwoDimensionalBigIntegerArray(coefficients), constantTerms.ToArray());
+            foreach (var a in factorBaseLogs)
+                Console.WriteLine(a);
+
 
             int j = 0;
             foreach (var a in coefficients)
@@ -96,9 +96,9 @@ namespace DLPAlgorithm
         
         
 
-        public static void SecondStep(BigInteger order, BigInteger[][] coefficients, BigInteger[] constantTerms)
+        public static BigInteger[] SecondStep(BigInteger order, BigInteger[][] coefficients, BigInteger[] constantTerms)
         {
-            var factorBaseLogs = GaussianElimination.SolveSystemOfLinearEquatations(order, coefficients, constantTerms);
+            return GaussianElimination.SolveSystemOfLinearEquatations(order, coefficients, constantTerms);
         }
         
         #endregion

@@ -10,18 +10,32 @@ namespace Utility
 {
     public static class Converter
     {
-        public static ModRationalNumber[] ToModRationalNumberArray(BigInteger[] arr)
+        public static BigInteger[][] ToTwoDimensionalBigIntegerArray(List<List<BigInteger>> list)
+        {
+            var array = new BigInteger[list.Count][];
+            int i = 0, j;
+            foreach(var l in list)
+            {
+                array[i] = new BigInteger[l.Count];
+                j = 0;
+                foreach (var n in l)
+                    array[i][j++] = n;
+                i++;
+            }
+            return array;
+        }
+        public static ModRationalNumber[] ToModRationalNumberArray(BigInteger[] arr, BigInteger mod)
         {
             ModRationalNumber[] array = new ModRationalNumber[arr.Length];
             for (int i = 0; i < arr.Length; i++)
-                array[i] = new ModRationalNumber(arr[i]);
+                array[i] = new ModRationalNumber(arr[i],1,mod);
             return array;
         }
-        public static ModRationalNumber[][] ToTwoDimensionalModRationalNumberArray(BigInteger[][] arr)
+        public static ModRationalNumber[][] ToTwoDimensionalModRationalNumberArray(BigInteger[][] arr, BigInteger mod)
         {
             ModRationalNumber[][] array = new ModRationalNumber[arr.Length][];
             for (int i = 0; i < arr.Length; i++)
-                array[i] = Converter.ToModRationalNumberArray(arr[i]);
+                array[i] = Converter.ToModRationalNumberArray(arr[i], mod);
             return array;
         }
 
