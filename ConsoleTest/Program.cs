@@ -20,8 +20,38 @@ namespace ConsoleTest
             //for (BigInteger i = 1; i <= P - 1; i++)
             //    Console.WriteLine("{0}/{1} = {2}", i, P, BigIntegerExtension.JacobiSymbol(i,P));
 
-            
 
+            //for(BigInteger i = 1; i<36;i++)
+            //{
+            //    BigInteger g = 5;
+            //    BigInteger h = 5872;
+            //    BigInteger p = 14087;
+            //    var x = IndexCalculus.SolveDLP(g, h, p);
+            //   // Console.WriteLine(x);
+            //    BigInteger probableH = BigInteger.ModPow(g, x, p);
+            //    var status = "solved";
+            //    if (probableH == -1 || h != probableH) status = "failed";
+            //    Console.WriteLine(status);
+            //}
+
+            BigInteger g = 3;
+            BigInteger h = 6;
+            BigInteger p = 17;
+            var x = IndexCalculus.SolveDLP(g, h, p);
+            Console.WriteLine("log = " + x);
+            Console.WriteLine(h);
+            Console.WriteLine(BigInteger.ModPow(g,x,p));
+
+            //BigInteger probableH = -1;
+            //if (x != -1) probableH = BigInteger.ModPow(g, x, p);
+            //var status = "solved";
+            //if (probableH == -1 || h != probableH) status = "failed";
+            //Console.WriteLine(status);
+
+            //for (int i = 0; i < factorBaseLogs.Length; i++)
+            //{
+            //    Console.WriteLine("{0} == {1} mod {2}", factorBase[i], BigInteger.ModPow(g, factorBaseLogs[i], p), p);
+            //}
 
             //var p = 37;
             //var order = p - 1;
@@ -40,14 +70,19 @@ namespace ConsoleTest
             //        Console.WriteLine(x);
             //}
 
+            //BigInteger logSeven = 1;
+            //for (int i = 1; i <= 14086; i++)
+            //    if (BigInteger.ModPow(5, i, 14087) == 7)
+            //        logSeven = i;
+            //Console.WriteLine(logSeven);
 
+            //    Console.WriteLine(BigInteger.ModPow(5, 13236, 14087));
 
+            
+            //var answer = IndexCalculus.SolveDLP(2, 13, 37);
 
-            //var answer = IndexCalculus.SolveDLP(5, 5872, 14087);
-
-            var answer = IndexCalculus.SolveDLP(2, 13, 37);
-
-            Console.WriteLine(answer);
+            //Console.WriteLine(5872);
+            //Console.WriteLine(BigInteger.ModPow(5,answer,14087));
 
             //var list = new List<BigInteger>();
             //for (int i = 1; i < 36; i++)
@@ -172,6 +207,17 @@ namespace ConsoleTest
             //AffinePoint Q = new AffinePoint(608, 427, curve);
             //var res = 27 * P;
             //Console.WriteLine(P + Q);
+
+
+            //for (int i = 0; i < coefficients.Count; i++)
+            //{
+            //    BigInteger temp = 1;
+            //    for (int j = 0; j < coefficients[i].Count; j++)
+            //    {
+            //        temp *= BigInteger.ModPow(factorBase[j], coefficients[i][j], p);
+            //    }
+            //    Console.WriteLine("{0} == {1}", temp.ModPositive(p), BigInteger.ModPow(g, constantTerms[i], p));
+            //}
             
         }
     }

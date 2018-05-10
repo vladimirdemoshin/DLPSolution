@@ -45,6 +45,7 @@
     <Compile Include="BigIntegerRandom.cs" />
     <Compile Include="CommonAlgorithms.cs" />
     <Compile Include="Converter.cs" />
+    <Compile Include="DLPInput.cs" />
     <Compile Include="Factorization.cs" />
     <Compile Include="FileUtility.cs" />
     <Compile Include="GaussianElimination.cs" />
