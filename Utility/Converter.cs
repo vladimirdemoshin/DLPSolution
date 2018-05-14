@@ -63,5 +63,18 @@ namespace Utility
                 array[i] = arr[i].ToModBigInteger(MOD);
             return array;
         }
+
+        public static string ToString(BigInteger[] array)
+        {
+            var temp = new StringBuilder("");
+            var divider = " ";
+            foreach (var item in array)
+            {
+                temp.Append(item.ToString());
+                temp.Append(divider);
+            }
+            temp.Remove(temp.Length - 1, 1);
+            return temp.ToString();
+        }
     }
 }

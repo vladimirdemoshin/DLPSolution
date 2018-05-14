@@ -14,6 +14,7 @@ namespace DLPAlgorithm
         public static BigInteger SolveDLP(BigInteger g, BigInteger h, BigInteger p)
         {
             if (g == h) return 1;
+            if (h == 1) return 0;
             var order = p - 1; // order = EulerFunc(p) == p - 1 if p - prime
             BigInteger a1, b1, a2, b2;
             FloydCycleFindingAlgorithm(out a1, out b1, out a2, out b2, g, h, p);

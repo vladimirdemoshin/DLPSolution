@@ -14,74 +14,19 @@ namespace Utility
 {
     public static class BigIntegerExtension
     {
-        public static RationalNumber[] ToRationalNumberArray(BigInteger[] arr)
-        {
-            RationalNumber[] array = new RationalNumber[arr.Length];
-            for (int i = 0; i < arr.Length; i++)
-                array[i] = new RationalNumber(arr[i]);
-            return array;
-        }
-
-        public static RationalNumber[][] ToTwoDimensionalRationalNumberArray(BigInteger[][] arr)
-        {
-            RationalNumber[][] array = new RationalNumber[arr.Length][];
-            for (int i = 0; i < arr.Length; i++)
-                array[i] = BigIntegerExtension.ToRationalNumberArray(arr[i]);
-            return array;
-        }
-
-        public static BigInteger[] ToBigIntegerArray(RationalNumber[] arr, BigInteger MOD)
-        {
-            BigInteger[] array = new BigInteger[arr.Length];
-            for (int i = 0; i < arr.Length; i++)
-                array[i] = arr[i].ToModBigInteger(MOD);
-            return array;
-        }
-       
-        //a * x = b (mod MOD) , returns x
-        public static BigInteger SolveModLinearEquatation(BigInteger a, BigInteger b, BigInteger order, BigInteger g, BigInteger h, BigInteger p)
-        {
-            var gcd = BigInteger.GreatestCommonDivisor(a, order);
-            var reducedOrder = order / gcd;
-            var x0 = (a / gcd).ModInverse(reducedOrder);
-            x0 = x0 * (b / gcd);
-            x0 = x0.ModPositive(reducedOrder);
-            for (BigInteger m = 0; m < gcd; m++)
-            {
-                var x = x0 + m * reducedOrder;
-                if (BigInteger.ModPow(g, x, p) == h)
-                    return x;
-            }
-            return -1;
-        }
-
-        /// <summary>
-        /// Find inverse element for num modulus mod. Condition to work properly: gcd(num, mod) == 1 
-        /// </summary>
-        /// <param name="num"></param>
-        /// <param name="mod"></param>
-        /// <returns></returns>
         public static BigInteger ModInverse(this BigInteger num, BigInteger mod)
         {
             BigInteger x, y;
-            BigInteger gcd = num.ExtendedGcd(mod, out x, out y);
-            if (x < 0) return x + mod;
+            num.ExtendedGcd(mod, out x, out y);
+            while (x < 0) x += mod;
             return x;
         }
 
-        /// <summary>
-        /// num*x+mod*y=НОД(num,mod)
-        /// </summary>
-        /// <param name="num"></param>
-        /// <param name="mod"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public static BigInteger ExtendedGcd(this BigInteger num, BigInteger mod, out BigInteger x, out BigInteger y) // 
+        public static BigInteger ExtendedGcd(this BigInteger num, BigInteger mod, out BigInteger x, out BigInteger y)
         {
             if (num == 0) { x = 0; y = 1; return mod; }
             BigInteger x1, y1;
-            BigInteger d = ExtendedGcd(mod % num, num, out x1, out y1);
+            var d = ExtendedGcd(mod % num, num, out x1, out y1);
             x = y1 - (mod / num) * x1;
             y = x1;
             return d;
@@ -94,23 +39,120 @@ namespace Utility
             return num;
         }
 
-        //i - ая степень двойки - i индекс бита в массиве
-        public static BitArray GetBitArray(this BigInteger num)
-        {
-            if (num == 0) return new BitArray(new bool[]{false});
-            if (num < 0) num = -num;
-            var bits = new List<bool>();
-            while(num!=0)
-            {
-                bits.Add(num%2!=0);
-                num /= 2;
-            }
-            return new BitArray(bits.ToArray<bool>());
-        }
-
         public static BigInteger[] GetFactorBase(int factorBaseSize)
         {
             return FileUtility.GetFactorBaseFromFile(factorBaseSize).ToArray();
+        }
+
+        ////переборная функция, просто для тестирования
+        //public static BigInteger PrimitiveRoot(BigInteger p)
+        //{
+        //    var order = p-1;
+        //    for(BigInteger g = 2; g < p; g++)
+        //    {
+        //        if(BigInteger.ModPow(g, order, p) == 1)
+        //        {
+        //            bool flag = true;
+        //            for (BigInteger j = 1; j < order; j++)
+        //                if (BigInteger.ModPow(g, j, p) == 1)
+        //                {
+        //                    flag = false;
+        //                    break;
+        //                }
+        //            if (flag)
+        //                return g;
+        //        }               
+        //    }
+        //    return -1;
+        //}
+
+        public static BigInteger PrimitiveRoot(BigInteger p)
+        {
+            List<int> fact = new List<int>();
+            BigInteger phi = p - 1, n = phi;
+            for (int i = 2; i * i <= n; i++)
+                if (n % i == 0)
+                {
+                    fact.Add(i);
+                    while (n % i == 0) n /= i;
+                }
+            if (n > 1) fact.Add((int)n);
+            for (BigInteger res = 2; res <= p; res++)
+            {
+                bool ok = true;
+                for (int i = 0; i < fact.Count && ok; i++) ok &= powMod(res, phi / fact[i], p) != 1;
+                if (ok) return res;
+            }
+            return -1;
+        }
+
+        ////Function to find smallest primitive root of n
+        //public static BigInteger PrimitiveRoot(BigInteger p)
+        //{
+        //    var order = p - 1;
+        //    var primeFactors = GetPrimeFactors(order);
+        //    for (int g = 2; g < p; g++)
+        //    {
+        //        bool flag = false;
+        //        foreach (var prime in primeFactors)
+        //        {
+        //            if (BigInteger.ModPow(g, order / prime, p) == 1)
+        //            {
+        //                flag = true;
+        //                break;
+        //            }
+        //        }
+        //        if (flag == false)
+        //            return g;
+        //    }
+        //    return -1;
+        //}
+
+        public static BigInteger[] GetPrimitiveRoots(BigInteger[] primeNumbers)
+        {
+            var primitiveRoots = new List<BigInteger>();
+            foreach (var prime in primeNumbers)
+                primitiveRoots.Add(PrimitiveRoot(prime));
+            return primitiveRoots.ToArray<BigInteger>();
+        }
+
+        public static List<BigInteger> GetPrimeFactors(BigInteger p)
+        {
+            var list = new List<BigInteger>();
+            if(p%2==0)
+            {
+                list.Add(2);
+                while (p % 2 == 0)
+                    p = p / 2;
+            }
+            for (int i = 3; i <= BigIntegerExtension.Sqrt(p)+1; i = i + 2)
+            {
+                if (p % i == 0)
+                {
+                    list.Add(i);
+                    while(p%i == 0)
+                    {
+                        p = p / i;
+
+                    }
+                    
+                }
+            }
+            if (p > 2) list.Add(p);
+            return list;
+        }
+
+       
+
+        private static BigInteger powMod(BigInteger a, BigInteger b, BigInteger mod)
+        {
+            BigInteger res = 1;
+            while (b != 0)
+            {
+                if ((b & 1) == 1) { res = res * a % mod; b--; }
+                else { a = a * a % mod; b = b >> 1; }
+            }
+            return res;
         }
 
         //разобраться в этой функции
@@ -163,8 +205,37 @@ namespace Utility
             if (m == 1) return t;
             return 0;
         }
+
+        //i - ая степень двойки - i индекс бита в массиве
+        public static BitArray GetBitArray(this BigInteger num)
+        {
+            if (num == 0) return new BitArray(new bool[] { false });
+            if (num < 0) num = -num;
+            var bits = new List<bool>();
+            while (num != 0)
+            {
+                bits.Add(num % 2 != 0);
+                num /= 2;
+            }
+            return new BitArray(bits.ToArray<bool>());
+        }
+
+
+        public static BigInteger FindElementOrder(BigInteger g, BigInteger p)
+        {
+            BigInteger count = 0;
+            for (int i = 1; i < p; i++)
+            {
+                count++;
+                if (BigInteger.ModPow(g, i, p) == 1)
+                    return count;
+            }
+            return 0;
+        }
     }
 }
+
+
 
 
 
