@@ -66,6 +66,8 @@ namespace Utility
 
         public static string ToString(BigInteger[] array)
         {
+            if (array == null || array.Length == 0)
+                return "";
             var temp = new StringBuilder("");
             var divider = " ";
             foreach (var item in array)

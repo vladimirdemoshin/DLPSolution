@@ -19,6 +19,7 @@ namespace Utility
 
         public static bool MillerRabinTest(BigInteger n)
         {
+            if (n == 1) return false;
             BigInteger d = n - 1;
             BigInteger s = 0;
             while ((d & 1) == 0)

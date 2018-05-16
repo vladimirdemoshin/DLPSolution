@@ -20,27 +20,76 @@ namespace ConsoleTest
         //public static string primesPath = @"..\..\..\FileUtility\PrimeNumbers.txt";
         static void Main(string[] args)
         {
-            var primeNumbers = FileUtility.ReadArrayFromFile(primesPath).Skip(2).ToArray<BigInteger>();
+            //var primeNumbers = FileUtility.ReadArrayFromFile(primesPath).Skip(2).ToArray<BigInteger>();
 
-            var primitiveRoots = BigIntegerExtension.GetPrimitiveRoots(primeNumbers).ToArray<BigInteger>();
+            //var primitiveRoots = BigIntegerExtension.GetPrimitiveRoots(primeNumbers).ToArray<BigInteger>();
 
-            BigIntegerRandom rand = new BigIntegerRandom();
-            for (int i = 0; i < primeNumbers.Length; i++)
-            {
-                var p = primeNumbers[i];
-                var g = primitiveRoots[i];
-                var log = rand.Next(0, p);
-                var h = BigInteger.ModPow(g, log, p);
-                //Console.WriteLine("{0} = random log, {1} = {2}^{0} mod {3}", log, BigInteger.ModPow(g, log, p), g, p);
-                var x = DLPAlgorithm.RhoPollard.SolveDLP(g, h, p);
-                if (log != x) Console.WriteLine(g + " " + p);
-                Console.WriteLine("Discrete logarithm x = {0}", x);
-               Console.WriteLine();
-                Thread.Sleep(1000);
-            }
+            //BigIntegerRandom rand = new BigIntegerRandom();
+            //for (int i = 0; i < primeNumbers.Length; i++)
+            //{
+            //    var p = primeNumbers[i];
+            //    var g = primitiveRoots[i];
+            //    var log = rand.Next(0, p);
+            //    var h = BigInteger.ModPow(g, log, p);
+            //    //Console.WriteLine("{0} = random log, {1} = {2}^{0} mod {3}", log, BigInteger.ModPow(g, log, p), g, p);
+            //    var x = DLPAlgorithm.RhoPollard.SolveDLP(g, h, p);
+            //    if (log != x) Console.WriteLine(g + " " + p);
+            //    Console.WriteLine("Discrete logarithm x = {0}", x);
+            //   Console.WriteLine();
+            //    Thread.Sleep(1000);
+            //}
+
            
-         
+         //   BigIntegerRandom rand = new BigIntegerRandom();
+         //   var p = BigInteger.Parse("72057594037928017");
+         //   var g = BigIntegerExtension.PrimitiveRoot(p);
+         //   var log = rand.Next(0, p);
+         //   var h = BigInteger.ModPow(g, log, p);
+         //   Console.WriteLine("{0} = random log, {1} = {2}^{0} mod {3}", log, BigInteger.ModPow(g, log, p), g, p);
+         //   var startTime = System.Diagnostics.Stopwatch.StartNew();
+         //   var x = DLPAlgorithm.IndexCalculus.SolveDLP(g, h, p);
+         //   startTime.Stop();
+         //   var resultTime = startTime.Elapsed;
 
+         //   // elapsedTime - строка, которая будет содержать значение затраченного времени
+         //   string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:000}",
+         //       resultTime.Hours,
+         //       resultTime.Minutes,
+         //       resultTime.Seconds,
+         //       resultTime.Milliseconds);
+         //  // if (log != x) Console.WriteLine(g + " " + p);
+         //   Console.WriteLine("Discrete logarithm x = {0}", x);
+         //   Console.WriteLine();
+         ////   Thread.Sleep(1000);
+
+            int start = 8;
+            int finish = 400;
+            int count = 10;
+
+            Test.GeneratePrimesInFiles(start, finish, count);
+
+            for(int i=start;i<=finish;i++)
+            {
+                BigInteger[] primes = FileUtility.ReadArrayFromFile(String.Format(@"..\..\..\TestUtility\primes{0}bits.txt", i));
+                var generators = BigIntegerExtension.GetPrimitiveRoots(primes);
+                FileUtility.WriteArrayInFile(String.Format(@"..\..\..\TestUtility\generators{0}bits.txt", i), generators);
+            }
+
+            
+
+
+            //BigIntegerRandom rand = new BigIntegerRandom();
+            //BigInteger p = BigInteger.Parse("179424691");
+            //BigInteger g = BigIntegerExtension.PrimitiveRoot(p);
+            //var log = rand.Next(0, p);
+            //var h = BigInteger.ModPow(g, log, p);
+            ////Console.WriteLine("{0} = random log, {1} = {2}^{0} mod {3}", log, BigInteger.ModPow(g, log, p), g, p);
+            //var x = DLPAlgorithm.RhoPollard.SolveDLP(g, h, p);
+            //if (log != x) Console.WriteLine(g + " " + p);
+            //Console.WriteLine("Discrete logarithm x = {0}", x);
+            //Console.WriteLine();
+            //Thread.Sleep(1000);
+            
             
 
             //int i = 0;
