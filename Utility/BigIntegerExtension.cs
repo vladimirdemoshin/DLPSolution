@@ -66,49 +66,47 @@ namespace Utility
         //    return -1;
         //}
 
-        public static BigInteger PrimitiveRoot(BigInteger p)
-        {
-            List<int> fact = new List<int>();
-            BigInteger phi = p - 1, n = phi;
-            for (int i = 2; i * i <= n; i++)
-                if (n % i == 0)
-                {
-                    fact.Add(i);
-                    while (n % i == 0) n /= i;
-                    if (i % 200 == 0)
-                        Console.WriteLine(i + " , i * i = "+ i*i + " "+n );
-                }
-            if (n > 1) fact.Add((int)n);
-            for (BigInteger res = 2; res <= p; res++)
-            {
-                bool ok = true;
-                for (int i = 0; i < fact.Count && ok; i++) ok &= powMod(res, phi / fact[i], p) != 1;
-                if (ok) return res;
-            }
-            return -1;
-        }
-
-        ////Function to find smallest primitive root of n
         //public static BigInteger PrimitiveRoot(BigInteger p)
         //{
-        //    var order = p - 1;
-        //    var primeFactors = GetPrimeFactors(order);
-        //    for (int g = 2; g < p; g++)
-        //    {
-        //        bool flag = false;
-        //        foreach (var prime in primeFactors)
+        //    List<int> fact = new List<int>();
+        //    BigInteger phi = p - 1, n = phi;
+        //    for (int i = 2; i * i <= n; i++)
+        //        if (n % i == 0)
         //        {
-        //            if (BigInteger.ModPow(g, order / prime, p) == 1)
-        //            {
-        //                flag = true;
-        //                break;
-        //            }
+        //            fact.Add(i);
+        //            while (n % i == 0) n /= i;
         //        }
-        //        if (flag == false)
-        //            return g;
+        //    if (n > 1) fact.Add((int)n);
+        //    for (BigInteger res = 2; res <= p; res++)
+        //    {
+        //        bool ok = true;
+        //        for (int i = 0; i < fact.Count && ok; i++) ok &= powMod(res, phi / fact[i], p) != 1;
+        //        if (ok) return res;
         //    }
         //    return -1;
         //}
+
+        //Function to find smallest primitive root of n
+        public static BigInteger PrimitiveRoot(BigInteger p)
+        {
+            var order = p - 1;
+            var primeFactors = GetPrimeFactors(order);
+            for (int g = 2; g < p; g++)
+            {
+                bool flag = false;
+                foreach (var prime in primeFactors)
+                {
+                    if (BigInteger.ModPow(g, order / prime, p) == 1)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag == false)
+                    return g;
+            }
+            return -1;
+        }
 
         public static BigInteger[] GetPrimitiveRoots(BigInteger[] primeNumbers)
         {
