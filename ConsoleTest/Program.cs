@@ -63,17 +63,39 @@ namespace ConsoleTest
          ////   Thread.Sleep(1000);
 
             int start = 8;
-            int finish = 400;
+            int finish = 800;
             int count = 10;
 
-            Test.GeneratePrimesInFiles(start, finish, count);
+            //Test.GeneratePrimesInFiles(start, finish, count);
+            Test.GenerateGeneratorsInFiles(start, finish);
 
-            for(int i=start;i<=finish;i++)
-            {
-                BigInteger[] primes = FileUtility.ReadArrayFromFile(String.Format(@"..\..\..\TestUtility\primes{0}bits.txt", i));
-                var generators = BigIntegerExtension.GetPrimitiveRoots(primes);
-                FileUtility.WriteArrayInFile(String.Format(@"..\..\..\TestUtility\generators{0}bits.txt", i), generators);
-            }
+            //BigIntegerExtension.ListOfArraysOfPrimitiveRoots = new List<BigInteger[]>();
+            //List<Task> taskList = new List<Task>();
+            //for (int i = start; i <= finish; i++)
+            //{
+            //    BigInteger[] primes = FileUtility.ReadArrayFromFile(String.Format(@"..\..\..\TestUtility\primes{0}bits.txt", i));
+            //    taskList.Add(new Task(() => BigIntegerExtension.GetPrimitiveRoots(primes)));
+
+            //    //var startTime = System.Diagnostics.Stopwatch.StartNew();
+            //   // var generators = BigIntegerExtension.GetPrimitiveRoots(primes);
+            //   // var resultTime = startTime.Elapsed;
+            //    //string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:000}",
+            //    //    resultTime.Hours,
+            //    //    resultTime.Minutes,
+            //    //    resultTime.Seconds,
+            //    //    resultTime.Milliseconds);
+            //    //FileUtility.WriteArrayInFile(String.Format(@"..\..\..\TestUtility\generators{0}bits.txt", i), generators);
+            //    //FileUtility.WriteStringInFile(String.Format(@"..\..\..\TestUtility\generatorsTime{0}bits.txt", i), elapsedTime);
+            //}
+
+            //foreach (var t in taskList) t.Start();
+            //Task.WaitAll(taskList.ToArray());
+            //int j = start;
+            //foreach (var array in listOfArraysOfPrimitiveRoots)
+            //{
+            //    FileUtility.WriteArrayInFile(String.Format(@"..\..\..\TestUtility\generators{0}bits.txt", j), array);
+            //    j++;
+            //}
 
             
 

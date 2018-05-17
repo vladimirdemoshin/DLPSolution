@@ -44,6 +44,14 @@ namespace Utility
             }
         }
 
+        public static void WriteStringInFile(string filePath, string text)
+        {
+            using (var sw = new StreamWriter(filePath, false, System.Text.Encoding.UTF8))
+            {
+                sw.WriteLine(text);
+            }
+        }
+
         public static BigInteger[] ReadArrayFromFile(string filePath)
         {
             var temp = new List<BigInteger>();

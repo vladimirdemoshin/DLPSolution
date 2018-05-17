@@ -75,6 +75,8 @@ namespace Utility
                 {
                     fact.Add(i);
                     while (n % i == 0) n /= i;
+                    if (i % 200 == 0)
+                        Console.WriteLine(i + " , i * i = "+ i*i + " "+n );
                 }
             if (n > 1) fact.Add((int)n);
             for (BigInteger res = 2; res <= p; res++)
