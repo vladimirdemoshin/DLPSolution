@@ -63,13 +63,13 @@ namespace ConsoleTest
          ////   Thread.Sleep(1000);
 
             int start = 8;
-            int finish = 800;
+            int finish = 70;
             int count = 10;
 
-          
+            TestDLPAlgorithm.TestBabyStepGiantStep(start, finish, count);
 
             //Test.GeneratePrimesInFiles(start, finish, count);
-            Test.GenerateGeneratorsInFiles(start, finish);
+            //Test.GenerateGeneratorsInFiles(start, finish);
 
             //BigIntegerExtension.ListOfArraysOfPrimitiveRoots = new List<BigInteger[]>();
             //List<Task> taskList = new List<Task>();
