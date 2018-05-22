@@ -63,10 +63,20 @@ namespace ConsoleTest
          ////   Thread.Sleep(1000);
 
             int start = 8;
-            int finish = 70;
-            int count = 10;
+            int finish = 50;
+            int count = 1;
 
+           // Test.GeneratePrimesInFiles(start, finish, count);
+           // Test.GenerateGeneratorsInFiles(start, finish);
+           // Test.GeneratehAndxInFiles(start, finish, count);
+
+            Console.WriteLine("Generated data");
+
+            //TestDLPAlgorithm.TestRhoPollard(start, finish, count);
             TestDLPAlgorithm.TestBabyStepGiantStep(start, finish, count);
+
+            Console.WriteLine("Done");
+            Console.ReadLine();
 
             //Test.GeneratePrimesInFiles(start, finish, count);
             //Test.GenerateGeneratorsInFiles(start, finish);

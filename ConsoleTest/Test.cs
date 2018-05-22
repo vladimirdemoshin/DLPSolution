@@ -61,9 +61,9 @@ namespace ConsoleTest
             List<Task> taskList = new List<Task>();
             for (int i = startBitsLength; i <= finishBitsLength; i++)
             {
-                BigInteger[] primes = FileUtility.ReadArrayFromFile(String.Format(@"..\..\..\TestUtility\primes{0}bits.txt", i));
-                string generatorsPath = String.Format(@"..\..\..\TestUtility\generators{0}bits.txt", i);
                 var tempI = i;
+                BigInteger[] primes = FileUtility.ReadArrayFromFile(String.Format(@"..\..\..\TestUtility\primes{0}bits.txt", tempI));
+                string generatorsPath = String.Format(@"..\..\..\TestUtility\generators{0}bits.txt", tempI);
                 taskList.Add(new Task(() => GenerateGenerators(generatorsPath, primes)));
             }
             foreach (var t in taskList) t.Start();
@@ -74,6 +74,33 @@ namespace ConsoleTest
         {
             var generators = BigIntegerExtension.GetPrimitiveRoots(primes);
             FileUtility.WriteArrayInFile(filePath, generators);
+        }
+
+        public static void GeneratehAndxInFiles(int startBitsLength, int finishBitsLength, int rangeCount)
+        {
+            BigIntegerRandom rand = new BigIntegerRandom();
+            for (int i = startBitsLength; i <= finishBitsLength; i++)
+            {
+                string primesPath = String.Format(@"..\..\..\TestUtility\primes{0}bits.txt", i);
+                BigInteger[] primes = FileUtility.ReadArrayFromFile(primesPath);
+                string generatorsPath = String.Format(@"..\..\..\TestUtility\generators{0}bits.txt", i);
+                BigInteger[] generators = FileUtility.ReadArrayFromFile(generatorsPath);
+                var listH = new List<BigInteger>();
+                var listX = new List<BigInteger>();
+                for(int j=0;j<primes.Length && j<rangeCount;j++)
+                {
+                    var p = primes[j];
+                    var g = generators[j];
+                    var x = rand.Next(0, p-1);
+                    var h = BigInteger.ModPow(g,x,p);
+                    listH.Add(h);
+                    listX.Add(x);
+                }
+                string hPath = String.Format(@"..\..\..\TestUtility\h{0}bits.txt", i);
+                FileUtility.WriteArrayInFile(hPath, listH.ToArray<BigInteger>());
+                string xPath = String.Format(@"..\..\..\TestUtility\x{0}bits.txt", i);
+                FileUtility.WriteArrayInFile(xPath, listX.ToArray<BigInteger>());
+            }
         }
 
       
