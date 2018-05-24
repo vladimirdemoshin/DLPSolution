@@ -50,8 +50,10 @@ namespace DLPAlgorithm
 
         public static void FirstStep(DLPInput input, BigInteger[] factorBase, ref List<List<BigInteger>> coefficients, ref List<BigInteger> constantTerms)
         {
+            BigIntegerRandom rand = new BigIntegerRandom();
             for (BigInteger k = 1; k < input.order; k++)
             {
+                k = rand.Next(0, input.order);
                 var temp = BigInteger.ModPow(input.g, k, input.p);
                 var factorBaseFactorizationExponents = Factorization.GetFactorBaseFactorizationExponents(temp, factorBase);
                 if (factorBaseFactorizationExponents != null)

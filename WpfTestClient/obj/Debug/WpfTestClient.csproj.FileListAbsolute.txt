@@ -1,0 +1,15 @@
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\bin\Debug\WpfTestClient.exe.config
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\bin\Debug\WpfTestClient.exe
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\bin\Debug\WpfTestClient.pdb
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\WpfTestClient.csprojResolveAssemblyReference.cache
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\MainWindow.baml
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\MainWindow.g.cs
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\App.g.cs
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\WpfTestClient_MarkupCompile.cache
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\WpfTestClient.g.resources
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\WpfTestClient.Properties.Resources.resources
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\WpfTestClient.csproj.GenerateResource.Cache
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\WpfTestClient.exe
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\WpfTestClient.pdb
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\IndexCalculusForm.baml
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\WpfTestClient\obj\Debug\IndexCalculusForm.g.cs

@@ -17,9 +17,9 @@ namespace Utility
         {
             var augmentedMatrix = ToAugmentedMatrix(coefficients, constantTerms);
             var convertedAugmentedMatrix =  Converter.ToTwoDimensionalModRationalNumberArray(augmentedMatrix, input.order);
-            Print(convertedAugmentedMatrix);
+           // Print(convertedAugmentedMatrix);
             convertedAugmentedMatrix = ToTriangularForm(convertedAugmentedMatrix);
-            Print(convertedAugmentedMatrix);
+           // Print(convertedAugmentedMatrix);
             convertedAugmentedMatrix = RemoveNullLines(convertedAugmentedMatrix);
             if (convertedAugmentedMatrix.Length != factorBase.Length)
             {

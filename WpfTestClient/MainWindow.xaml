@@ -1,0 +1,16 @@
+﻿<Window x:Class="WpfTestClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Test App" Height="222.84" Width="369.444">
+    <Grid>
+        <Button x:Name="TestDataBtn" Content="Generate Test Data" HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="133"/>
+        <Button x:Name="ShanksDLPBtn" Content="Baby-step giant-step" HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top" Width="133"/>
+        <Label Content="DLP" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="PollardBtn" Content="Rho-Pollard" HorizontalAlignment="Left" Margin="10,116,0,0" VerticalAlignment="Top" Width="133"/>
+        <Button x:Name="IndexBtn" Content="IndexCalculus" HorizontalAlignment="Left" Margin="10,153,0,0" VerticalAlignment="Top" Width="133" Click="IndexBtn_Click"/>
+        <Button x:Name="TestDataBtn_Copy" Content="Generate Test Data" HorizontalAlignment="Left" Margin="212,41,0,0" VerticalAlignment="Top" Width="133"/>
+        <Button x:Name="ShanksDLPBtn_Copy" Content="Baby-step giant-step" HorizontalAlignment="Left" Margin="212,78,0,0" VerticalAlignment="Top" Width="133"/>
+        <Label Content="ECDLP" HorizontalAlignment="Left" Margin="301,10,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="PollardBtn_Copy" Content="Rho-Pollard" HorizontalAlignment="Left" Margin="212,116,0,0" VerticalAlignment="Top" Width="133"/>
+    </Grid>
+</Window>
