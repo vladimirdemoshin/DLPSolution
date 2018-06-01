@@ -1,3 +1,3 @@
-﻿19 421313 3 391312 227153 215966 00:00:00.047 3 2
+﻿19 bits,  p = 421313, g = 3, h = 349485 , log = 58750 , x = 421284 , time = 00:00:00.123 , startFactorBaseSize = 10 , reducedFactorBaseSize = 10
 
 

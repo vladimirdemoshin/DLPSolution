@@ -1,3 +1,3 @@
-﻿11 1187 2 53 401 940 00:00:00.002 3 2
+﻿11 bits,  p = 1187, g = 2, h = 622 , log = 870 , x = 870 , time = 00:00:00.019 , startFactorBaseSize = 10 , reducedFactorBaseSize = 10
 
 

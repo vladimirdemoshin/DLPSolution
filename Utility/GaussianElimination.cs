@@ -13,21 +13,95 @@ namespace Utility
     {
         #region Methods
 
-        public static BigInteger[] SolveSystemOfLinearEquatations(DLPInput input, BigInteger[] factorBase, BigInteger[][] coefficients, BigInteger[] constantTerms)
+        public static BigInteger[] SolveSystemOfLinearEquatations(DLPInput input, ref BigInteger[] factorBase, BigInteger[][] coefficients, BigInteger[] constantTerms)
         {
-            var augmentedMatrix = ToAugmentedMatrix(coefficients, constantTerms);
+            var reducedCoefficients = RemoveNullColumns(coefficients, ref factorBase);
+           // Print(reducedCoefficients);
+
+            var augmentedMatrix = ToAugmentedMatrix(reducedCoefficients, constantTerms);
             var convertedAugmentedMatrix =  Converter.ToTwoDimensionalModRationalNumberArray(augmentedMatrix, input.order);
-           // Print(convertedAugmentedMatrix);
+            //Print(convertedAugmentedMatrix);
             convertedAugmentedMatrix = ToTriangularForm(convertedAugmentedMatrix);
            // Print(convertedAugmentedMatrix);
+            //Console.WriteLine("to triangular form done");
+
+            ////Print(convertedAugmentedMatrix);
             convertedAugmentedMatrix = RemoveNullLines(convertedAugmentedMatrix);
-            if (convertedAugmentedMatrix.Length != factorBase.Length)
+            //Console.WriteLine("removed null lines");
+           // Print(convertedAugmentedMatrix);
+            Console.WriteLine(convertedAugmentedMatrix.Length +" - " + factorBase.Length );
+            if (convertedAugmentedMatrix.Length < factorBase.Length - 10)
             {
-                //ReduceFactorBase(ref factorBase, ref convertedAugmentedMatrix);
+               // ReduceFactorBase(ref factorBase, ref convertedAugmentedMatrix);
+                //Console.WriteLine(convertedAugmentedMatrix.Length + " - " + factorBase.Length);
                 return null;
             }  
+           // Print(convertedAugmentedMatrix);
             var solution = SolveTriangularSystemOfLinearEquatations(input, factorBase, convertedAugmentedMatrix);
             return solution;
+            //return null;
+        }
+
+        public static BigInteger[][] RemoveNullColumns(BigInteger[][] coefficients, ref BigInteger[] factorBase)
+        {
+            var listFactorBase = new List<BigInteger>();
+            //create list of not null columns in coefficients matrix
+            var listColumns = new List<List<BigInteger>>();
+            for(int j=0;j<coefficients[0].Length;j++)
+            {
+                var temp = new List<BigInteger>();
+                bool isNullColumn = true;  
+                for(int i=0;i<coefficients.Length;i++)
+                {
+                    BigInteger tmp = coefficients[i][j];
+                    if(tmp != 0) isNullColumn = false;
+                    temp.Add(tmp);
+                }
+                if (!isNullColumn)
+                {
+                    listFactorBase.Add(factorBase[j]);
+                    listColumns.Add(temp);
+                }
+            }
+
+            //create new BigInteger[][] matrix without null columns
+            var reducedCoefficients = new BigInteger[coefficients.Length][];
+            for(int i=0;i<reducedCoefficients.Length;i++)
+            {
+                reducedCoefficients[i] = new BigInteger[listColumns.Count];
+                for(int j=0;j<reducedCoefficients[i].Length;j++)
+                {
+                    reducedCoefficients[i][j] = listColumns[j][i];
+                }
+            }
+
+            //remove primes from factor base, which has related null columns 
+            factorBase = listFactorBase.ToArray();
+            return reducedCoefficients;
+
+
+            //int countRows = coefficients.Length;
+
+            //var listCoefficients = new List<List<BigInteger>>();
+            //for(int i=0;i<countRows;i++)
+            //{
+            //    listCoefficients.Add(coefficients[i].ToList());
+            //}
+
+            //for(int j=0;j<coefficients[0].Length;j++)
+            //{
+            //    bool toDeleteRow = true;
+            //    for(int i=0;i<countRows;i++)
+            //    {
+            //        if(listCoefficients[i][j] != 0)
+            //        {
+            //            toDeleteRow = false;
+            //            break;
+            //        }
+            //    }
+            //    if(toDeleteRow)
+            //}
+
         }
 
         public static BigInteger[] SolveTriangularSystemOfLinearEquatations(DLPInput input, BigInteger[] factorBase, ModRationalNumber[][] matrix)
@@ -43,10 +117,12 @@ namespace Utility
                 var a = coefficient.Numerator * constantTerm.Denominator;
                 var b = coefficient.Denominator * constantTerm.Numerator;
                 var mod = coefficient.Mod;
+                //Console.WriteLine("try to solve "+i);
                 var x = SolveLinearEquatation(input, logarithmicExpression, a.ModPositive(mod), b.ModPositive(mod));
                 solution.Add(x);
                 for (int k = i - 1; k >= 0; k--)
-                    matrix[k][m - 1] = matrix[k][m - 1] - matrix[k][i] * solution[n - 1 - i];
+                    matrix[k][m - 1] = matrix[k][m - 1] - solution[n - 1 - i] * matrix[k][i];
+               // Console.WriteLine("solved + " + i);
             }
             solution.Reverse();
             return solution.ToArray();
@@ -60,16 +136,21 @@ namespace Utility
                 return (b * a.ModInverse(mod)).ModPositive(mod);
             else
             {
-                BigInteger u, v;
-                BigIntegerExtension.ExtendedGcd(a, mod, out u, out v);
-                var reducedMOD = mod / gcd;
-                var x0 = ((b / gcd) * u).ModPositive(reducedMOD);
-                for (BigInteger j = 0; j < gcd; j++)
-                {
-                    var x = x0 + j * reducedMOD;
-                    if (BigInteger.ModPow(input.g, x, input.p) == logatithmicExpression)
-                        return x;
-                }
+
+                ////return 1;
+                //Console.WriteLine(gcd);
+                //BigInteger u, v;
+                //BigIntegerExtension.ExtendedGcd(a, mod, out u, out v);
+                //var reducedMOD = mod / gcd;
+                //var x0 = ((b / gcd) * u).ModPositive(reducedMOD);
+                //for (BigInteger j = 0; j < gcd; j++)
+                //{
+
+                //    var x = x0 + j * reducedMOD;
+                //    // Console.WriteLine(x);
+                //    if (BigInteger.ModPow(input.g, x, input.p) == logatithmicExpression)
+                //        return x;
+                //}
             }
             return -1;
         }
@@ -77,29 +158,29 @@ namespace Utility
         public static void ReduceFactorBase(ref BigInteger[] factorBase, ref ModRationalNumber[][] matrix)
         {
             var indexes = new List<int>();
-            for(int i=0,j=0;i-j<matrix.Length;i++)
+            for (int i = 0, j = 0; i - j < matrix.Length; i++)
             {
-                if (matrix[i-j][i] == 0)
+                if (matrix[i - j][i].Numerator == 0)
                     j++;
                 else
                     indexes.Add(i);
             }
             var reducedFactorBase = new BigInteger[indexes.Count];
             var reducedMatrix = new ModRationalNumber[indexes.Count][];
-            for(int i=0;i<reducedMatrix.Length;i++)
-                reducedMatrix[i] = new ModRationalNumber[indexes.Count+1];
+            for (int i = 0; i < reducedMatrix.Length; i++)
+                reducedMatrix[i] = new ModRationalNumber[indexes.Count + 1];
             int k = 0;
             //удаляем незадействованные простые числа из факторной базы и удаляем нулевые столбцы из матрицы (точнее, создаем новые объекты на основе старых)
-            foreach(var index in indexes)
+            foreach (var index in indexes)
             {
                 reducedFactorBase[k] = factorBase[index];
-                for(int j=0;j<reducedMatrix.Length;j++)
-                    reducedMatrix[j][k] = factorBase[index];
+                for (int j = 0; j < reducedMatrix.Length; j++)
+                    reducedMatrix[j][k] = new ModRationalNumber(factorBase[index], 1, reducedMatrix[j][k].Mod);
                 k++;
             }
             //приписываем к новой матрице справа свободные члены
-            for(int i=0;i<reducedMatrix.Length;i++)
-                reducedMatrix[i][reducedMatrix[i].Length-1] = matrix[i][matrix[i].Length-1];
+            for (int i = 0; i < reducedMatrix.Length; i++)
+                reducedMatrix[i][reducedMatrix[i].Length - 1] = matrix[i][matrix[i].Length - 1];
             factorBase = reducedFactorBase;
             matrix = reducedMatrix;
         }
@@ -124,6 +205,22 @@ namespace Utility
             }
             Console.WriteLine(); Console.WriteLine();
         }
+
+
+        public static void Print(BigInteger[][] matrix)
+        {
+            for (int i = 0; i < matrix.Length; i++)
+            {
+                for (int j = 0; j < matrix[i].Length; j++)
+                {
+                    Console.Write(matrix[i][j] + "  ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(); Console.WriteLine();
+        }
+
+
         public static ModRationalNumber[][] ToTriangularForm(ModRationalNumber[][] matrix)
         {
             int n = matrix.Length;
@@ -134,9 +231,9 @@ namespace Utility
             {
                 //step 1
                 int leadingRow = -1;
-                ModRationalNumber leadingElement = 1;
+                ModRationalNumber leadingElement = new ModRationalNumber(1,1,matrix[0][0].Mod);
                 for (int tempRow = currentRow; tempRow < n; tempRow++)
-                    if (matrix[tempRow][currentColumn] != 0)
+                    if (matrix[tempRow][currentColumn].Numerator != 0)
                     {
                         leadingRow = tempRow;
                         leadingElement = matrix[tempRow][currentColumn];
@@ -165,17 +262,26 @@ namespace Utility
                 //step 3
                 for (int tempRow = currentRow + 1; tempRow < n; tempRow++)
                 {
-                    ModRationalNumber c = matrix[tempRow][currentColumn];
-                    if (c == 0) continue;
+                    ModRationalNumber c = new ModRationalNumber(matrix[tempRow][currentColumn].Numerator, matrix[tempRow][currentColumn].Denominator, matrix[tempRow][currentColumn].Mod);
+                    if (c.Numerator == 0) continue;
                     for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
                     {
-                        matrix[tempRow][tempColumn] = matrix[tempRow][tempColumn] - c * matrix[currentRow][tempColumn];
+                        if (tempColumn == currentColumn) matrix[tempRow][tempColumn] = new ModRationalNumber(0, 1, matrix[tempRow][tempColumn].Mod);
+                        else matrix[tempRow][tempColumn] = matrix[tempRow][tempColumn] - c * matrix[currentRow][tempColumn];
                     }
                 }
-                //step 4
+
+
+                //for (int i = 0; i < m; i++)
+                //    Console.Write(matrix[currentRow][i] + " ");
+
+                //Console.WriteLine();
+
+                    //step 4
                 currentRow++;
                 currentColumn++;
             }
+            Console.WriteLine("colunn row" + currentRow + " " + currentColumn);
             return matrix;
         }
 
@@ -186,19 +292,21 @@ namespace Utility
             foreach (var line in convertedAugmentedMatrix)
             {
                 bool isNullLine = true;
-                foreach (var column in line)
-                    if (column != 0)
+                for (int i = 0; i < line.Length - 1 ;i++)
+                {
+                    if (line[i].Numerator != 0)
                     {
                         isNullLine = false;
                         break;
                     }
+                }   
                 if (!isNullLine) listNotNullLineIndexes.Add(lineIndex);
                 lineIndex++;
             }
             var array = new ModRationalNumber[listNotNullLineIndexes.Count][];
-            int i = 0;
+            int k = 0;
             foreach (var index in listNotNullLineIndexes)
-                array[i++] = convertedAugmentedMatrix[index];
+                array[k++] = convertedAugmentedMatrix[index];
             return array;
         }
 

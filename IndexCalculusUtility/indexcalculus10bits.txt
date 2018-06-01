@@ -1,3 +1,3 @@
-﻿10 557 2 58 395 515 00:00:00.001 3 2
+﻿10 bits,  p = 557, g = 2, h = 448 , log = 464 , x = 464 , time = 00:00:00.025 , startFactorBaseSize = 10 , reducedFactorBaseSize = 10
 
 

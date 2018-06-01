@@ -1,3 +1,3 @@
-﻿14 10657 7 3407 2142 9462 00:00:00.007 3 2
+﻿14 bits,  p = 10657, g = 7, h = 918 , log = 5658 , x = 5658 , time = 00:00:00.025 , startFactorBaseSize = 10 , reducedFactorBaseSize = 10
 
 

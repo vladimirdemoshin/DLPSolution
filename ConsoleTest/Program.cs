@@ -20,6 +20,22 @@ namespace ConsoleTest
         //public static string primesPath = @"..\..\..\FileUtility\PrimeNumbers.txt";
         static void Main(string[] args)
         {
+
+
+
+
+            //BigInteger p = 41651;
+            //BigInteger g = 2;
+            //BigInteger x = 17211;
+            //BigInteger h = 284;
+
+            //var log = DLPAlgorithm.IndexCalculus.SolveDLP(g,x,h);
+            //Console.WriteLine(log);
+
+
+
+
+
             //var primeNumbers = FileUtility.ReadArrayFromFile(primesPath).Skip(2).ToArray<BigInteger>();
 
             //var primitiveRoots = BigIntegerExtension.GetPrimitiveRoots(primeNumbers).ToArray<BigInteger>();
@@ -62,22 +78,76 @@ namespace ConsoleTest
          //   Console.WriteLine();
          ////   Thread.Sleep(1000);
 
-            int start = 8;
-            int finish = 40;
+
+
+            //var curve = EllipticCurve.GenerateEllipticCurve(239);
+            //var point = curve.GetRandomAffinePoint();
+            //var order = EllipticCurve.FindPointOrder(point);
+            //Console.WriteLine(order);
+
+            //var temp = new AffinePoint(point.X, point.Y, curve);
+            //int i = 2;
+            //while(temp != order)
+            //{
+
+            //}
+
+
+
+            
+
+            int start = 10;
+            int finish = 10;
             int count = 1;
+
+            TestECDLPAlgorithm.TestBabyStepGiantStep(start, finish, count);
+
+            //TestDLPAlgorithm.TestIndexCalculus(start, finish, count);
+            //Console.WriteLine("done");
+            //Console.ReadLine();
+
+
+
+
+
+            
+            
+            
+            //Console.WriteLine("polladr done: " + DateTime.Now.ToLongDateString());
+
+            //start = 39;
+            //finish = 50;
+            //count = 1;
+            //TestDLPAlgorithm.TestBabyStepGiantStep(start, finish, count);
+            //Console.WriteLine("shanks done: " + DateTime.Now.ToLongDateString());
+
+
+            //start = 66;
+            //finish = 66;
+            //count = 1;
+            //Test.GenerateGeneratorsInFiles(start, finish);
+            //Test.GeneratehAndxInFiles(start, finish, count);
+            //Console.WriteLine("66 bit generator done: " + DateTime.Now.ToLongDateString());
+
+            //start = 68;
+            //finish = 80;
+            //count = 1;
+            //Test.GenerateGeneratorsInFiles(start, finish);
+            //Test.GeneratehAndxInFiles(start, finish, count);
+            //Console.WriteLine("generators done: " + DateTime.Now.ToLongDateString());
 
            // Test.GeneratePrimesInFiles(start, finish, count);
            //Test.GenerateGeneratorsInFiles(start, finish);
            //Test.GeneratehAndxInFiles(start, finish, count);
 
-            Console.WriteLine("Generated data");
+            //Console.WriteLine("Generated data");
 
-            //TestDLPAlgorithm.TestRhoPollard(start, finish, count);
+            
             //TestDLPAlgorithm.TestBabyStepGiantStep(start, finish, count);
-            TestDLPAlgorithm.TestIndexCalculus(start, finish, count);
+            //TestDLPAlgorithm.TestIndexCalculus(start, finish, count);
 
-            Console.WriteLine("Done");
-            Console.ReadLine();
+            //Console.WriteLine("Done");
+            //Console.ReadLine();
 
             //Test.GeneratePrimesInFiles(start, finish, count);
             //Test.GenerateGeneratorsInFiles(start, finish);

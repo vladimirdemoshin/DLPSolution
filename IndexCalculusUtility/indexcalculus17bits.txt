@@ -1,3 +1,3 @@
-﻿17 74017 7 53881 49308 49308 00:00:00.018 3 2
+﻿17 bits,  p = 74017, g = 7, h = 34869 , log = 10369 , x = 10369 , time = 00:00:00.034 , startFactorBaseSize = 10 , reducedFactorBaseSize = 10
 
 

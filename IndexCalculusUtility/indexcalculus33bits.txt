@@ -1,0 +1,3 @@
+﻿33 bits,  p = 4294981381, g = 2, h = 3867409640 , log = 92 , x = 4294981088 , time = 00:00:01.471 , startFactorBaseSize = 110 , reducedFactorBaseSize = 94
+
+

@@ -37,7 +37,7 @@ namespace EllipticCurveUtility
         }
         public static ProjectivePoint operator -(ProjectivePoint P)
         {
-            return new ProjectivePoint(P.X, -P.Y, P.Z);
+            return new ProjectivePoint(P.X, -P.Y, P.Z, P.E);
         }
         public static ProjectivePoint operator -(ProjectivePoint P1, ProjectivePoint P2)
         {

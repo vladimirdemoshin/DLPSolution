@@ -46,6 +46,10 @@ namespace EllipticCurveUtility
         {
             return P + (-Q);
         }
+
+
+
+
        // мое из крендэла померанца, не уверен что работает
         public static AffinePoint operator +(AffinePoint P, AffinePoint Q)
         {
@@ -71,32 +75,96 @@ namespace EllipticCurveUtility
             BigInteger Y3 = m * (X1 - X3) - Y1;
             return new AffinePoint(X3.ModPositive(MOD), Y3.ModPositive(MOD), P.E);
         }
-        //из крэнделла - померанца, многие примеры неправильно работают
-        public static AffinePoint operator *(BigInteger n, AffinePoint P)
+
+
+
+        ////из крэнделла - померанца, многие примеры неправильно работают
+        //public static AffinePoint operator *(BigInteger n, AffinePoint P)
+        //{
+        //    int sign = 1;
+        //    if (n == 0) return GetInfinitePointForCurve(P.E);
+        //    if (n == 1) return P;
+        //    if (n == -1) return -P;
+        //    if (n < 0) sign = -1;
+        //    n = sign * n;
+        //    BigInteger MOD = P.E.P;
+        //    var m = 3 * n;
+        //    var Q = new AffinePoint(P.X, P.Y, P.Z, P.E);
+        //    var mBits = m.GetBitArray();
+        //    var nBits = n.GetBitArray();
+        //    for (int i = mBits.Length - 2; i >= 1; i--)
+        //    {
+        //        Q = Double(Q);
+        //        var mBit = mBits[i];
+        //        var nBit = i >= nBits.Length ? false : nBits[i];
+        //        if (mBit == true && nBit == false)
+        //            Q = Q + P;
+        //        else if (mBit == false && nBit == true)
+        //            Q = Q - P;
+        //    }    
+        //    return new AffinePoint(Q.X.ModPositive(MOD), sign * Q.Y.ModPositive(MOD), Q.E);
+        //}
+
+
+
+
+        //чувака
+        public static AffinePoint operator *(BigInteger k, AffinePoint point)
         {
-            int sign = 1;
-            if (n == 0) return GetInfinitePointForCurve(P.E);
-            if (n == 1) return P;
-            if (n == -1) return -P;
-            if (n < 0) sign = -1;
-            n = sign * n;
-            BigInteger MOD = P.E.P;
-            var m = 3 * n;
-            var Q = new AffinePoint(P.X, P.Y, P.Z, P.E);
-            var mBits = m.GetBitArray();
-            var nBits = n.GetBitArray();
-            for (int i = mBits.Length - 2; i >= 1; i--)
+            if (k == 0) return GetInfinitePointForCurve(point.E);
+            var temp = point;
+            k--;
+            while (k > 0)
             {
-                Q = Double(Q);
-                var mBit = mBits[i];
-                var nBit = i >= nBits.Length ? false : nBits[i];
-                if (mBit == true && nBit == false)
-                    Q = Q + P;
-                else if (mBit == false && nBit == true)
-                    Q = Q - P;
-            }    
-            return new AffinePoint(Q.X.ModPositive(MOD), sign * Q.Y.ModPositive(MOD), Q.E);
+                if (BigInteger.Remainder(k, 2) != 0)
+                {
+                    if ((temp.X == point.X) && (temp.Y == point.Y))
+                        temp = X2(temp);
+                    else
+                        temp = temp + point;
+                    k--;
+                }
+                k = k / 2;
+                // Console.WriteLine(k);
+                point = X2(point);
+            }
+            return temp;
         }
+
+        //чувака
+        private static AffinePoint X2(AffinePoint point)
+        {
+            BigInteger A = 3 * point.X * point.X + point.E.A * point.Z * point.Z;
+            A = BigInteger.Remainder(A, point.E.P);
+            if (A < 0) { while (A < 0) { A += point.E.P; } }
+
+
+            BigInteger B = 2 * point.Y * point.Z;
+            B = BigInteger.Remainder(B, point.E.P);
+            if (B < 0) { while (B < 0) { B += point.E.P; } }
+
+
+            BigInteger X = B * (A * A - 4 * point.X * point.Y * B);
+            X = BigInteger.Remainder(X, point.E.P);
+            if (X < 0) { while (X < 0) { X += point.E.P; } }
+
+
+            BigInteger Y = A * (6 * point.Y * point.X * B - A * A) - 2 * point.Y * point.Y * B * B;
+            Y = BigInteger.Remainder(Y, point.E.P);
+            if (Y < 0) { while (Y < 0) { Y += point.E.P; } }
+
+
+            BigInteger Z = B * B * B;
+            Z = BigInteger.Remainder(Z, point.E.P);
+            if (Z < 0) { while (Z < 0) { Z += point.E.P; } }
+            return new AffinePoint(X, Y, Z, point.E);
+        }
+
+
+
+
+
+
         #endregion
 
         #region Methods
@@ -120,6 +188,12 @@ namespace EllipticCurveUtility
         public override int GetHashCode()
         {
             return (X + Y + Z + E.A + E.B + E.C + E.P + "").GetHashCode();
+        }
+        public ProjectivePoint ToProjectivePoint()
+        {
+            if (this == AffinePoint.GetInfinitePointForCurve(E))
+                return new ProjectivePoint(0, 1, 0, E);
+            return new ProjectivePoint(X,Y,1,E);
         }
         #endregion
 

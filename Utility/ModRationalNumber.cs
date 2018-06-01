@@ -29,7 +29,7 @@ namespace Utility
             get { return numerator; }
             set 
             {
-                var temp = value.ModPositive(mod);
+                var temp = value.ModPositive(Mod);
                 if (temp == 0)
                     Denominator = 1;
                 numerator = temp;
@@ -48,34 +48,16 @@ namespace Utility
         #endregion
 
         #region Constructors
-        public ModRationalNumber()
-        {
-            Mod = 2;
-            Denominator = 1;
-            Numerator = 1;
-        }
-        public ModRationalNumber(BigInteger numerator)
-        {
-            Mod = 2;
-            Denominator = 1;
-            Numerator = numerator;
-        }
-        public ModRationalNumber(BigInteger numerator, BigInteger denominator)
-        {
-            Mod = 2;
-            Denominator = denominator;
-            Numerator = numerator;
-        }
+       
         public ModRationalNumber(BigInteger numerator, BigInteger denominator, BigInteger mod)
         {
             Mod = mod;
             Denominator = denominator;
             Numerator = numerator;
 
-            //var gcd = BigInteger.GreatestCommonDivisor(denominator.ModPositive(mod), mod);
-            //if (gcd == 1)
-            //    Numerator = (numerator * denominator.ModInverse(mod)).ModPositive(mod);
-
+            var gcd = BigInteger.GreatestCommonDivisor(Denominator.ModPositive(Mod), Mod);
+            if (gcd == 1)
+                Numerator = (Numerator * Denominator.ModInverse(Mod)).ModPositive(Mod);
         }
         #endregion
 
@@ -128,14 +110,25 @@ namespace Utility
 
         public static ModRationalNumber operator /(ModRationalNumber a, ModRationalNumber b)
         {
-            BigInteger numerator = a.Numerator * b.Denominator;
-            BigInteger denominator = a.Denominator * b.Numerator;
+            var gcd = BigInteger.GreatestCommonDivisor(b.Numerator, a.Mod);
+            if (gcd == 1)
+                return new ModRationalNumber(a.Numerator * b.Denominator * b.Numerator, a.Denominator, a.Mod);
+            else
+            {
+                BigInteger numerator = a.Numerator * b.Denominator;
+                BigInteger denominator = a.Denominator * b.Numerator;
+                return new ModRationalNumber(numerator, denominator, a.Mod);
+            }
 
-            //var gcd = BigInteger.GreatestCommonDivisor(denominator.ModPositive(a.Mod), a.Mod);
-            //if (gcd == 1)
-            //    return new ModRationalNumber((numerator * denominator.ModInverse(a.Mod)).ModPositive(a.Mod), 1, a.Mod);
+            //BigInteger numerator = a.Numerator * b.Denominator;
+            //BigInteger denominator = a.Denominator * b.Numerator;
 
-            return new ModRationalNumber(numerator, denominator, a.Mod);
+            ////var gcd = BigInteger.GreatestCommonDivisor(denominator.ModPositive(a.Mod), a.Mod);
+            ////if (gcd == 1)
+            ////    return new ModRationalNumber((numerator * denominator.ModInverse(a.Mod)).ModPositive(a.Mod), 1, a.Mod);
+
+            //return new ModRationalNumber(numerator, denominator, a.Mod);
+            
         }
         public static bool operator ==(ModRationalNumber a, ModRationalNumber b)
         {
@@ -163,14 +156,15 @@ namespace Utility
         //{
         //    return a.Numerator * b.Denominator <= b.Numerator * a.Denominator;
         //}
-        public static implicit operator ModRationalNumber(int a)
-        {
-            return new ModRationalNumber((BigInteger)a, 1);
-        }
-        public static implicit operator ModRationalNumber(BigInteger a)
-        {
-            return new ModRationalNumber(a, 1);
-        }
+
+        //public static implicit operator ModRationalNumber(int a)
+        //{
+        //    return new ModRationalNumber((BigInteger)a, 1);
+        //}
+        //public static implicit operator ModRationalNumber(BigInteger a)
+        //{
+        //    return new ModRationalNumber(a, 1);
+        //}
         #endregion
 
         #region Methods

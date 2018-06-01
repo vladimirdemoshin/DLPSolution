@@ -1,3 +1,3 @@
-﻿8 173 2 146 167 167 00:00:00.037 3 2
+﻿8 bits,  p = 173, g = 2, h = 46 , log = 21 , x = 21 , time = 00:00:00.044 , startFactorBaseSize = 10 , reducedFactorBaseSize = 10
 
 

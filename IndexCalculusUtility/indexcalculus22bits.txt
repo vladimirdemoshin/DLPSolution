@@ -1,3 +1,3 @@
-﻿22 2375011 2 9056 838805 838805 00:00:00.652 3 2
+﻿22 bits,  p = 2375011, g = 2, h = 1030354 , log = 1192472 , x = 2374543 , time = 00:00:00.090 , startFactorBaseSize = 10 , reducedFactorBaseSize = 10
 
 

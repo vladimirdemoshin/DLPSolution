@@ -16,13 +16,15 @@ namespace DLPAlgorithm
         public static int FactorBaseSize { get; set; }
         public static int LinearEquatationsCount { get; set; }
 
+        public static int ReducedFactorBaseSize { get; set; }
+
         #endregion
 
         #region Constructors
 
         static IndexCalculus()
         {
-            FactorBaseSize = 30;
+            FactorBaseSize = 100;
             LinearEquatationsCount = 4 * FactorBaseSize;
         }
 
@@ -32,16 +34,46 @@ namespace DLPAlgorithm
 
         public static BigInteger SolveDLP(BigInteger g, BigInteger h, BigInteger p)
         {
+
+            Console.WriteLine(FactorBaseSize);
+
             BigInteger order = p - 1;
             var input = new DLPInput(g, h, p, order);
             var factorBase = BigIntegerExtension.GetFactorBase(FactorBaseSize);
             var coefficients = new List<List<BigInteger>>();
             var constantTerms = new List<BigInteger>();
             FirstStep(input, factorBase, ref coefficients, ref constantTerms);
-            var factorBaseLogs = SecondStep(input, factorBase, Converter.ToTwoDimensionalBigIntegerArray(coefficients), constantTerms.ToArray());
+
+            Console.WriteLine("First step done");
+
+            var factorBaseLogs = SecondStep(input, ref factorBase, Converter.ToTwoDimensionalBigIntegerArray(coefficients), constantTerms.ToArray());
+
+            Console.WriteLine("Second step done");
+
             if (factorBaseLogs == null) return -1;
+
+            //for (int i = 0; i < factorBaseLogs.Length; i++)
+            //{
+            //    var l = factorBaseLogs[i];
+            //    BigInteger pow = -1;
+            //    if (l != -1)
+            //    {
+            //        pow = BigInteger.ModPow(g, l, p);
+            //    }
+            //    var pr = factorBase[i];
+            //    Console.WriteLine(pow + " = " + pr);
+            //}
+
+
+
             var x = ThirdStep(input, factorBase, factorBaseLogs);
+
+            Console.WriteLine("Third step done");
+
+            ReducedFactorBaseSize = factorBase.Length;
             return x;
+
+            return 0;
         }
 
         #endregion
@@ -73,10 +105,11 @@ namespace DLPAlgorithm
                     break;
                 }
             }
+
         }
-        public static BigInteger[] SecondStep(DLPInput input, BigInteger[] factorBase, BigInteger[][] coefficients, BigInteger[] constantTerms)
+        public static BigInteger[] SecondStep(DLPInput input,ref BigInteger[] factorBase, BigInteger[][] coefficients, BigInteger[] constantTerms)
         {
-            return GaussianElimination.SolveSystemOfLinearEquatations(input, factorBase, coefficients, constantTerms);
+            return GaussianElimination.SolveSystemOfLinearEquatations(input,ref factorBase, coefficients, constantTerms);
         }
         public static BigInteger ThirdStep(DLPInput input, BigInteger[] factorBase, BigInteger[] factorBaseLogs)
         {

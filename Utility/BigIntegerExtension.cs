@@ -155,33 +155,150 @@ namespace Utility
             return res;
         }
 
-        //разобраться в этой функции
-        public static BigInteger Sqrt(BigInteger N)
-        {
-            if (N <= (BigInteger)double.MaxValue) return (BigInteger)Math.Sqrt((double)N);
-            /*++
-             *  Using Newton Raphson method we calculate the
-             *  square root (N/g + g)/2
-             */
-            BigInteger rootN = N;
-            int bitLength = 1; // There is a bug in finding bit length hence we start with 1 not 0
-            while (rootN / 2 != 0)
-            {
-                rootN /= 2;
-                bitLength++;
-            }
-            bitLength = (bitLength + 1) / 2;
-            rootN = N >> bitLength;
+        ////разобраться в этой функции
+        //public static BigInteger Sqrt(BigInteger N)
+        //{
+        //    if (N <= (BigInteger)double.MaxValue) return (BigInteger)Math.Sqrt((double)N);
+        //    /*++
+        //     *  Using Newton Raphson method we calculate the
+        //     *  square root (N/g + g)/2
+        //     */
+        //    BigInteger rootN = N;
+        //    int bitLength = 1; // There is a bug in finding bit length hence we start with 1 not 0
+        //    while (rootN / 2 != 0)
+        //    {
+        //        rootN /= 2;
+        //        bitLength++;
+        //    }
+        //    bitLength = (bitLength + 1) / 2;
+        //    rootN = N >> bitLength;
 
-            BigInteger lastRoot = BigInteger.Zero;
-            do
+        //    BigInteger lastRoot = BigInteger.Zero;
+        //    do
+        //    {
+        //        lastRoot = rootN;
+        //        rootN = (BigInteger.Divide(N, rootN) + rootN) >> 1;
+        //    }
+        //    while (!((rootN ^ lastRoot).ToString() == "0"));
+        //    return rootN;
+        //} // SqRtN
+
+
+        public static BigInteger RandomBigInteger(BigInteger N, Random random)
+        {
+            byte[] bytes = N.ToByteArray();
+            BigInteger R;
+            random.NextBytes(bytes);
+            bytes[bytes.Length - 1] &= (byte)0x7F;
+            R = new BigInteger(bytes);
+            if (R > N - 1 && N != 0)
             {
-                lastRoot = rootN;
-                rootN = (BigInteger.Divide(N, rootN) + rootN) >> 1;
+                R %= N;
             }
-            while (!((rootN ^ lastRoot).ToString() == "0"));
-            return rootN;
-        } // SqRtN
+            if (R < 0)
+            {
+                R += N;
+            }
+            return R;
+        }
+
+        //Ро- метод Полларда
+        public static List<BigInteger> PollardsAlg(BigInteger n)
+        {
+            var result = new List<BigInteger>();
+            if (BigIntegerPrimeTest.MillerRabinTest(n))
+            {
+                return result;
+            }
+            BigInteger N = n;
+            BigInteger i = 1;
+            BigInteger nextiToSave = 1;
+            Random rand = new Random();
+            BigInteger x = RandomBigInteger(n, rand);
+            BigInteger y = 1, lastx = 1;
+            BigInteger res = 0;
+            while (N % 2 == 0)
+            {
+                if (!result.Contains(2))
+                    result.Add(2);
+                N /= 2;
+            }
+            while (!BigIntegerPrimeTest.MillerRabinTest(N))
+            {
+                BigInteger factor;
+                BigInteger delta = BigInteger.Abs(x - y);
+                if (delta == 0)
+                {
+                    x = RandomBigInteger(n, rand);
+                    i = 0;
+                    nextiToSave = 1;
+                    y = 1;
+                    lastx = 1;
+                    continue;
+                }
+                BigInteger gcd = BigInteger.GreatestCommonDivisor(N, delta);
+                lastx = x;
+                x = (x * x - 1) % n;
+                if (i == nextiToSave)
+                {
+                    nextiToSave *= 2;
+                    y = lastx;
+                }
+                i++;
+
+                if (gcd > 1)
+                {
+                    factor = gcd;
+                    if (!BigIntegerPrimeTest.MillerRabinTest(factor))
+                    {
+                        var factorFactors = PollardsAlg(factor);
+                        foreach (var item in factorFactors)
+                        {
+                            result.Add(item);
+                        }
+                    }
+                    else
+                    {
+                        if (factor > 1)
+                            result.Add(factor);
+                    }
+                    N /= factor;
+                }
+            }
+            if (N > 1 && !result.Contains(N))
+                result.Add(N);
+            result.Sort();
+            return result;
+        }
+
+        //азата
+        public static BigInteger Sqrt(this BigInteger n)
+        {
+            if (n == 0) return 0;
+            if (n > 0)
+            {
+                int bitLength = Convert.ToInt32(Math.Ceiling(BigInteger.Log(n, 2)));
+                BigInteger root = BigInteger.One << (bitLength / 2);
+
+                while (!isSqrt(n, root))
+                {
+                    root += n / root;
+                    root /= 2;
+                }
+
+                return root;
+            }
+            return -1;
+        }
+
+        private static Boolean isSqrt(BigInteger n, BigInteger root)
+        {
+            BigInteger lowerBound = root * root;
+            BigInteger upperBound = (root + 1) * (root + 1);
+
+            return (n >= lowerBound && n < upperBound);
+        }
+
 
         public static int JacobiSymbol(BigInteger a, BigInteger m)
         {

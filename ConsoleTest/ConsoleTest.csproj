@@ -50,6 +50,7 @@
     <Compile Include="Stuff.cs" />
     <Compile Include="Test.cs" />
     <Compile Include="TestDLPAlgorithm.cs" />
+    <Compile Include="TestECDLPAlgorithm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
