@@ -17,3 +17,9 @@ C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\obj\D
 C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\obj\Debug\ECDLPPage.g.cs
 C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\obj\Debug\DLPTestPage.baml
 C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\obj\Debug\DLPTestPage.g.cs
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\bin\Debug\DLPAlgorithm.dll
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\bin\Debug\Utility.dll
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\bin\Debug\DLPAlgorithm.pdb
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\bin\Debug\Utility.pdb
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\bin\Debug\Test.dll
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\bin\Debug\Test.pdb

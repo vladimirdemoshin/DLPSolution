@@ -43,7 +43,7 @@ namespace Client
         }
         private bool GetValidatedInput(ref Utility.DLPInput input)
         {
-            BigInteger p, g, h;
+            BigInteger p = 1, g = 1, h = 1;
             var isValid = BigInteger.TryParse(pTxtBox.Text, out p) && BigInteger.TryParse(gTxtBox.Text, out g) && BigInteger.TryParse(hTxtBox.Text, out h);
             if (!isValid)
                 return false;
@@ -78,13 +78,25 @@ namespace Client
             else
             {
                 BigInteger x = -1;
+                string elapsedTime = "";
                 switch (currentAlgorithm)
                 {
                     case (int)Algorithms.BabyStep:
-                        x = DLPAlgorithm.BabyStepGiantStep();
+                        
+                        break;
+                    case (int)Algorithms.RhoPollard:
+                        x = Test.TestRhoPollardDLP.SolveDLP(input.g, input.h, input.p);
+                        elapsedTime = Test.TestRhoPollardDLP.ElapsedTime;
+
+                        break;
+                    case (int)Algorithms.IndexCalculus:
+
                     default:
                         x = -1;
+                        break;
                 }
+                logTxtBox.Text = x.ToString();
+                timeTxtBox.Text = elapsedTime;
             } 
         }
         private void OnAlgorithmRadioBtnChecked(object sender, RoutedEventArgs e)
@@ -100,6 +112,12 @@ namespace Client
                     break;
                 }
         }
+
+        private void OnGenerateBtnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+        
 
         #endregion
 

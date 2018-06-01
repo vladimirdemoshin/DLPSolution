@@ -11,18 +11,19 @@ namespace DLPAlgorithm
 {
     public static class RhoPollard
     {
+        public static BigInteger StepsCount { get; set; }
         public static BigInteger SolveDLP(BigInteger g, BigInteger h, BigInteger p)
         {
             if (g == h) return 1;
             if (h == 1) return 0;
-            var order = p - 1; // order = EulerFunc(p) == p - 1 if p - prime
+            var order = p - 1;
             BigInteger a1, b1, a2, b2;
             FloydCycleFindingAlgorithm(out a1, out b1, out a2, out b2, g, h, p);
             var dA = a2 - a1;
             var dB = b1 - b2;
             dA = dA.ModPositive(order);
             dB = dB.ModPositive(order);
-            if (dB == 0) return -1; // в этом случае метод ничем не лучше полного перебора
+            if (dB == 0) return -1;
             var gcd = BigInteger.GreatestCommonDivisor(dB, order);
             if(gcd == 1)
             {
@@ -53,12 +54,14 @@ namespace DLPAlgorithm
             BigInteger x2 = 1;
             a2 = 0;
             b2 = 0;
+            StepsCount = 1;
             for (int i = 1; i < p - 1; i++)
             {
                 PollardIterationFunction(ref x1, ref a1, ref b1, g, h, p);
                 PollardIterationFunction(ref x2, ref a2, ref b2, g, h, p);
                 PollardIterationFunction(ref x2, ref a2, ref b2, g, h, p);
                 if (x1 == x2) return;
+                StepsCount++;
             }
         }
 

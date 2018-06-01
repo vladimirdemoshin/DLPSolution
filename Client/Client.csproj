@@ -120,6 +120,10 @@
       <Project>{46567c1d-d147-4c29-a43c-a445e7bf2e86}</Project>
       <Name>DLPAlgorithm</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Test\Test.csproj">
+      <Project>{8a2cc306-44cf-4759-9c51-766fb1edae30}</Project>
+      <Name>Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utility\Utility.csproj">
       <Project>{6716752a-e7de-4348-b26b-695d8d6956c5}</Project>
       <Name>Utility</Name>

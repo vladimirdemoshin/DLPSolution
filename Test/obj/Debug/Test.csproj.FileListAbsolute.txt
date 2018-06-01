@@ -1,0 +1,13 @@
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\bin\Debug\Test.dll
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\bin\Debug\Test.pdb
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\bin\Debug\DLPAlgorithm.dll
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\bin\Debug\ECDLPAlgorithm.dll
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\bin\Debug\EllipticCurveUtility.dll
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\bin\Debug\Utility.dll
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\bin\Debug\DLPAlgorithm.pdb
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\bin\Debug\ECDLPAlgorithm.pdb
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\bin\Debug\EllipticCurveUtility.pdb
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\bin\Debug\Utility.pdb
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\obj\Debug\Test.csprojResolveAssemblyReference.cache
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\obj\Debug\Test.dll
+C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Test\obj\Debug\Test.pdb
