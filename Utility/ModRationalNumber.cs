@@ -12,9 +12,12 @@ namespace Utility
     public class ModRationalNumber
     {
         #region Properties
+        #region Private
         private BigInteger mod;
         private BigInteger numerator;
         private BigInteger denominator;
+        #endregion
+        #region Public
         public BigInteger Mod
         {
             get { return mod; }
@@ -46,18 +49,19 @@ namespace Utility
             }
         }
         #endregion
+        #endregion
 
         #region Constructors
-       
+
         public ModRationalNumber(BigInteger numerator, BigInteger denominator, BigInteger mod)
         {
             Mod = mod;
             Denominator = denominator;
             Numerator = numerator;
 
-            var gcd = BigInteger.GreatestCommonDivisor(Denominator.ModPositive(Mod), Mod);
-            if (gcd == 1)
-                Numerator = (Numerator * Denominator.ModInverse(Mod)).ModPositive(Mod);
+            var gcd = BigInteger.GreatestCommonDivisor(Denominator, Mod);
+            Numerator = (Numerator * (Denominator / gcd).ModInverse(Mod)).ModPositive(Mod);
+            Denominator = gcd;
         }
         #endregion
 
@@ -137,6 +141,16 @@ namespace Utility
             return condition;
         }
         public static bool operator !=(ModRationalNumber a, ModRationalNumber b)
+        {
+            return !(a == b);
+        }
+
+        public static bool operator ==(ModRationalNumber a, int b)
+        {
+            return a.Numerator == b && a.Denominator == 1;
+        }
+
+        public static bool operator !=(ModRationalNumber a, int b)
         {
             return !(a == b);
         }

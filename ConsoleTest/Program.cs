@@ -20,16 +20,39 @@ namespace ConsoleTest
         //public static string primesPath = @"..\..\..\FileUtility\PrimeNumbers.txt";
         static void Main(string[] args)
         {
+            //var rand = new BigIntegerRandom();
+
+            //var curve = EllipticCurve.GenerateEllipticCurve(rand.NextPrime(2));
+            //var P = curve.GetRandomAffinePoint().ToProjectivePoint();
+            //var n = rand.Next(0, P.E.P);
+            //var Q = n * P; 
+            //var x = ECDLPAlgorithm.RhoPollard.SolveDLP(P,Q);
+            //Console.WriteLine(n);
+            //Console.WriteLine(x);
 
 
+            //double[][] a = new double[3][];
+            //a[0] = new double[] {4,2,-1,1};
+            //a[1] = new double[] {5,3,-2,2};
+            //a[2] = new double[] {3,2,-3,0};
+            //GaussianElimination.ToTriangularForm(a);
 
+            //for (int i = 0; i < a.Length; i++)
+            //{
+            //    for (int j = 0; j < a[i].Length; j++)
+            //    {
+            //        Console.Write(a[i][j] + "  ");
+            //    }
+            //    Console.WriteLine();
+            //}
+            //Console.WriteLine();
 
-            //BigInteger p = 41651;
+            //BigInteger p = 173;
             //BigInteger g = 2;
-            //BigInteger x = 17211;
-            //BigInteger h = 284;
+            //BigInteger x = 165;
+            //BigInteger h = 123;
 
-            //var log = DLPAlgorithm.IndexCalculus.SolveDLP(g,x,h);
+            //var log = DLPAlgorithm.IndexCalculus.SolveDLP(g, h, p);
             //Console.WriteLine(log);
 
 
@@ -96,11 +119,11 @@ namespace ConsoleTest
 
             
 
-            int start = 10;
-            int finish = 10;
-            int count = 1;
+            //int start = 10;
+            //int finish = 10;
+            //int count = 1;
 
-            TestECDLPAlgorithm.TestBabyStepGiantStep(start, finish, count);
+            //TestECDLPAlgorithm.TestBabyStepGiantStep(start, finish, count);
 
             //TestDLPAlgorithm.TestIndexCalculus(start, finish, count);
             //Console.WriteLine("done");

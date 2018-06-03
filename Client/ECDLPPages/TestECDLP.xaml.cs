@@ -13,16 +13,28 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Client
+namespace Client.ECDLPPages
 {
-    /// <summary>
-    /// Interaction logic for ECDLPPage.xaml
-    /// </summary>
-    public partial class ECDLPPage : Page
+    public partial class TestECDLP : Page
     {
-        public ECDLPPage()
+        public TestECDLP()
         {
             InitializeComponent();
+        }
+
+        private void OnGenerateBtnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnSolveDLPBtnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void OnAlgorithmRadioBtnChecked(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

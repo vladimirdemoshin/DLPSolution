@@ -13,17 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLPAlgorithm", "DLPAlgorith
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ECDLPAlgorithm", "ECDLPAlgorithm\ECDLPAlgorithm.csproj", "{92AF0059-C0D1-4859-B994-9718796CA935}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileUtility", "FileUtility", "{3D1344C0-9AB3-4B17-B3FE-95D9C262EBA1}"
-	ProjectSection(SolutionItems) = preProject
-		FileUtility\PrimeNumbers.txt = FileUtility\PrimeNumbers.txt
-		FileUtility\primes1-10000.txt = FileUtility\primes1-10000.txt
-		FileUtility\PrimitiveRoots.txt = FileUtility\PrimitiveRoots.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestUtility", "TestUtility", "{1E8D0FC3-6D25-47E6-852A-E3F55EFEC622}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfTestClient", "WpfTestClient\WpfTestClient.csproj", "{F45CC618-DCAC-4775-9873-91A62BEDD966}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{FD7A4ACA-8B3C-4D70-A161-0D08CB9808F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{8A2CC306-44CF-4759-9C51-766FB1EDAE30}"
@@ -54,10 +43,6 @@ Global
 		{92AF0059-C0D1-4859-B994-9718796CA935}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92AF0059-C0D1-4859-B994-9718796CA935}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92AF0059-C0D1-4859-B994-9718796CA935}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F45CC618-DCAC-4775-9873-91A62BEDD966}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F45CC618-DCAC-4775-9873-91A62BEDD966}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F45CC618-DCAC-4775-9873-91A62BEDD966}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F45CC618-DCAC-4775-9873-91A62BEDD966}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FD7A4ACA-8B3C-4D70-A161-0D08CB9808F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FD7A4ACA-8B3C-4D70-A161-0D08CB9808F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD7A4ACA-8B3C-4D70-A161-0D08CB9808F3}.Release|Any CPU.ActiveCfg = Release|Any CPU

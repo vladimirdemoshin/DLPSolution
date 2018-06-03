@@ -11,7 +11,7 @@ namespace Utility
 {
     public static class FileUtility
     {
-        public static string PrimeNumbersFilePath = @"..\..\..\FileUtility\primes1-10000000.txt";
+        public static string PrimeNumbersFilePath = @"C:\Utility\Primes\primes1-10000000.txt";
         public static IEnumerable<BigInteger> GetFactorBaseFromFile(int factorBaseSize)
         {
             var reader = new StreamReader(PrimeNumbersFilePath);

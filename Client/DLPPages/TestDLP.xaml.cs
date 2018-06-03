@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 
 using System.Numerics;
 
-namespace Client
+namespace Client.DLPPages
 {
-    public partial class DLPTestPage : Page
+    public partial class TestDLP : Page
     {
-        #region Enumerations 
+       #region Enumerations 
         private enum Algorithms { BabyStep = 0, RhoPollard, IndexCalculus };
         #endregion
         #region Properties
@@ -59,7 +59,7 @@ namespace Client
         #endregion
 
         #endregion
-        public DLPTestPage()
+        public TestDLP()
         {
             InitializeComponent();
             InitializeProperties();
@@ -82,15 +82,16 @@ namespace Client
                 switch (currentAlgorithm)
                 {
                     case (int)Algorithms.BabyStep:
-                        
+                        x = Test.TestBabyStepGiantStepDLP.SolveDLP(input.g, input.h, input.p);
+                        elapsedTime = Test.TestBabyStepGiantStepDLP.ElapsedTime;
                         break;
                     case (int)Algorithms.RhoPollard:
                         x = Test.TestRhoPollardDLP.SolveDLP(input.g, input.h, input.p);
                         elapsedTime = Test.TestRhoPollardDLP.ElapsedTime;
-
                         break;
                     case (int)Algorithms.IndexCalculus:
 
+                        break;
                     default:
                         x = -1;
                         break;
@@ -118,9 +119,6 @@ namespace Client
 
         }
         
-
         #endregion
-
-        
     }
 }

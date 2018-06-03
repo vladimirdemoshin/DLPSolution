@@ -45,7 +45,6 @@ namespace ECDLPAlgorithm
         public static BigInteger SolveDLP(ProjectivePoint P, ProjectivePoint Q)
         {
             var order = P.E.HasseTheorem();
-            //Console.WriteLine(order);
             var babySteps = new Dictionary<AffinePoint, BigInteger>();
             var m = BigIntegerExtension.Sqrt(order) + 1;
             AffinePoint babyStep;

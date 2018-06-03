@@ -54,15 +54,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="DLPPage.xaml">
+    <Page Include="DLPPages\GenerateDLP.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DLPTestPage.xaml">
+    <Page Include="DLPPages\TestDLP.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ECDLPPage.xaml">
+    <Page Include="ECDLPPages\GenerateECDLP.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ECDLPPages\TestECDLP.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -74,14 +78,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DLPPage.xaml.cs">
-      <DependentUpon>DLPPage.xaml</DependentUpon>
+    <Compile Include="DLPPages\GenerateDLP.xaml.cs">
+      <DependentUpon>GenerateDLP.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DLPTestPage.xaml.cs">
-      <DependentUpon>DLPTestPage.xaml</DependentUpon>
+    <Compile Include="DLPPages\TestDLP.xaml.cs">
+      <DependentUpon>TestDLP.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ECDLPPage.xaml.cs">
-      <DependentUpon>ECDLPPage.xaml</DependentUpon>
+    <Compile Include="ECDLPPages\GenerateECDLP.xaml.cs">
+      <DependentUpon>GenerateECDLP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ECDLPPages\TestECDLP.xaml.cs">
+      <DependentUpon>TestECDLP.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -129,6 +136,7 @@
       <Name>Utility</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

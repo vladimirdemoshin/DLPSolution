@@ -13,13 +13,26 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Client
+namespace Client.DLPPages
 {
-    public partial class DLPPage : Page
+    public partial class GenerateDLP : Page
     {
-        public DLPPage()
+        public GenerateDLP()
         {
             InitializeComponent();
+        }
+
+        #region Event Handlers
+        private void OnSolveDLPBtnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion
+
+        private void OnGenerateBtnClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\obj\Debug\
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\Client\obj\Debug\
 Client
 none
 false
 DEBUG;TRACE
-C:\Users\Vladimir\Documents\Visual Studio 2013\Projects\DLPSolution\Client\App.xaml
-41003383445
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\Client\App.xaml
+5-545867364
 
-12-582830210
-16-922747774
-DLPPage.xaml;DLPTestPage.xaml;ECDLPPage.xaml;MainWindow.xaml;
+131400165728
+16-16632854
+DLPPages\GenerateDLP.xaml;DLPPages\TestDLP.xaml;ECDLPPages\GenerateECDLP.xaml;ECDLPPages\TestECDLP.xaml;MainWindow.xaml;
 
 False
 

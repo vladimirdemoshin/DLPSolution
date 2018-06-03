@@ -24,7 +24,7 @@ namespace DLPAlgorithm
 
         static IndexCalculus()
         {
-            FactorBaseSize = 100;
+            FactorBaseSize = 5;
             LinearEquatationsCount = 4 * FactorBaseSize;
         }
 
@@ -34,12 +34,12 @@ namespace DLPAlgorithm
 
         public static BigInteger SolveDLP(BigInteger g, BigInteger h, BigInteger p)
         {
-
-            Console.WriteLine(FactorBaseSize);
-
             BigInteger order = p - 1;
             var input = new DLPInput(g, h, p, order);
             var factorBase = BigIntegerExtension.GetFactorBase(FactorBaseSize);
+            
+
+
             var coefficients = new List<List<BigInteger>>();
             var constantTerms = new List<BigInteger>();
             FirstStep(input, factorBase, ref coefficients, ref constantTerms);
@@ -52,17 +52,17 @@ namespace DLPAlgorithm
 
             if (factorBaseLogs == null) return -1;
 
-            //for (int i = 0; i < factorBaseLogs.Length; i++)
-            //{
-            //    var l = factorBaseLogs[i];
-            //    BigInteger pow = -1;
-            //    if (l != -1)
-            //    {
-            //        pow = BigInteger.ModPow(g, l, p);
-            //    }
-            //    var pr = factorBase[i];
-            //    Console.WriteLine(pow + " = " + pr);
-            //}
+            for (int i = 0; i < factorBaseLogs.Length; i++)
+            {
+                var l = factorBaseLogs[i];
+                BigInteger pow = -1;
+                if (l != -1)
+                {
+                    pow = BigInteger.ModPow(g, l, p);
+                }
+                var pr = factorBase[i];
+                Console.WriteLine(pow + " = " + pr);
+            }
 
 
 
@@ -83,9 +83,13 @@ namespace DLPAlgorithm
         public static void FirstStep(DLPInput input, BigInteger[] factorBase, ref List<List<BigInteger>> coefficients, ref List<BigInteger> constantTerms)
         {
             BigIntegerRandom rand = new BigIntegerRandom();
-            for (BigInteger k = 1; k < input.order; k++)
+            for (int i = 1; i < input.order; i++)
             {
-                k = rand.Next(0, input.order);
+                var k = rand.Next(0, input.order);
+                while(k==0)
+                {
+                    k = rand.Next(0, input.order);
+                }
                 var temp = BigInteger.ModPow(input.g, k, input.p);
                 var factorBaseFactorizationExponents = Factorization.GetFactorBaseFactorizationExponents(temp, factorBase);
                 if (factorBaseFactorizationExponents != null)
@@ -102,7 +106,7 @@ namespace DLPAlgorithm
                 }
                 if (coefficients.Count == LinearEquatationsCount)
                 {
-                    break;
+                    return;
                 }
             }
 

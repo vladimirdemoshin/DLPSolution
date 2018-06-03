@@ -16,19 +16,20 @@ namespace Utility
         public static BigInteger[] SolveSystemOfLinearEquatations(DLPInput input, ref BigInteger[] factorBase, BigInteger[][] coefficients, BigInteger[] constantTerms)
         {
             var reducedCoefficients = RemoveNullColumns(coefficients, ref factorBase);
-           // Print(reducedCoefficients);
-
             var augmentedMatrix = ToAugmentedMatrix(reducedCoefficients, constantTerms);
             var convertedAugmentedMatrix =  Converter.ToTwoDimensionalModRationalNumberArray(augmentedMatrix, input.order);
-            //Print(convertedAugmentedMatrix);
-            convertedAugmentedMatrix = ToTriangularForm(convertedAugmentedMatrix);
-           // Print(convertedAugmentedMatrix);
-            //Console.WriteLine("to triangular form done");
+            Print(convertedAugmentedMatrix);
 
-            ////Print(convertedAugmentedMatrix);
+
+
+            convertedAugmentedMatrix = ToTriangularForm(convertedAugmentedMatrix);
+            Print(convertedAugmentedMatrix);
+            Console.WriteLine("to triangular form done");
+
+            //Print(convertedAugmentedMatrix);
             convertedAugmentedMatrix = RemoveNullLines(convertedAugmentedMatrix);
-            //Console.WriteLine("removed null lines");
-           // Print(convertedAugmentedMatrix);
+            Console.WriteLine("removed null lines");
+            Print(convertedAugmentedMatrix);
             Console.WriteLine(convertedAugmentedMatrix.Length +" - " + factorBase.Length );
             if (convertedAugmentedMatrix.Length < factorBase.Length - 10)
             {
@@ -220,31 +221,31 @@ namespace Utility
             Console.WriteLine(); Console.WriteLine();
         }
 
-
-        public static ModRationalNumber[][] ToTriangularForm(ModRationalNumber[][] matrix)
+        //тестовая функция
+        public static double[][] ToTriangularForm(double[][] matrix)
         {
-            int n = matrix.Length;
-            int m = matrix[0].Length;
-            int currentColumn = 0;
-            int currentRow = 0;
-            while (currentColumn < m && currentRow < n)
+            int n = matrix.Length; //количество строк 
+            int m = matrix[0].Length; //количество столбцов
+            int currentColumn = 0; //текущий рассматриваемый столбец
+            int currentRow = 0; //текущая рассматриваемая строка
+            while (currentRow != n-1 && currentColumn != m)  //currentColumn < m && currentRow < 
             {
-                //step 1
-                int leadingRow = -1;
-                ModRationalNumber leadingElement = new ModRationalNumber(1,1,matrix[0][0].Mod);
-                for (int tempRow = currentRow; tempRow < n; tempRow++)
-                    if (matrix[tempRow][currentColumn].Numerator != 0)
+                //шаг 1 - находим ненулевой элемент в текущем столбце и меняем с текущей строкой
+                int leadingRow = -1; //ряд с ведущим элементом
+                double leadingElement = 1; //ведущий элемент
+                for (int tempRow = currentRow; tempRow < n; tempRow++) //идем по одному столбцу и всем строчкам
+                    if (matrix[tempRow][currentColumn] != 0)
                     {
                         leadingRow = tempRow;
                         leadingElement = matrix[tempRow][currentColumn];
                         break;
                     }
-                if (leadingRow == -1)
-                {
-                    currentColumn++;
-                    continue;
-                }
-                if (leadingRow != currentRow)
+                //if (leadingRow == -1) //если -1, то в столбце все нули, пропускаем столб, но у нас такого не бывает, так как все нулевые столбцы удалены
+                //{
+                //    currentColumn++;
+                //    continue;
+                //}
+                if (leadingRow != currentRow) //если первый же элемент ненулевой, то ниче не меняем местами
                 {
                     for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
                     {
@@ -253,21 +254,26 @@ namespace Utility
                         matrix[currentRow][tempColumn] = tmp;
                     }
                 }
-                //step 2
-                for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
-                {
-                    matrix[currentRow][tempColumn] = matrix[currentRow][tempColumn] / leadingElement;
-                }
-                if (currentRow == n - 1) break;
-                //step 3
+
+                //убираем шаг 2, он реализуется в шаге 3
+                //шаг 2 - создаем временную строку, делим её на ведущий элемент
+                //var tempCurrentRowCopy = new double[m];
+                //for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
+                //{
+                //    tempCurrentRowCopy[tempColumn] = matrix[currentRow][tempColumn] / leadingElement;
+                //}
+               // if (currentRow == n - 1) break;
+
+                //шаг 3 - прибавляем ко всем строкам, ниже текущей, текущую строку, деленную на ведущий элемент и умноженую на первый элемент каждой строки с противоположным знаком
                 for (int tempRow = currentRow + 1; tempRow < n; tempRow++)
                 {
-                    ModRationalNumber c = new ModRationalNumber(matrix[tempRow][currentColumn].Numerator, matrix[tempRow][currentColumn].Denominator, matrix[tempRow][currentColumn].Mod);
-                    if (c.Numerator == 0) continue;
+                    double coeff = matrix[tempRow][currentColumn] / (1.0 * leadingElement);
+                    //if (c == 0) continue;
                     for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
                     {
-                        if (tempColumn == currentColumn) matrix[tempRow][tempColumn] = new ModRationalNumber(0, 1, matrix[tempRow][tempColumn].Mod);
-                        else matrix[tempRow][tempColumn] = matrix[tempRow][tempColumn] - c * matrix[currentRow][tempColumn];
+                        
+                        //else matrix[tempRow][tempColumn] = matrix[tempRow][tempColumn] - c * matrix[currentRow][tempColumn];
+                        matrix[tempRow][tempColumn] -= coeff * matrix[currentRow][tempColumn];
                     }
                 }
 
@@ -277,13 +283,152 @@ namespace Utility
 
                 //Console.WriteLine();
 
-                    //step 4
+                //step 4
                 currentRow++;
                 currentColumn++;
             }
-            Console.WriteLine("colunn row" + currentRow + " " + currentColumn);
+            //Console.WriteLine("colunn row" + currentRow + " " + currentColumn);
             return matrix;
         }
+
+        //тестовая функция
+        public static ModRationalNumber[][] ToTriangularForm(ModRationalNumber[][] matrix)
+        {
+            var Mod = matrix[0][0].Mod; // делаем допущение, что все элементы берутся по одному модулю
+            int n = matrix.Length; //количество строк 
+            int m = matrix[0].Length; //количество столбцов
+            int currentColumn = 0; //текущий рассматриваемый столбец
+            int currentRow = 0; //текущая рассматриваемая строка
+            while (currentRow != n - 1 && currentColumn != m)
+            {
+                //шаг 1 - находим ненулевой элемент в текущем столбце и меняем с текущей строкой
+                int leadingRow = -1; //ряд с ведущим элементом
+                var leadingElement = new ModRationalNumber(1,1,Mod); //ведущий элемент
+                for (int tempRow = currentRow; tempRow < n; tempRow++) //идем по одному столбцу и всем строчкам
+                    if (matrix[tempRow][currentColumn] != 0)
+                    {
+                        leadingRow = tempRow;
+                        leadingElement = matrix[tempRow][currentColumn];
+                        break;
+                    }
+                if (leadingRow == -1) //если -1, то в столбце все нули, пропускаем столб
+                {
+                    currentColumn++;
+                    continue;
+                }
+                if (leadingRow != currentRow) //если первый же элемент ненулевой, то ниче не меняем местами
+                {
+                    for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
+                    {
+                        var tmp = matrix[leadingRow][tempColumn];
+                        matrix[leadingRow][tempColumn] = matrix[currentRow][tempColumn];
+                        matrix[currentRow][tempColumn] = tmp;
+                    }
+                }
+
+                //убираем шаг 2, он реализуется в шаге 3
+                //шаг 2 - создаем временную строку, делим её на ведущий элемент
+                //var tempCurrentRowCopy = new double[m];
+                //for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
+                //{
+                //    tempCurrentRowCopy[tempColumn] = matrix[currentRow][tempColumn] / leadingElement;
+                //}
+                // if (currentRow == n - 1) break;
+
+                //шаг 3 - прибавляем ко всем строкам, ниже текущей, текущую строку, деленную на ведущий элемент и умноженую на первый элемент каждой строки с противоположным знаком
+                for (int tempRow = currentRow + 1; tempRow < n; tempRow++)
+                {
+                    var coeff = -1 * (matrix[tempRow][currentColumn] / leadingElement);
+                    for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
+                    {
+                        //if (tempColumn == currentColumn)
+                        //{
+                        //    matrix[tempRow][tempColumn] = new ModRationalNumber(0, 1, Mod);
+                        //    continue;
+                        //}
+                        matrix[tempRow][tempColumn] += coeff * matrix[currentRow][tempColumn];
+                    }
+                }
+
+
+                //for (int i = 0; i < m; i++)
+                //    Console.Write(matrix[currentRow][i] + " ");
+
+                //Console.WriteLine();
+
+                //step 4
+                currentRow++;
+                currentColumn++;
+            }
+            //Console.WriteLine("colunn row" + currentRow + " " + currentColumn);
+            return matrix;
+        }
+
+
+        //последний вроде как рабочий метод
+        //public static ModRationalNumber[][] ToTriangularForm(ModRationalNumber[][] matrix)
+        //{
+        //    int n = matrix.Length;
+        //    int m = matrix[0].Length;
+        //    int currentColumn = 0;
+        //    int currentRow = 0;
+        //    while (currentColumn < m && currentRow < n)
+        //    {
+        //        //step 1
+        //        int leadingRow = -1;
+        //        ModRationalNumber leadingElement = new ModRationalNumber(1,1,matrix[0][0].Mod);
+        //        for (int tempRow = currentRow; tempRow < n; tempRow++)
+        //            if (matrix[tempRow][currentColumn].Numerator != 0)
+        //            {
+        //                leadingRow = tempRow;
+        //                leadingElement = matrix[tempRow][currentColumn];
+        //                break;
+        //            }
+        //        if (leadingRow == -1)
+        //        {
+        //            currentColumn++;
+        //            continue;
+        //        }
+        //        if (leadingRow != currentRow)
+        //        {
+        //            for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
+        //            {
+        //                var tmp = matrix[leadingRow][tempColumn];
+        //                matrix[leadingRow][tempColumn] = matrix[currentRow][tempColumn];
+        //                matrix[currentRow][tempColumn] = tmp;
+        //            }
+        //        }
+        //        //step 2
+        //        for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
+        //        {
+        //            matrix[currentRow][tempColumn] = matrix[currentRow][tempColumn] / leadingElement;
+        //        }
+        //        if (currentRow == n - 1) break;
+        //        //step 3
+        //        for (int tempRow = currentRow + 1; tempRow < n; tempRow++)
+        //        {
+        //            ModRationalNumber c = new ModRationalNumber(matrix[tempRow][currentColumn].Numerator, matrix[tempRow][currentColumn].Denominator, matrix[tempRow][currentColumn].Mod);
+        //            if (c.Numerator == 0) continue;
+        //            for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
+        //            {
+        //                if (tempColumn == currentColumn) matrix[tempRow][tempColumn] = new ModRationalNumber(0, 1, matrix[tempRow][tempColumn].Mod);
+        //                else matrix[tempRow][tempColumn] = matrix[tempRow][tempColumn] - c * matrix[currentRow][tempColumn];
+        //            }
+        //        }
+
+
+        //        //for (int i = 0; i < m; i++)
+        //        //    Console.Write(matrix[currentRow][i] + " ");
+
+        //        //Console.WriteLine();
+
+        //            //step 4
+        //        currentRow++;
+        //        currentColumn++;
+        //    }
+        //    Console.WriteLine("colunn row" + currentRow + " " + currentColumn);
+        //    return matrix;
+        //}
 
         public static ModRationalNumber[][] RemoveNullLines(ModRationalNumber[][] convertedAugmentedMatrix)
         {

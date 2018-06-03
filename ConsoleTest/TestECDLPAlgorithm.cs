@@ -34,7 +34,7 @@ namespace ConsoleTest
                     var Q = (n * point.ToProjectivePoint()).ToAffinePoint();
 
                     var startTime = System.Diagnostics.Stopwatch.StartNew();
-                    var log = ECDLPAlgorithm.RhoPollard.SolveDLP(point, Q);//ECDLPAlgorithm.BabyStepGiantStep.SolveDLP(point.ToProjectivePoint(), Q.ToProjectivePoint());
+                    var log = ECDLPAlgorithm.BabyStepGiantStep.SolveDLP(point.ToProjectivePoint(), Q.ToProjectivePoint());
                     startTime.Stop();
                     var resultTime = startTime.Elapsed;
                     string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:000}",
