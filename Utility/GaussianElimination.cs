@@ -138,20 +138,20 @@ namespace Utility
             else
             {
 
-                ////return 1;
-                //Console.WriteLine(gcd);
-                //BigInteger u, v;
-                //BigIntegerExtension.ExtendedGcd(a, mod, out u, out v);
-                //var reducedMOD = mod / gcd;
-                //var x0 = ((b / gcd) * u).ModPositive(reducedMOD);
-                //for (BigInteger j = 0; j < gcd; j++)
-                //{
+                //return 1;
+                Console.WriteLine(gcd);
+                BigInteger u, v;
+                BigIntegerExtension.ExtendedGcd(a, mod, out u, out v);
+                var reducedMOD = mod / gcd;
+                var x0 = ((b / gcd) * u).ModPositive(reducedMOD);
+                for (BigInteger j = 0; j < gcd; j++)
+                {
 
-                //    var x = x0 + j * reducedMOD;
-                //    // Console.WriteLine(x);
-                //    if (BigInteger.ModPow(input.g, x, input.p) == logatithmicExpression)
-                //        return x;
-                //}
+                    var x = x0 + j * reducedMOD;
+                    // Console.WriteLine(x);
+                    if (BigInteger.ModPow(input.g, x, input.p) == logatithmicExpression)
+                        return x;
+                }
             }
             return -1;
         }
@@ -221,75 +221,75 @@ namespace Utility
             Console.WriteLine(); Console.WriteLine();
         }
 
-        //тестовая функция
-        public static double[][] ToTriangularForm(double[][] matrix)
-        {
-            int n = matrix.Length; //количество строк 
-            int m = matrix[0].Length; //количество столбцов
-            int currentColumn = 0; //текущий рассматриваемый столбец
-            int currentRow = 0; //текущая рассматриваемая строка
-            while (currentRow != n-1 && currentColumn != m)  //currentColumn < m && currentRow < 
-            {
-                //шаг 1 - находим ненулевой элемент в текущем столбце и меняем с текущей строкой
-                int leadingRow = -1; //ряд с ведущим элементом
-                double leadingElement = 1; //ведущий элемент
-                for (int tempRow = currentRow; tempRow < n; tempRow++) //идем по одному столбцу и всем строчкам
-                    if (matrix[tempRow][currentColumn] != 0)
-                    {
-                        leadingRow = tempRow;
-                        leadingElement = matrix[tempRow][currentColumn];
-                        break;
-                    }
-                //if (leadingRow == -1) //если -1, то в столбце все нули, пропускаем столб, но у нас такого не бывает, так как все нулевые столбцы удалены
-                //{
-                //    currentColumn++;
-                //    continue;
-                //}
-                if (leadingRow != currentRow) //если первый же элемент ненулевой, то ниче не меняем местами
-                {
-                    for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
-                    {
-                        var tmp = matrix[leadingRow][tempColumn];
-                        matrix[leadingRow][tempColumn] = matrix[currentRow][tempColumn];
-                        matrix[currentRow][tempColumn] = tmp;
-                    }
-                }
+        ////тестовая функция
+        //public static double[][] ToTriangularForm(double[][] matrix)
+        //{
+        //    int n = matrix.Length; //количество строк 
+        //    int m = matrix[0].Length; //количество столбцов
+        //    int currentColumn = 0; //текущий рассматриваемый столбец
+        //    int currentRow = 0; //текущая рассматриваемая строка
+        //    while (currentRow != n-1 && currentColumn != m)  //currentColumn < m && currentRow < 
+        //    {
+        //        //шаг 1 - находим ненулевой элемент в текущем столбце и меняем с текущей строкой
+        //        int leadingRow = -1; //ряд с ведущим элементом
+        //        double leadingElement = 1; //ведущий элемент
+        //        for (int tempRow = currentRow; tempRow < n; tempRow++) //идем по одному столбцу и всем строчкам
+        //            if (matrix[tempRow][currentColumn] != 0)
+        //            {
+        //                leadingRow = tempRow;
+        //                leadingElement = matrix[tempRow][currentColumn];
+        //                break;
+        //            }
+        //        //if (leadingRow == -1) //если -1, то в столбце все нули, пропускаем столб, но у нас такого не бывает, так как все нулевые столбцы удалены
+        //        //{
+        //        //    currentColumn++;
+        //        //    continue;
+        //        //}
+        //        if (leadingRow != currentRow) //если первый же элемент ненулевой, то ниче не меняем местами
+        //        {
+        //            for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
+        //            {
+        //                var tmp = matrix[leadingRow][tempColumn];
+        //                matrix[leadingRow][tempColumn] = matrix[currentRow][tempColumn];
+        //                matrix[currentRow][tempColumn] = tmp;
+        //            }
+        //        }
 
-                //убираем шаг 2, он реализуется в шаге 3
-                //шаг 2 - создаем временную строку, делим её на ведущий элемент
-                //var tempCurrentRowCopy = new double[m];
-                //for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
-                //{
-                //    tempCurrentRowCopy[tempColumn] = matrix[currentRow][tempColumn] / leadingElement;
-                //}
-               // if (currentRow == n - 1) break;
+        //        //убираем шаг 2, он реализуется в шаге 3
+        //        //шаг 2 - создаем временную строку, делим её на ведущий элемент
+        //        //var tempCurrentRowCopy = new double[m];
+        //        //for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
+        //        //{
+        //        //    tempCurrentRowCopy[tempColumn] = matrix[currentRow][tempColumn] / leadingElement;
+        //        //}
+        //       // if (currentRow == n - 1) break;
 
-                //шаг 3 - прибавляем ко всем строкам, ниже текущей, текущую строку, деленную на ведущий элемент и умноженую на первый элемент каждой строки с противоположным знаком
-                for (int tempRow = currentRow + 1; tempRow < n; tempRow++)
-                {
-                    double coeff = matrix[tempRow][currentColumn] / (1.0 * leadingElement);
-                    //if (c == 0) continue;
-                    for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
-                    {
+        //        //шаг 3 - прибавляем ко всем строкам, ниже текущей, текущую строку, деленную на ведущий элемент и умноженую на первый элемент каждой строки с противоположным знаком
+        //        for (int tempRow = currentRow + 1; tempRow < n; tempRow++)
+        //        {
+        //            double coeff = matrix[tempRow][currentColumn] / (1.0 * leadingElement);
+        //            //if (c == 0) continue;
+        //            for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
+        //            {
                         
-                        //else matrix[tempRow][tempColumn] = matrix[tempRow][tempColumn] - c * matrix[currentRow][tempColumn];
-                        matrix[tempRow][tempColumn] -= coeff * matrix[currentRow][tempColumn];
-                    }
-                }
+        //                //else matrix[tempRow][tempColumn] = matrix[tempRow][tempColumn] - c * matrix[currentRow][tempColumn];
+        //                matrix[tempRow][tempColumn] -= coeff * matrix[currentRow][tempColumn];
+        //            }
+        //        }
 
 
-                //for (int i = 0; i < m; i++)
-                //    Console.Write(matrix[currentRow][i] + " ");
+        //        //for (int i = 0; i < m; i++)
+        //        //    Console.Write(matrix[currentRow][i] + " ");
 
-                //Console.WriteLine();
+        //        //Console.WriteLine();
 
-                //step 4
-                currentRow++;
-                currentColumn++;
-            }
-            //Console.WriteLine("colunn row" + currentRow + " " + currentColumn);
-            return matrix;
-        }
+        //        //step 4
+        //        currentRow++;
+        //        currentColumn++;
+        //    }
+        //    //Console.WriteLine("colunn row" + currentRow + " " + currentColumn);
+        //    return matrix;
+        //}
 
         //тестовая функция
         public static ModRationalNumber[][] ToTriangularForm(ModRationalNumber[][] matrix)
@@ -338,7 +338,7 @@ namespace Utility
                 //шаг 3 - прибавляем ко всем строкам, ниже текущей, текущую строку, деленную на ведущий элемент и умноженую на первый элемент каждой строки с противоположным знаком
                 for (int tempRow = currentRow + 1; tempRow < n; tempRow++)
                 {
-                    var coeff = -1 * (matrix[tempRow][currentColumn] / leadingElement);
+                    var coeff = (matrix[tempRow][currentColumn] / leadingElement);
                     for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
                     {
                         //if (tempColumn == currentColumn)
@@ -346,7 +346,7 @@ namespace Utility
                         //    matrix[tempRow][tempColumn] = new ModRationalNumber(0, 1, Mod);
                         //    continue;
                         //}
-                        matrix[tempRow][tempColumn] += coeff * matrix[currentRow][tempColumn];
+                        matrix[tempRow][tempColumn] -= coeff * matrix[currentRow][tempColumn];
                     }
                 }
 

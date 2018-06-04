@@ -43,7 +43,7 @@ namespace Utility
             get { return denominator; }
             set
             {
-                var temp = value.ModPositive(mod);
+                var temp = value.ModPositive(Mod);
                 if (temp == 0) denominator = 1;
                 else denominator = temp;
             }
@@ -59,9 +59,9 @@ namespace Utility
             Denominator = denominator;
             Numerator = numerator;
 
-            var gcd = BigInteger.GreatestCommonDivisor(Denominator, Mod);
-            Numerator = (Numerator * (Denominator / gcd).ModInverse(Mod)).ModPositive(Mod);
-            Denominator = gcd;
+            //var gcd = BigInteger.GreatestCommonDivisor(Denominator, Mod);
+            //Numerator = (Numerator * (Denominator / gcd).ModInverse(Mod)).ModPositive(Mod);
+            //Denominator = gcd;
         }
         #endregion
 
@@ -114,18 +114,19 @@ namespace Utility
 
         public static ModRationalNumber operator /(ModRationalNumber a, ModRationalNumber b)
         {
-            var gcd = BigInteger.GreatestCommonDivisor(b.Numerator, a.Mod);
-            if (gcd == 1)
-                return new ModRationalNumber(a.Numerator * b.Denominator * b.Numerator, a.Denominator, a.Mod);
-            else
-            {
-                BigInteger numerator = a.Numerator * b.Denominator;
-                BigInteger denominator = a.Denominator * b.Numerator;
-                return new ModRationalNumber(numerator, denominator, a.Mod);
-            }
+            //var gcd = BigInteger.GreatestCommonDivisor(b.Numerator, a.Mod);
+            //if (gcd == 1)
+            //    return new ModRationalNumber(a.Numerator * b.Denominator * b.Numerator, a.Denominator, a.Mod);
+            //else
+            //{
+            //    BigInteger numerator = a.Numerator * b.Denominator;
+            //    BigInteger denominator = a.Denominator * b.Numerator;
+            //    return new ModRationalNumber(numerator, denominator, a.Mod);
+            //}
 
-            //BigInteger numerator = a.Numerator * b.Denominator;
-            //BigInteger denominator = a.Denominator * b.Numerator;
+            BigInteger numerator = a.Numerator * b.Denominator;
+            BigInteger denominator = a.Denominator * b.Numerator;
+            return new ModRationalNumber(numerator, denominator, a.Mod);
 
             ////var gcd = BigInteger.GreatestCommonDivisor(denominator.ModPositive(a.Mod), a.Mod);
             ////if (gcd == 1)

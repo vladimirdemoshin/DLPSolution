@@ -24,7 +24,7 @@ namespace DLPAlgorithm
 
         static IndexCalculus()
         {
-            FactorBaseSize = 5;
+            FactorBaseSize = 15;
             LinearEquatationsCount = 4 * FactorBaseSize;
         }
 

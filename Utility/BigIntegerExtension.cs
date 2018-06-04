@@ -32,12 +32,58 @@ namespace Utility
             return d;
         }
 
+        public static BigInteger PrimitiveRoot(BigInteger p)
+        {
+            var order = p - 1;
+            var primeFactors = GetPrimeFactors(order);
+            for (int g = 2; g < p; g++)
+            {
+                bool flag = false;
+                foreach (var prime in primeFactors)
+                {
+                    if (BigInteger.ModPow(g, order / prime, p) == 1)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (flag == false)
+                    return g;
+            }
+            return -1;
+        }
+
+        public static BigInteger Sqrt(this BigInteger n)
+        {
+            if (n == 0) return 0;
+            if (n > 0)
+            {
+                int bitLength = Convert.ToInt32(Math.Ceiling(BigInteger.Log(n, 2)));
+                BigInteger root = BigInteger.One << (bitLength / 2);
+
+                while (!isSqrt(n, root))
+                {
+                    root += n / root;
+                    root /= 2;
+                }
+
+                return root;
+            }
+            return -1;
+        }
+
+        //##########
+
+
+
         public static BigInteger ModPositive(this BigInteger num, BigInteger mod)
         {
             num = num % mod;
             while (num < 0) num += mod;
             return num;
         }
+
+
 
         public static BigInteger[] GetFactorBase(int factorBaseSize)
         {
@@ -86,27 +132,7 @@ namespace Utility
         //    return -1;
         //}
 
-        //Function to find smallest primitive root of n
-        public static BigInteger PrimitiveRoot(BigInteger p)
-        {
-            var order = p - 1;
-            var primeFactors = GetPrimeFactors(order);
-            for (int g = 2; g < p; g++)
-            {
-                bool flag = false;
-                foreach (var prime in primeFactors)
-                {
-                    if (BigInteger.ModPow(g, order / prime, p) == 1)
-                    {
-                        flag = true;
-                        break;
-                    }
-                }
-                if (flag == false)
-                    return g;
-            }
-            return -1;
-        }
+       
 
         public static BigInteger[] GetPrimitiveRoots(BigInteger[] primeNumbers)
         {
@@ -271,25 +297,7 @@ namespace Utility
             return result;
         }
 
-        //азата
-        public static BigInteger Sqrt(this BigInteger n)
-        {
-            if (n == 0) return 0;
-            if (n > 0)
-            {
-                int bitLength = Convert.ToInt32(Math.Ceiling(BigInteger.Log(n, 2)));
-                BigInteger root = BigInteger.One << (bitLength / 2);
 
-                while (!isSqrt(n, root))
-                {
-                    root += n / root;
-                    root /= 2;
-                }
-
-                return root;
-            }
-            return -1;
-        }
 
         private static Boolean isSqrt(BigInteger n, BigInteger root)
         {
