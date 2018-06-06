@@ -47,10 +47,20 @@ namespace ConsoleTest
             //}
             //Console.WriteLine();
 
-            BigInteger p = 173;
-            BigInteger g = 2;
-            BigInteger x = 165;
-            BigInteger h = 123;
+            //BigInteger p = 173;
+            //BigInteger g = 2;
+            //BigInteger x = 165;
+            //BigInteger h = 123;
+
+            //BigInteger p = 712589951;
+            //BigInteger g = 13;
+            //BigInteger x = 490706862;
+            //BigInteger h = 132432212;
+
+            BigInteger p = 17593754196103;
+            BigInteger g = 13;
+            BigInteger x = 1204859998;
+            BigInteger h = 9448552555342;
 
             var log = DLPAlgorithm.IndexCalculus.SolveDLP(g, h, p);
             Console.WriteLine(log);

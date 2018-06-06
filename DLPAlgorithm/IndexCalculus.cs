@@ -24,8 +24,8 @@ namespace DLPAlgorithm
 
         static IndexCalculus()
         {
-            FactorBaseSize = 15;
-            LinearEquatationsCount = 4 * FactorBaseSize;
+            FactorBaseSize = 10;
+            LinearEquatationsCount = 5 * FactorBaseSize;
         }
 
         #endregion
@@ -96,15 +96,16 @@ namespace DLPAlgorithm
                 {
                     coefficients.Add(factorBaseFactorizationExponents.ToList());
 
-                    //bool isLinearIndependent = GaussianElimination.IsLinearIndependent(coefficients.ToArray());
-                    //if (!isLinearIndependent)
-                    //    coefficients.RemoveAt(coefficients.Count - 1);
-                    //else
-                    //    constantTerms.Add(k);
+                    bool isLinearIndependent = GaussianElimination.IsLinearIndependent(coefficients, input.order);
+                    if (!isLinearIndependent)
+                        coefficients.RemoveAt(coefficients.Count - 1);
+                    else
+                        constantTerms.Add(k);
 
-                    constantTerms.Add(k);
+                    //constantTerms.Add(k);
                 }
-                if (coefficients.Count == LinearEquatationsCount)
+                if (coefficients.Count == factorBase.Length)
+                //if (coefficients.Count == LinearEquatationsCount)
                 {
                     return;
                 }

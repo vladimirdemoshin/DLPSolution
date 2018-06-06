@@ -31,7 +31,7 @@ namespace Utility
             Console.WriteLine("removed null lines");
             Print(convertedAugmentedMatrix);
             Console.WriteLine(convertedAugmentedMatrix.Length +" - " + factorBase.Length );
-            if (convertedAugmentedMatrix.Length < factorBase.Length - 10)
+            if (convertedAugmentedMatrix.Length < factorBase.Length)
             {
                // ReduceFactorBase(ref factorBase, ref convertedAugmentedMatrix);
                 //Console.WriteLine(convertedAugmentedMatrix.Length + " - " + factorBase.Length);
@@ -228,7 +228,7 @@ namespace Utility
         //    int m = matrix[0].Length; //количество столбцов
         //    int currentColumn = 0; //текущий рассматриваемый столбец
         //    int currentRow = 0; //текущая рассматриваемая строка
-        //    while (currentRow != n-1 && currentColumn != m)  //currentColumn < m && currentRow < 
+        //    while (currentRow != n - 1 && currentColumn != m)  //currentColumn < m && currentRow < 
         //    {
         //        //шаг 1 - находим ненулевой элемент в текущем столбце и меняем с текущей строкой
         //        int leadingRow = -1; //ряд с ведущим элементом
@@ -262,7 +262,7 @@ namespace Utility
         //        //{
         //        //    tempCurrentRowCopy[tempColumn] = matrix[currentRow][tempColumn] / leadingElement;
         //        //}
-        //       // if (currentRow == n - 1) break;
+        //        // if (currentRow == n - 1) break;
 
         //        //шаг 3 - прибавляем ко всем строкам, ниже текущей, текущую строку, деленную на ведущий элемент и умноженую на первый элемент каждой строки с противоположным знаком
         //        for (int tempRow = currentRow + 1; tempRow < n; tempRow++)
@@ -271,7 +271,7 @@ namespace Utility
         //            //if (c == 0) continue;
         //            for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
         //            {
-                        
+
         //                //else matrix[tempRow][tempColumn] = matrix[tempRow][tempColumn] - c * matrix[currentRow][tempColumn];
         //                matrix[tempRow][tempColumn] -= coeff * matrix[currentRow][tempColumn];
         //            }
@@ -291,7 +291,7 @@ namespace Utility
         //    return matrix;
         //}
 
-        //тестовая функция
+        //главная функция
         public static ModRationalNumber[][] ToTriangularForm(ModRationalNumber[][] matrix)
         {
             var Mod = matrix[0][0].Mod; // делаем допущение, что все элементы берутся по одному модулю
@@ -365,70 +365,7 @@ namespace Utility
         }
 
 
-        //последний вроде как рабочий метод
-        //public static ModRationalNumber[][] ToTriangularForm(ModRationalNumber[][] matrix)
-        //{
-        //    int n = matrix.Length;
-        //    int m = matrix[0].Length;
-        //    int currentColumn = 0;
-        //    int currentRow = 0;
-        //    while (currentColumn < m && currentRow < n)
-        //    {
-        //        //step 1
-        //        int leadingRow = -1;
-        //        ModRationalNumber leadingElement = new ModRationalNumber(1,1,matrix[0][0].Mod);
-        //        for (int tempRow = currentRow; tempRow < n; tempRow++)
-        //            if (matrix[tempRow][currentColumn].Numerator != 0)
-        //            {
-        //                leadingRow = tempRow;
-        //                leadingElement = matrix[tempRow][currentColumn];
-        //                break;
-        //            }
-        //        if (leadingRow == -1)
-        //        {
-        //            currentColumn++;
-        //            continue;
-        //        }
-        //        if (leadingRow != currentRow)
-        //        {
-        //            for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
-        //            {
-        //                var tmp = matrix[leadingRow][tempColumn];
-        //                matrix[leadingRow][tempColumn] = matrix[currentRow][tempColumn];
-        //                matrix[currentRow][tempColumn] = tmp;
-        //            }
-        //        }
-        //        //step 2
-        //        for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
-        //        {
-        //            matrix[currentRow][tempColumn] = matrix[currentRow][tempColumn] / leadingElement;
-        //        }
-        //        if (currentRow == n - 1) break;
-        //        //step 3
-        //        for (int tempRow = currentRow + 1; tempRow < n; tempRow++)
-        //        {
-        //            ModRationalNumber c = new ModRationalNumber(matrix[tempRow][currentColumn].Numerator, matrix[tempRow][currentColumn].Denominator, matrix[tempRow][currentColumn].Mod);
-        //            if (c.Numerator == 0) continue;
-        //            for (int tempColumn = currentColumn; tempColumn < m; tempColumn++)
-        //            {
-        //                if (tempColumn == currentColumn) matrix[tempRow][tempColumn] = new ModRationalNumber(0, 1, matrix[tempRow][tempColumn].Mod);
-        //                else matrix[tempRow][tempColumn] = matrix[tempRow][tempColumn] - c * matrix[currentRow][tempColumn];
-        //            }
-        //        }
-
-
-        //        //for (int i = 0; i < m; i++)
-        //        //    Console.Write(matrix[currentRow][i] + " ");
-
-        //        //Console.WriteLine();
-
-        //            //step 4
-        //        currentRow++;
-        //        currentColumn++;
-        //    }
-        //    Console.WriteLine("colunn row" + currentRow + " " + currentColumn);
-        //    return matrix;
-        //}
+       
 
         public static ModRationalNumber[][] RemoveNullLines(ModRationalNumber[][] convertedAugmentedMatrix)
         {
@@ -456,16 +393,26 @@ namespace Utility
         }
 
         #endregion
-        //public static bool IsLinearIndependent(BigInteger[][] mtrx)
-        //{
-        //    var matrix = BigIntegerExtension.ToTwoDimensionalRationalNumberArray(mtrx);
-        //    var triangularMatrix = ToTriangularForm(matrix);
-        //    int lastRowIndex = triangularMatrix.Length - 1;
-        //    for (int i = 0; i < triangularMatrix[0].Length; i++)
-        //        if (triangularMatrix[lastRowIndex][i] != 0)
-        //            return true;
-        //    return false;
-        //}
+        public static bool IsLinearIndependent(List<List<BigInteger>> mtrx, BigInteger mod)
+        {
+            var temp = new BigInteger[mtrx.Count][];
+            int i = 0;
+            foreach(var row in mtrx)
+            {
+                temp[i] = new BigInteger[row.Count];
+                for(int j=0;j<row.Count;j++)
+                {
+                    temp[i][j] = row[j];
+                }
+                i++;
+            }
+            var triangularMatrix = ToTriangularForm(Converter.ToTwoDimensionalModRationalNumberArray(temp, mod));
+            int lastRowIndex = triangularMatrix.Length - 1;
+            for (int k = 0; k < triangularMatrix[0].Length; k++)
+                if (triangularMatrix[lastRowIndex][k] != 0)
+                    return true;
+            return false;
+        }
 
 
     }
