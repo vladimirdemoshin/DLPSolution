@@ -15,22 +15,26 @@ namespace Utility
 
         public static BigInteger[] SolveSystemOfLinearEquatations(DLPInput input, ref BigInteger[] factorBase, BigInteger[][] coefficients, BigInteger[] constantTerms)
         {
+            //Print(coefficients);
+            Console.WriteLine("Size of fb = " + factorBase.Length);
             var reducedCoefficients = RemoveNullColumns(coefficients, ref factorBase);
+            Console.WriteLine("Size of reduced fb = " + factorBase.Length);
+
             var augmentedMatrix = ToAugmentedMatrix(reducedCoefficients, constantTerms);
             var convertedAugmentedMatrix =  Converter.ToTwoDimensionalModRationalNumberArray(augmentedMatrix, input.order);
-            Print(convertedAugmentedMatrix);
+            //Print(convertedAugmentedMatrix);
 
 
-
+            Console.WriteLine("Count of rows before to triangular = " + convertedAugmentedMatrix.Length);
             convertedAugmentedMatrix = ToTriangularForm(convertedAugmentedMatrix);
-            Print(convertedAugmentedMatrix);
-            Console.WriteLine("to triangular form done");
+            Console.WriteLine("Count of rows after triangular = " + convertedAugmentedMatrix.Length);
 
             //Print(convertedAugmentedMatrix);
             convertedAugmentedMatrix = RemoveNullLines(convertedAugmentedMatrix);
-            Console.WriteLine("removed null lines");
-            Print(convertedAugmentedMatrix);
-            Console.WriteLine(convertedAugmentedMatrix.Length +" - " + factorBase.Length );
+            Console.WriteLine("Count of rows after null lines removal = " + convertedAugmentedMatrix.Length);
+
+           // Print(convertedAugmentedMatrix);
+           // Console.WriteLine(convertedAugmentedMatrix.Length +" - " + factorBase.Length );
             if (convertedAugmentedMatrix.Length < factorBase.Length)
             {
                // ReduceFactorBase(ref factorBase, ref convertedAugmentedMatrix);

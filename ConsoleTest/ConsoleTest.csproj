@@ -68,6 +68,10 @@
       <Project>{1f61eec6-90bb-439f-b692-4315bbc27147}</Project>
       <Name>EllipticCurveUtility</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Test\Test.csproj">
+      <Project>{8a2cc306-44cf-4759-9c51-766fb1edae30}</Project>
+      <Name>Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utility\Utility.csproj">
       <Project>{6716752a-e7de-4348-b26b-695d8d6956c5}</Project>
       <Name>Utility</Name>

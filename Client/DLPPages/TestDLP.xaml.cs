@@ -90,7 +90,7 @@ namespace Client.DLPPages
                         elapsedTime = Test.TestRhoPollardDLP.ElapsedTime;
                         break;
                     case (int)Algorithms.IndexCalculus:
-
+                       // x = Test.TestIndexCalculusDLP.SolveDLP()
                         break;
                     default:
                         x = -1;

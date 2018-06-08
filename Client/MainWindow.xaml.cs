@@ -20,7 +20,7 @@ namespace Client
         public MainWindow()
         {
             InitializeComponent();
-            Content = new ECDLPPages.GenerateECDLP();  //new DLPPages.TestDLP();
+            Content = new DLPPages.GenerateDLP();  //new DLPPages.TestDLP();
         }
     }
 }

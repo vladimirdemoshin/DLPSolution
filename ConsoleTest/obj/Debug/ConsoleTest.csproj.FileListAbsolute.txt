@@ -12,3 +12,5 @@ C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\
 C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\ECDLPAlgorithm.pdb
 C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\DLPAlgorithm.dll
 C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\DLPAlgorithm.pdb
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\Test.dll
+C:\Users\Vladimir\documents\visual studio 2013\Projects\DLPSolution\ConsoleTest\bin\Debug\Test.pdb

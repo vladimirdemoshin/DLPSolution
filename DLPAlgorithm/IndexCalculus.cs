@@ -24,8 +24,8 @@ namespace DLPAlgorithm
 
         static IndexCalculus()
         {
-            FactorBaseSize = 10;
-            LinearEquatationsCount = 5 * FactorBaseSize;
+            FactorBaseSize = 40;
+            LinearEquatationsCount = 6 * FactorBaseSize;
         }
 
         #endregion
@@ -34,24 +34,16 @@ namespace DLPAlgorithm
 
         public static BigInteger SolveDLP(BigInteger g, BigInteger h, BigInteger p)
         {
-            BigInteger order = p - 1;
+            var order = p - 1;
             var input = new DLPInput(g, h, p, order);
             var factorBase = BigIntegerExtension.GetFactorBase(FactorBaseSize);
-            
-
-
             var coefficients = new List<List<BigInteger>>();
             var constantTerms = new List<BigInteger>();
             FirstStep(input, factorBase, ref coefficients, ref constantTerms);
-
             Console.WriteLine("First step done");
-
             var factorBaseLogs = SecondStep(input, ref factorBase, Converter.ToTwoDimensionalBigIntegerArray(coefficients), constantTerms.ToArray());
-
             Console.WriteLine("Second step done");
-
             if (factorBaseLogs == null) return -1;
-
             for (int i = 0; i < factorBaseLogs.Length; i++)
             {
                 var l = factorBaseLogs[i];
@@ -63,17 +55,10 @@ namespace DLPAlgorithm
                 var pr = factorBase[i];
                 Console.WriteLine(pow + " = " + pr);
             }
-
-
-
             var x = ThirdStep(input, factorBase, factorBaseLogs);
-
             Console.WriteLine("Third step done");
-
             ReducedFactorBaseSize = factorBase.Length;
             return x;
-
-            return 0;
         }
 
         #endregion
@@ -82,33 +67,30 @@ namespace DLPAlgorithm
 
         public static void FirstStep(DLPInput input, BigInteger[] factorBase, ref List<List<BigInteger>> coefficients, ref List<BigInteger> constantTerms)
         {
-            BigIntegerRandom rand = new BigIntegerRandom();
+            var rand = new BigIntegerRandom();
             for (int i = 1; i < input.order; i++)
             {
-                var k = rand.Next(0, input.order);
-                while(k==0)
-                {
-                    k = rand.Next(0, input.order);
-                }
+                //var k = rand.Next(0, input.order);
+                //while (k == 0)
+                //{
+                //    k = rand.Next(0, input.order);
+                //}
+                var k = input.order - i;
                 var temp = BigInteger.ModPow(input.g, k, input.p);
                 var factorBaseFactorizationExponents = Factorization.GetFactorBaseFactorizationExponents(temp, factorBase);
                 if (factorBaseFactorizationExponents != null)
                 {
                     coefficients.Add(factorBaseFactorizationExponents.ToList());
+                    constantTerms.Add(k);
 
-                    bool isLinearIndependent = GaussianElimination.IsLinearIndependent(coefficients, input.order);
-                    if (!isLinearIndependent)
-                        coefficients.RemoveAt(coefficients.Count - 1);
-                    else
-                        constantTerms.Add(k);
-
-                    //constantTerms.Add(k);
+                    //bool isLinearIndependent = GaussianElimination.IsLinearIndependent(coefficients, input.order);
+                    //if (!isLinearIndependent)
+                    //    coefficients.RemoveAt(coefficients.Count - 1);
+                    //else
+                    //    constantTerms.Add(k);
                 }
-                if (coefficients.Count == factorBase.Length)
-                //if (coefficients.Count == LinearEquatationsCount)
-                {
-                    return;
-                }
+                //if (coefficients.Count == factorBase.Length)
+                if (coefficients.Count == LinearEquatationsCount) return;
             }
 
         }

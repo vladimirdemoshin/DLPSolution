@@ -8,6 +8,7 @@ using System.Numerics;
 using Utility;
 using EllipticCurveUtility;
 using DLPAlgorithm;
+using Test;
 using System.Linq.Expressions;
 using System.Threading;
 //using ECDLPAlgorithm;
@@ -57,16 +58,16 @@ namespace ConsoleTest
             //BigInteger x = 490706862;
             //BigInteger h = 132432212;
 
-            BigInteger p = 17593754196103;
-            BigInteger g = 13;
-            BigInteger x = 1204859998;
-            BigInteger h = 9448552555342;
+            //BigInteger p = 2147483659;
+            //BigInteger g = 2;
+            //BigInteger x = 1954279960;
+            //BigInteger h = 1668669260;
 
-            var log = DLPAlgorithm.IndexCalculus.SolveDLP(g, h, p);
-            Console.WriteLine(log);
+            //var log = DLPAlgorithm.IndexCalculus.SolveDLP(g, h, p);
+            //Console.WriteLine(log);
 
-
-
+            TestIndexCalculusDLP.SolveDLPRange(40,40,1);
+            //int[] sum = new int[3];
 
 
             //var primeNumbers = FileUtility.ReadArrayFromFile(primesPath).Skip(2).ToArray<BigInteger>();
