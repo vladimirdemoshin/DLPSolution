@@ -25,7 +25,7 @@ namespace DLPAlgorithm
             dB = dB.ModPositive(order);
             if (dB == 0) return -1;
             var gcd = BigInteger.GreatestCommonDivisor(dB, order);
-            if(gcd == 1)
+            if (gcd == 1)
             {
                 BigInteger x = dA * dB.ModInverse(order);
                 return x.ModPositive(order);
@@ -36,7 +36,7 @@ namespace DLPAlgorithm
                 var x0 = (dB / gcd).ModInverse(reducedOrder);
                 x0 = x0 * (dA / gcd);
                 x0 = x0.ModPositive(reducedOrder);
-                for(BigInteger m = 0; m < gcd; m++)
+                for (BigInteger m = 0; m < gcd; m++)
                 {
                     var x = x0 + m * reducedOrder;
                     if (BigInteger.ModPow(g, x, p) == h)

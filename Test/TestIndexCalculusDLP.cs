@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Utility;
 using DLPAlgorithm;
 using System.Numerics;
 using Excel = Microsoft.Office.Interop.Excel;
-
 namespace Test
 {
     public static class TestIndexCalculusDLP
@@ -21,13 +19,11 @@ namespace Test
         public static int ReducedFactorBaseSize { get; set; }
         public static double TimeInSec { get; set; }
         #endregion
-
         static TestIndexCalculusDLP()
         {
             PrimesFolderPath = @"..\..\..\TestUtility\";
             GeneratorsFolderPath = @"..\..\..\TestUtility\";
         }
-
         public static BigInteger SolveDLP(BigInteger g, BigInteger h, BigInteger p)
         {
             StartFactorBaseSize = IndexCalculus.FactorBaseSize;
@@ -48,7 +44,6 @@ namespace Test
             workBook = excelApp.Workbooks.Add();
             workSheet = (Excel.Worksheet)workBook.Worksheets.get_Item(1);
             excelApp.Visible = true;
-
             int row = 2;
             for (int i = startBitLength; i <= finishBitLength; i++)
             {
@@ -56,7 +51,6 @@ namespace Test
                 var generators = FileUtility.ReadArrayFromFile(String.Format(@"C:\Utility\DLPUtility\Generators\generators{0}bits.txt", i));
                 var logs = FileUtility.ReadArrayFromFile(String.Format(@"C:\Utility\DLPUtility\Logs\x{0}bits.txt", i));
                 var values = FileUtility.ReadArrayFromFile(String.Format(@"C:\Utility\DLPUtility\Values\h{0}bits.txt", i));
-
                 double average = 0;
                 for (int j = 0; j < count; j++)
                 {
@@ -64,9 +58,7 @@ namespace Test
                     var g = generators[j];
                     var x = logs[j];
                     var h = values[j];
-
                     var log = SolveDLP(g, h, p);
-
                     workSheet.Cells[row, 1] = i.ToString();
                     workSheet.Cells[row, 2] = p.ToString();
                     workSheet.Cells[row, 3] = g.ToString();
@@ -74,15 +66,14 @@ namespace Test
                     workSheet.Cells[row, 5] = x.ToString();
                     workSheet.Cells[row, 6] = log.ToString();
                     workSheet.Cells[row, 7] = TimeInSec.ToString();
-                    workSheet.Cells[row, 8] = ElapsedTime.ToString();
-                    workSheet.Cells[row, 9] = IndexCalculus.LinearEquatationsCount.ToString();
-                    workSheet.Cells[row, 10] = StartFactorBaseSize.ToString();
-                    workSheet.Cells[row, 11] = ReducedFactorBaseSize.ToString();
-
+                    workSheet.Cells[row, 8] = IndexCalculus.LinearEquatationsCount.ToString();
+                    workSheet.Cells[row, 9] = StartFactorBaseSize.ToString();
+                    workSheet.Cells[row, 10] = ReducedFactorBaseSize.ToString();
                     row++;
                     average += TimeInSec;
                 }
-                workSheet.Cells[row, 12] = average / (count * 1.0);
+                workSheet.Cells[row, 11] = average / (count * 1.0);
+                row++;
             }
         }
     }

@@ -15,12 +15,28 @@ using System.Threading;
 
 namespace ConsoleTest
 {
+    abstract class Vova
+    {
+        public abstract int getValue();
+    }
+
+    class Vov : Vova
+    {
+        public override int getValue()
+        {
+            return 0;
+        }
+    }
     class Program
     { 
+ 
         public static string primesPath = @"..\..\..\FileUtility\primes1-10000.txt";
         //public static string primesPath = @"..\..\..\FileUtility\PrimeNumbers.txt";
         static void Main(string[] args)
         {
+            string a = "hell";
+            string b = "hello";
+            Console.WriteLine(String.Equals(a,b));
             //var rand = new BigIntegerRandom();
 
             //var curve = EllipticCurve.GenerateEllipticCurve(rand.NextPrime(2));
@@ -66,7 +82,7 @@ namespace ConsoleTest
             //var log = DLPAlgorithm.IndexCalculus.SolveDLP(g, h, p);
             //Console.WriteLine(log);
 
-            TestIndexCalculusDLP.SolveDLPRange(40,40,1);
+           // TestIndexCalculusDLP.SolveDLPRange(40,40,1);
             //int[] sum = new int[3];
 
 

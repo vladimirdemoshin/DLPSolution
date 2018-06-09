@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
 using System.Numerics;
-
 namespace Utility
 {
     public static class BigIntegerPrimeTest
     {
         public static int MillerRabinCertainty { get; set; }
-
         static BigIntegerPrimeTest()
         {
             MillerRabinCertainty = 32;
         }
-
         public static bool MillerRabinTest(BigInteger n)
         {
             if (n == 1) return false;

@@ -12,7 +12,6 @@ namespace Utility
     public static class GaussianElimination
     {
         #region Methods
-
         public static BigInteger[] SolveSystemOfLinearEquatations(DLPInput input, ref BigInteger[] factorBase, BigInteger[][] coefficients, BigInteger[] constantTerms)
         {
             //Print(coefficients);
@@ -21,7 +20,7 @@ namespace Utility
             Console.WriteLine("Size of reduced fb = " + factorBase.Length);
 
             var augmentedMatrix = ToAugmentedMatrix(reducedCoefficients, constantTerms);
-            var convertedAugmentedMatrix =  Converter.ToTwoDimensionalModRationalNumberArray(augmentedMatrix, input.order);
+            var convertedAugmentedMatrix = Converter.ToTwoDimensionalModRationalNumberArray(augmentedMatrix, input.order);
             //Print(convertedAugmentedMatrix);
 
 
@@ -33,15 +32,15 @@ namespace Utility
             convertedAugmentedMatrix = RemoveNullLines(convertedAugmentedMatrix);
             Console.WriteLine("Count of rows after null lines removal = " + convertedAugmentedMatrix.Length);
 
-           // Print(convertedAugmentedMatrix);
-           // Console.WriteLine(convertedAugmentedMatrix.Length +" - " + factorBase.Length );
+            // Print(convertedAugmentedMatrix);
+            // Console.WriteLine(convertedAugmentedMatrix.Length +" - " + factorBase.Length );
             if (convertedAugmentedMatrix.Length < factorBase.Length)
             {
-               // ReduceFactorBase(ref factorBase, ref convertedAugmentedMatrix);
+                // ReduceFactorBase(ref factorBase, ref convertedAugmentedMatrix);
                 //Console.WriteLine(convertedAugmentedMatrix.Length + " - " + factorBase.Length);
                 return null;
-            }  
-           // Print(convertedAugmentedMatrix);
+            }
+            // Print(convertedAugmentedMatrix);
             var solution = SolveTriangularSystemOfLinearEquatations(input, factorBase, convertedAugmentedMatrix);
             return solution;
             //return null;
@@ -52,14 +51,14 @@ namespace Utility
             var listFactorBase = new List<BigInteger>();
             //create list of not null columns in coefficients matrix
             var listColumns = new List<List<BigInteger>>();
-            for(int j=0;j<coefficients[0].Length;j++)
+            for (int j = 0; j < coefficients[0].Length; j++)
             {
                 var temp = new List<BigInteger>();
-                bool isNullColumn = true;  
-                for(int i=0;i<coefficients.Length;i++)
+                bool isNullColumn = true;
+                for (int i = 0; i < coefficients.Length; i++)
                 {
                     BigInteger tmp = coefficients[i][j];
-                    if(tmp != 0) isNullColumn = false;
+                    if (tmp != 0) isNullColumn = false;
                     temp.Add(tmp);
                 }
                 if (!isNullColumn)
@@ -71,10 +70,10 @@ namespace Utility
 
             //create new BigInteger[][] matrix without null columns
             var reducedCoefficients = new BigInteger[coefficients.Length][];
-            for(int i=0;i<reducedCoefficients.Length;i++)
+            for (int i = 0; i < reducedCoefficients.Length; i++)
             {
                 reducedCoefficients[i] = new BigInteger[listColumns.Count];
-                for(int j=0;j<reducedCoefficients[i].Length;j++)
+                for (int j = 0; j < reducedCoefficients[i].Length; j++)
                 {
                     reducedCoefficients[i][j] = listColumns[j][i];
                 }
@@ -127,7 +126,7 @@ namespace Utility
                 solution.Add(x);
                 for (int k = i - 1; k >= 0; k--)
                     matrix[k][m - 1] = matrix[k][m - 1] - solution[n - 1 - i] * matrix[k][i];
-               // Console.WriteLine("solved + " + i);
+                // Console.WriteLine("solved + " + i);
             }
             solution.Reverse();
             return solution.ToArray();
@@ -307,7 +306,7 @@ namespace Utility
             {
                 //шаг 1 - находим ненулевой элемент в текущем столбце и меняем с текущей строкой
                 int leadingRow = -1; //ряд с ведущим элементом
-                var leadingElement = new ModRationalNumber(1,1,Mod); //ведущий элемент
+                var leadingElement = new ModRationalNumber(1, 1, Mod); //ведущий элемент
                 for (int tempRow = currentRow; tempRow < n; tempRow++) //идем по одному столбцу и всем строчкам
                     if (matrix[tempRow][currentColumn] != 0)
                     {
@@ -369,7 +368,7 @@ namespace Utility
         }
 
 
-       
+
 
         public static ModRationalNumber[][] RemoveNullLines(ModRationalNumber[][] convertedAugmentedMatrix)
         {
@@ -378,14 +377,14 @@ namespace Utility
             foreach (var line in convertedAugmentedMatrix)
             {
                 bool isNullLine = true;
-                for (int i = 0; i < line.Length - 1 ;i++)
+                for (int i = 0; i < line.Length - 1; i++)
                 {
                     if (line[i].Numerator != 0)
                     {
                         isNullLine = false;
                         break;
                     }
-                }   
+                }
                 if (!isNullLine) listNotNullLineIndexes.Add(lineIndex);
                 lineIndex++;
             }
@@ -401,10 +400,10 @@ namespace Utility
         {
             var temp = new BigInteger[mtrx.Count][];
             int i = 0;
-            foreach(var row in mtrx)
+            foreach (var row in mtrx)
             {
                 temp[i] = new BigInteger[row.Count];
-                for(int j=0;j<row.Count;j++)
+                for (int j = 0; j < row.Count; j++)
                 {
                     temp[i][j] = row[j];
                 }
@@ -420,7 +419,7 @@ namespace Utility
 
 
     }
-  
+
 }
 
 
@@ -428,4 +427,3 @@ namespace Utility
 
 
 
-   

@@ -25,9 +25,9 @@ namespace EllipticCurveUtility
         }
         public BasePoint(BigInteger X, BigInteger Y)
         {
-           this.X = X;
-           this.Y = Y;
-           Z = 1;
+            this.X = X;
+            this.Y = Y;
+            Z = 1;
         }
         public BasePoint(BigInteger X, BigInteger Y, BigInteger Z)
         {

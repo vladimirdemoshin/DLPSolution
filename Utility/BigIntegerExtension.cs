@@ -21,7 +21,6 @@ namespace Utility
             while (x < 0) x += mod;
             return x;
         }
-
         public static BigInteger ExtendedGcd(this BigInteger num, BigInteger mod, out BigInteger x, out BigInteger y)
         {
             if (num == 0) { x = 0; y = 1; return mod; }
@@ -31,7 +30,6 @@ namespace Utility
             y = x1;
             return d;
         }
-
         public static BigInteger PrimitiveRoot(BigInteger p)
         {
             var order = p - 1;
@@ -52,7 +50,6 @@ namespace Utility
             }
             return -1;
         }
-
         public static BigInteger Sqrt(this BigInteger n)
         {
             if (n == 0) return 0;
@@ -70,6 +67,55 @@ namespace Utility
                 return root;
             }
             return -1;
+        }
+
+        public static BigInteger SqrtMod(BigInteger num, BigInteger mod)
+        {
+            num = BigInteger.Remainder(num, mod);
+            if (JacobiSymbol(num, mod) == 1)
+            {
+                BigInteger x = 0;
+                if (mod % 8 == 3 || mod % 8 == 5 || mod % 8 == 7)
+                {
+                    num = num % mod;
+                    if (mod % 8 == 3 || mod % 8 == 7)
+                    {
+                        x = BigInteger.ModPow(num, (mod + 1) / 4, mod);
+                        return x;
+                    }
+                    if (mod % 8 == 5)
+                    {
+                        x = BigInteger.ModPow(num, (mod + 3) / 8, mod);
+                        BigInteger c = BigInteger.ModPow(x, 2, mod);
+                        if (c != num % mod) x = x * BigInteger.ModPow(2, (mod - 1) / 4, mod) % mod;
+                        return x;
+                    }
+                    return -1;
+                }
+                else
+                {
+                    BigInteger b = 1;
+                    while (JacobiSymbol(b, mod) != -1) b++;
+                    int s = 0; BigInteger t = mod - 1;
+                    while (BigInteger.Remainder(t, 2) == 0)
+                    {
+                        t = BigInteger.Divide(t, 2);
+                        s++;
+                    }
+                    BigInteger A = ModInverse(num, mod);
+                    BigInteger c = BigInteger.ModPow(b, t, mod);
+                    BigInteger r = BigInteger.ModPow(num, (t + 1) / 2, mod);
+                    for (int i = 1; i < s; i++)
+                    {
+                        BigInteger exp = BigInteger.Pow(2, s - 1 - i);
+                        BigInteger d = BigInteger.ModPow(r * r * A, exp, mod);
+                        if (d == mod - 1) r = BigInteger.Remainder(r * c, mod);
+                        c = BigInteger.ModPow(c, 2, mod);
+                    }
+                    return r;
+                }
+            }
+            else return -1;
         }
 
         //##########
@@ -132,7 +178,7 @@ namespace Utility
         //    return -1;
         //}
 
-       
+
 
         public static BigInteger[] GetPrimitiveRoots(BigInteger[] primeNumbers)
         {
@@ -145,30 +191,30 @@ namespace Utility
         public static List<BigInteger> GetPrimeFactors(BigInteger p)
         {
             var list = new List<BigInteger>();
-            if(p%2==0)
+            if (p % 2 == 0)
             {
                 list.Add(2);
                 while (p % 2 == 0)
                     p = p / 2;
             }
-            for (int i = 3; i <= BigIntegerExtension.Sqrt(p)+1; i = i + 2)
+            for (int i = 3; i <= BigIntegerExtension.Sqrt(p) + 1; i = i + 2)
             {
                 if (p % i == 0)
                 {
                     list.Add(i);
-                    while(p%i == 0)
+                    while (p % i == 0)
                     {
                         p = p / i;
 
                     }
-                    
+
                 }
             }
             if (p > 2) list.Add(p);
             return list;
         }
 
-       
+
 
         private static BigInteger powMod(BigInteger a, BigInteger b, BigInteger mod)
         {
@@ -373,18 +419,18 @@ namespace Utility
 
 
 
- //public static void Shuffle(ref BigInteger[] array)
- //       {
- //           FisherYatesShuffle(ref array);
- //       }
- //       private static void FisherYatesShuffle(ref BigInteger[] array)
- //       {
- //           Random rand = new Random();
- //           for(int i = array.Length - 1; i >= 1; i--)
- //           {
- //               int j = rand.Next(i + 1);
- //               var temp = array[j];
- //               array[j] = array[i];
- //               array[i] = temp;
- //           }
- //       }
+//public static void Shuffle(ref BigInteger[] array)
+//       {
+//           FisherYatesShuffle(ref array);
+//       }
+//       private static void FisherYatesShuffle(ref BigInteger[] array)
+//       {
+//           Random rand = new Random();
+//           for(int i = array.Length - 1; i >= 1; i--)
+//           {
+//               int j = rand.Next(i + 1);
+//               var temp = array[j];
+//               array[j] = array[i];
+//               array[i] = temp;
+//           }
+//       }

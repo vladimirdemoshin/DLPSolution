@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿//using System.Collections.Generic;
+//using System.Linq;
+//using System.Text;
+//using System.Threading.Tasks;
+using System;
 using System.Numerics;
 using System.Security.Cryptography;
-
 namespace Utility
 {
     public class BigIntegerRandom
@@ -20,8 +18,6 @@ namespace Utility
             BigInteger result = new BigInteger(bytes);
             return BigInteger.Abs(result);
         }
-
-        //не учитывается minValue при размере больше 4 байтов
         public BigInteger Next(BigInteger minValue, BigInteger maxValue)
         {
             if (minValue >= maxValue - 1) return minValue;
@@ -38,7 +34,6 @@ namespace Utility
             }
             return result;
         }
-
         public BigInteger NextPrime(int sizeBytes)
         {
             BigInteger testNum = Next(sizeBytes);

@@ -224,7 +224,7 @@ namespace EllipticCurveUtility
         {
             var x = P.X;
             var t = (x * (x * x + A) + B).ModPositive(this.P);
-            if(BigIntegerExtension.JacobiSymbol(t,this.P) == -1) return false;
+            if (BigIntegerExtension.JacobiSymbol(t, this.P) == -1) return false;
             return true;
         }
         public AffinePoint GetInfiniteAffinePoint()

@@ -20,9 +20,7 @@ namespace Client.DLPPages
         #region Enumerations
         private enum Algorithms { BabyStep = 0, RhoPollard, IndexCalculus };
         #endregion
-
         #region Properties
-
         #region Private
         private int currentAlgorithm;
         #endregion
@@ -41,11 +39,11 @@ namespace Client.DLPPages
             if (!isValid) return;
             if (currentAlgorithm == (int)Algorithms.BabyStep)
             {
-                //Test.TestBabyStepGiantStepECDLP.SolveDLPRange(start, finish, count);
+                Test.TestBabyStepGiantStepECDLP.SolveDLPRange(start, finish, count);
             }
             else if (currentAlgorithm == (int)Algorithms.RhoPollard)
             {
-                //Test.TestRhoPollardECDLP.SolveDLPRange(start, finish, count);
+                Test.TestRhoPollardECDLP.SolveDLPRange(start, finish, count);
             }
             else if (currentAlgorithm == (int)Algorithms.IndexCalculus)
             {
@@ -59,7 +57,6 @@ namespace Client.DLPPages
         }
 
         #endregion
-
         private void OnAlgorithmRadioBtnChecked(object sender, RoutedEventArgs e)
         {
             var radioBtn = sender as RadioButton;

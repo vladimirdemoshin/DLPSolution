@@ -12,26 +12,18 @@ namespace DLPAlgorithm
     public static class IndexCalculus
     {
         #region Properties
-
         public static int FactorBaseSize { get; set; }
         public static int LinearEquatationsCount { get; set; }
-
         public static int ReducedFactorBaseSize { get; set; }
-
         #endregion
-
         #region Constructors
-
         static IndexCalculus()
         {
-            FactorBaseSize = 40;
-            LinearEquatationsCount = 6 * FactorBaseSize;
+            FactorBaseSize = 10;
+            LinearEquatationsCount = 2 * FactorBaseSize;
         }
-
         #endregion
-
         #region SolveDLP Method
-
         public static BigInteger SolveDLP(BigInteger g, BigInteger h, BigInteger p)
         {
             var order = p - 1;
@@ -60,11 +52,8 @@ namespace DLPAlgorithm
             ReducedFactorBaseSize = factorBase.Length;
             return x;
         }
-
         #endregion
-
         #region Steps Methods
-
         public static void FirstStep(DLPInput input, BigInteger[] factorBase, ref List<List<BigInteger>> coefficients, ref List<BigInteger> constantTerms)
         {
             var rand = new BigIntegerRandom();
@@ -94,9 +83,9 @@ namespace DLPAlgorithm
             }
 
         }
-        public static BigInteger[] SecondStep(DLPInput input,ref BigInteger[] factorBase, BigInteger[][] coefficients, BigInteger[] constantTerms)
+        public static BigInteger[] SecondStep(DLPInput input, ref BigInteger[] factorBase, BigInteger[][] coefficients, BigInteger[] constantTerms)
         {
-            return GaussianElimination.SolveSystemOfLinearEquatations(input,ref factorBase, coefficients, constantTerms);
+            return GaussianElimination.SolveSystemOfLinearEquatations(input, ref factorBase, coefficients, constantTerms);
         }
         public static BigInteger ThirdStep(DLPInput input, BigInteger[] factorBase, BigInteger[] factorBaseLogs)
         {

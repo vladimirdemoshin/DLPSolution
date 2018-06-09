@@ -19,11 +19,13 @@ namespace EllipticCurveUtility
         public AffinePoint() : base() { }
         public AffinePoint(BigInteger X, BigInteger Y) : base(X, Y) { }
         public AffinePoint(BigInteger X, BigInteger Y, BigInteger Z) : base(X, Y, Z) { }
-        public AffinePoint(BigInteger X, BigInteger Y, EllipticCurve E) : this(X,Y)
+        public AffinePoint(BigInteger X, BigInteger Y, EllipticCurve E)
+            : this(X, Y)
         {
             this.E = E;
         }
-        public AffinePoint(BigInteger X, BigInteger Y, BigInteger Z, EllipticCurve E) : this(X,Y,E)
+        public AffinePoint(BigInteger X, BigInteger Y, BigInteger Z, EllipticCurve E)
+            : this(X, Y, E)
         {
             this.Z = Z;
         }
@@ -50,7 +52,7 @@ namespace EllipticCurveUtility
 
 
 
-       // мое из крендэла померанца, не уверен что работает
+        // мое из крендэла померанца, не уверен что работает
         public static AffinePoint operator +(AffinePoint P, AffinePoint Q)
         {
             BigInteger X1 = P.X, Y1 = P.Y, Z1 = P.Z;
@@ -174,12 +176,12 @@ namespace EllipticCurveUtility
         }
         public static AffinePoint GetInfinitePointForCurve(EllipticCurve E)
         {
-            return new AffinePoint(0,1,0,E);
+            return new AffinePoint(0, 1, 0, E);
         }
         public object Clone()
         {
             var E = (EllipticCurve)this.E.Clone();
-            return new AffinePoint(X,Y,Z,E);
+            return new AffinePoint(X, Y, Z, E);
         }
         public override bool Equals(object P)
         {
@@ -193,7 +195,7 @@ namespace EllipticCurveUtility
         {
             if (this == AffinePoint.GetInfinitePointForCurve(E))
                 return new ProjectivePoint(0, 1, 0, E);
-            return new ProjectivePoint(X,Y,1,E);
+            return new ProjectivePoint(X, Y, 1, E);
         }
         #endregion
 

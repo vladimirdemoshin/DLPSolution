@@ -64,7 +64,7 @@ namespace ECDLPAlgorithm
                 }
             }
             return -1;
-           // return (a2 - a) * BigIntegerExtension.ModInverse(b - b2, MOD);
+            // return (a2 - a) * BigIntegerExtension.ModInverse(b - b2, MOD);
         }
 
         private static ProjectivePoint f(ProjectivePoint P, ProjectivePoint Q, ProjectivePoint R, ref BigInteger a, ref BigInteger b, BigInteger MOD)

@@ -62,7 +62,7 @@ namespace ECDLPAlgorithm
             for (BigInteger j = 0; j <= m; j++)
             {
                 temp = (Q - j * giantStep).ToAffinePoint();
-               // Console.WriteLine(temp);
+                // Console.WriteLine(temp);
                 BigInteger i = -1;
                 try
                 {
