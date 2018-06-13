@@ -14,7 +14,7 @@ namespace Utility
         {
             var array = new BigInteger[list.Count][];
             int i = 0, j;
-            foreach(var l in list)
+            foreach (var l in list)
             {
                 array[i] = new BigInteger[l.Count];
                 j = 0;
@@ -28,7 +28,7 @@ namespace Utility
         {
             ModRationalNumber[] array = new ModRationalNumber[arr.Length];
             for (int i = 0; i < arr.Length; i++)
-                array[i] = new ModRationalNumber(arr[i],1,mod);
+                array[i] = new ModRationalNumber(arr[i], 1, mod);
             return array;
         }
         public static ModRationalNumber[][] ToTwoDimensionalModRationalNumberArray(BigInteger[][] arr, BigInteger mod)

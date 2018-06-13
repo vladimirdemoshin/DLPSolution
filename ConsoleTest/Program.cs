@@ -15,28 +15,25 @@ using System.Threading;
 
 namespace ConsoleTest
 {
-    abstract class Vova
-    {
-        public abstract int getValue();
-    }
-
-    class Vov : Vova
-    {
-        public override int getValue()
-        {
-            return 0;
-        }
-    }
     class Program
     { 
  
         public static string primesPath = @"..\..\..\FileUtility\primes1-10000.txt";
         //public static string primesPath = @"..\..\..\FileUtility\PrimeNumbers.txt";
+
+        public delegate void MyFunc(int num);
+
+
+        public static void doNothing(int b) { ;}
+        public static void doSmth(int a) { ;}
         static void Main(string[] args)
         {
-            string a = "hell";
-            string b = "hello";
-            Console.WriteLine(String.Equals(a,b));
+            MyFunc a = new MyFunc(doNothing);
+            a += doNothing;
+            
+            //string a = "hell";
+            //string b = "hello";
+            //Console.WriteLine(String.Equals(a,b));
             //var rand = new BigIntegerRandom();
 
             //var curve = EllipticCurve.GenerateEllipticCurve(rand.NextPrime(2));
